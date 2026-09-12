@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ASTRO COACH — Карты натальной карты</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#0D1B2A;
+    --indigo:#333A57;
+    --plum:#422C47;
+    --pink:#C2185B;
+    --violet:#7B1FA2;
+    --teal-dark:#336063;
+    --teal:#4D869B;
+    --teal-light:#88BAC6;
+    --paper:#F5F5F5;
+    --paper-dim:#c9d0da;
+    --line:rgba(245,245,245,0.14);
+    --glass:rgba(245,245,245,0.06);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    min-height:100svh;
+    background:var(--deep);
+    color:var(--paper);
+    font-family:'Manrope',sans-serif;
+    overflow-x:hidden;
+    position:relative;
+  }
+  ::selection{background:var(--pink);color:#fff;}
+  #sky{
+    position:fixed; inset:0; z-index:0; overflow:hidden;
+    background:
+      radial-gradient(ellipse at 20% 15%, rgba(66,44,71,0.55), transparent 55%),
+      radial-gradient(ellipse at 85% 75%, rgba(51,58,87,0.55), transparent 55%),
+      var(--deep);
+  }
+  .orb{
+    position:absolute; border-radius:50%; filter:blur(2px);
+    opacity:0.5; animation:drift 46s ease-in-out infinite;
+  }
+  .orb.o1{width:260px;height:260px; left:-60px; top:8%; background:radial-gradient(circle at 35% 35%, var(--violet), transparent 70%); animation-duration:52s;}
+  .orb.o2{width:200px;height:200px; right:-40px; top:55%; background:radial-gradient(circle at 40% 40%, var(--pink), transparent 70%); animation-duration:60s; animation-delay:-8s;}
+  .orb.o3{width:160px;height:160px; left:12%; bottom:-40px; background:radial-gradient(circle at 40% 40%, var(--teal), transparent 70%); animation-duration:44s; animation-delay:-20s;}
+  @keyframes drift{
+    0%{transform:translate(0,0);}
+    50%{transform:translate(22px,-28px);}
+    100%{transform:translate(0,0);}
+  }
+  .star{position:absolute; background:#fff; border-radius:50%; animation:twinkle 3.4s ease-in-out infinite;}
+  @keyframes twinkle{0%,100%{opacity:0.15;}50%{opacity:0.9;}}
+  #app{
+    position:relative; z-index:1;
+    min-height:100svh;
+    display:flex; align-items:center; justify-content:center;
+    padding:32px 18px 42px;
+  }
+  .screen{
+    width:100%; max-width:460px;
+    display:none;
+    animation:rise 0.5s ease both;
+  }
+  .screen.active{display:block;}
+  @keyframes rise{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
+  .brand{
+    display:flex; align-items:center; gap:8px;
+    font-family:'Unbounded',sans-serif; font-size:13px; letter-spacing:0.02em;
+    color:var(--teal-light); margin-bottom:26px; justify-content:center;
+  }
+  .brand span.dot{width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--violet));display:inline-block;}
+  h1{
+    font-family:'Unbounded',sans-serif; font-weight:600;
+    font-size:30px; line-height:1.22; margin:0 0 14px; text-align:center;
+    letter-spacing:-0.01em;
+  }
+  h2{
+    font-family:'Unbounded',sans-serif; font-weight:600;
+    font-size:22px; line-height:1.28; margin:0 0 10px; text-align:center;
+  }
+  p.lead{
+    text-align:center; color:var(--paper-dim); font-size:15.5px; line-height:1.55;
+    margin:0 0 30px; padding:0 6px;
+  }
+  .panel{
+    background:linear-gradient(165deg, rgba(51,58,87,0.55), rgba(13,27,42,0.55));
+    border:1px solid var(--line); border-radius:22px;
+    padding:26px 22px; backdrop-filter:blur(6px);
+  }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:100%; padding:15px 20px; border-radius:999px; border:none;
+    font-family:'Manrope',sans-serif; font-weight:700; font-size:15.5px;
+    cursor:pointer; text-decoration:none; transition:transform 0.15s ease, opacity 0.15s ease;
+  }
+  .btn:active{transform:scale(0.98);}
+  .btn-primary{
+    background:linear-gradient(100deg, var(--pink), var(--violet));
+    color:#fff; box-shadow:0 10px 28px -10px rgba(194,24,91,0.55);
+  }
+  .btn-ghost{
+    background:transparent; color:var(--teal-light);
+    border:1px solid rgba(136,186,198,0.4);
+  }
+  .btn-secondary{
+    background:rgba(77,134,155,0.18); color:var(--paper);
+    border:1px solid rgba(136,186,198,0.35);
+  }
+  .btn:disabled{opacity:0.35; cursor:not-allowed;}
+  .btn-row{display:flex; gap:10px; margin-top:18px;}
+  .btn-row .btn{width:auto; flex:1;}
+  .field{margin-bottom:16px;}
+  .field label{
+    display:block; font-size:13px; color:var(--teal-light); margin-bottom:7px;
+    font-weight:600;
+  }
+  .field input, .field select{
+    width:100%; padding:13px 14px; border-radius:13px;
+    background:rgba(245,245,245,0.06); border:1px solid var(--line);
+    color:var(--paper); font-family:'Manrope',sans-serif; font-size:15px;
+  }
+  .field input::-webkit-calendar-picker-indicator{filter:invert(0.85);}
+  .field select{appearance:none; -webkit-appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2388BAC6' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 14px center; padding-right:34px;
+  }
+  .field input:focus, .field select:focus{outline:2px solid var(--pink); outline-offset:1px;}
+  .checkline{display:flex; align-items:center; gap:9px; margin:-4px 0 18px;}
+  .checkline input{width:17px; height:17px; accent-color:var(--pink);}
+  .checkline label{font-size:13.5px; color:var(--paper-dim); margin:0;}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .manual-fields{display:none; margin-top:4px; border-top:1px dashed var(--line); padding-top:14px;}
+  .manual-fields.show{display:block;}
+  .hint{font-size:12px; color:var(--paper-dim); opacity:0.75; margin-top:-8px; margin-bottom:16px; line-height:1.5;}
+  .loader-wrap{display:flex; flex-direction:column; align-items:center; gap:22px; padding:60px 0;}
+  .loader-ring{
+    width:64px; height:64px; border-radius:50%;
+    border:2px solid rgba(245,245,245,0.15);
+    border-top-color:var(--pink); border-right-color:var(--violet);
+    animation:spin 1s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .loader-text{color:var(--paper-dim); font-size:14px; text-align:center;}
+  .progress{display:flex; justify-content:center; gap:7px; margin-bottom:22px;}
+  .progress .d{width:7px; height:7px; border-radius:50%; background:rgba(245,245,245,0.2); transition:background 0.2s;}
+  .progress .d.on{background:linear-gradient(135deg,var(--pink),var(--violet));}
+  .progress .d.done{background:var(--teal-light);}
+  .stage{perspective:1400px; margin-bottom:20px;}
+  .card{
+    position:relative; width:100%; height:480px;
+    transform-style:preserve-3d; transition:transform 0.7s cubic-bezier(.2,.8,.25,1);
+    cursor:pointer;
+  }
+  .card.flipped{transform:rotateY(180deg);}
+  .face{
+    position:absolute; inset:0; backface-visibility:hidden; border-radius:22px;
+    padding:26px 22px; display:flex; flex-direction:column;
+    border:1px solid var(--line);
+    overflow:hidden;
+  }
+  .face-front{
+    background:linear-gradient(160deg, var(--indigo), var(--plum) 70%);
+    overflow:hidden;
+  }
+  .constellation-container{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+  }
+  .constellation-svg{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+  }
+  .constellation-star{
+    fill:#fff;
+    filter:drop-shadow(0 0 4px rgba(255,255,255,0.8));
+    animation:constellationTwinkle 3s ease-in-out infinite;
+  }
+  .constellation-line{
+    stroke:rgba(136,186,198,0.5);
+    stroke-width:1;
+    fill:none;
+    stroke-linecap:round;
+  }
+  @keyframes constellationTwinkle{
+    0%,100%{opacity:0.4;}
+    50%{opacity:1;}
+  }
+  .front-content{
+    position:relative; z-index:2; height:100%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
+  }
+  .front-content .glyph{
+    font-family:'Unbounded',sans-serif; font-size:52px; line-height:1;
+    width:96px; height:96px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg, rgba(194,24,91,0.35), rgba(123,17,162,0.35));
+    border:1px solid rgba(245,245,245,0.18);
+  }
+  .front-content .tap-hint{color:var(--teal-light); font-size:13.5px;}
+  .front-content .pname{font-family:'Unbounded',sans-serif; font-size:19px;}
+  .face-back{
+    background:linear-gradient(165deg, rgba(51,58,87,0.92), rgba(13,27,42,0.96));
+    transform:rotateY(180deg); 
+  }
+  .back-content {
+    position:relative; z-index:1; display:flex; flex-direction:column; 
+    min-height:100%;
+    overflow-y: auto;
+    padding-right: 8px;
+  }
+  .face-back .domain{
+    font-size:12.5px; text-transform:none; color:var(--teal-light);
+    font-weight:600; margin-bottom:6px;
+  }
+  .face-back h3{
+    font-family:'Unbounded',sans-serif; font-size:20px; margin:0 0 14px; line-height:1.3;
+  }
+  .thesis{list-style:none; margin:0 0 14px; padding:0; display:flex; flex-direction:column; gap:10px;}
+  .thesis li{padding-left:16px; position:relative; font-size:14.5px; line-height:1.5; color:var(--paper);}
+  .thesis li::before{content:"—"; position:absolute; left:0; color:var(--teal-light);}
+  .thesis li b{color:var(--paper); font-weight:700;}
+  .house-note{
+    margin-top:auto; padding-top:12px; border-top:1px solid var(--line);
+    font-size:13px; color:var(--paper-dim); line-height:1.5;
+  }
+  .house-note .house-title{
+    display:block; color:var(--teal-light); font-family:'Unbounded',sans-serif;
+    font-size:12.5px; font-weight:600; margin-bottom:6px;
+  }
+  .house-note p{margin:0 0 6px;}
+  .house-note p:last-child{margin-bottom:0;}
+  .cards-nav{display:flex; gap:10px;}
+  .recap{list-style:none; margin:0 0 20px; padding:0; display:flex; flex-direction:column; gap:10px;}
+  .recap li{
+    display:flex; align-items:center; gap:12px;
+    background:var(--glass); border:1px solid var(--line); border-radius:14px;
+    padding:11px 14px; font-size:14px;
+  }
+  .recap .g{
+    width:34px; height:34px; border-radius:50%; flex:none;
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg, rgba(77,134,155,0.35), rgba(66,44,71,0.5));
+    font-family:'Unbounded',sans-serif; font-size:15px;
+  }
+  .recap .t b{display:block; color:var(--paper);}
+  .recap .t span{color:var(--paper-dim); font-size:12.5px;}
+  .portrait{
+    font-size:14.5px; line-height:1.6; color:var(--paper); margin-bottom:22px;
+    padding:16px 16px; border-left:2px solid var(--pink); background:var(--glass); border-radius:0 14px 14px 0;
+  }
+  .cta-panel{
+    background:linear-gradient(135deg, var(--pink), var(--violet));
+    border-radius:20px; padding:24px 20px; text-align:center; margin-bottom:14px;
+  }
+  .cta-panel h3{font-family:'Unbounded',sans-serif; font-size:18px; margin:0 0 8px;}
+  .cta-panel p{font-size:14px; margin:0 0 18px; opacity:0.94; line-height:1.5;}
+  .cta-panel .btn{background:#fff; color:var(--plum); box-shadow:none;}
+  footer.note{
+    text-align:center; color:var(--paper-dim); font-size:11.5px; opacity:0.7;
+    margin-top:18px; line-height:1.5; padding:0 10px;
+  }
+  @media (max-width:380px){
+    h1{font-size:26px;}
+    .face{padding:22px 17px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="sky"></div>
+
+<div id="app">
+
+  <section class="screen active" id="screen-intro">
+    <div class="brand"><span class="dot"></span>ASTRO COACH</div>
+    <h1>Что говорят звёзды о тебе?</h1>
+    <p class="lead">Введи дату, время и место рождения — и разложи восемь карт своей натальной карты: Солнце, Луна, планеты и асцендент, тезисно и по делу.</p>
+    <div class="panel">
+      <button class="btn btn-primary" id="btn-start">Разложить карты</button>
+      <p style="text-align:center; color:var(--paper-dim); font-size:13px; margin-top:12px; opacity:0.7;">Займёт около двух минут</p>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-form">
+    <div class="brand"><span class="dot"></span>ASTRO COACH</div>
+    <h2>Когда и где ты родился?</h2>
+    <p class="lead">Это нужно, чтобы точно рассчитать положение планет в момент твоего рождения.</p>
+    <div class="panel">
+      <div class="field">
+        <label for="inp-date">Дата рождения</label>
+        <input type="date" id="inp-date" min="1920-01-01">
+      </div>
+      <div class="field">
+        <label for="inp-time">Время рождения</label>
+        <input type="time" id="inp-time">
+      </div>
+      <div class="checkline">
+        <input type="checkbox" id="inp-notime">
+        <label for="inp-notime">Не знаю точное время — пропустить асцендент и дома</label>
+      </div>
+
+      <div class="field">
+        <label for="inp-city">Город рождения</label>
+        <select id="inp-city"></select>
+      </div>
+
+      <div class="manual-fields" id="manual-fields">
+        <div class="grid2">
+          <div class="field">
+            <label for="inp-lat">Широта</label>
+            <input type="number" id="inp-lat" step="0.0001" placeholder="напр. 55.7558">
+          </div>
+          <div class="field">
+            <label for="inp-lon">Долгота</label>
+            <input type="number" id="inp-lon" step="0.0001" placeholder="напр. 37.6173">
+          </div>
+        </div>
+        <div class="field">
+          <label for="inp-tz">Часовой пояс (UTC±)</label>
+          <input type="number" id="inp-tz" step="0.5" placeholder="напр. 3">
+        </div>
+        <p class="hint">Широта — от −90 до 90, долгота — от −180 до 180. На восток от Гринвича — положительные значения.</p>
+      </div>
+
+      <button class="btn btn-primary" id="btn-calc" style="margin-top:6px;">Разложить карты</button>
+      <span id="btn-back-intro" style="display:block; text-align:center; margin-top:16px; color:var(--paper-dim); font-size:13.5px; text-decoration:underline; text-underline-offset:3px; cursor:pointer; background:none; border:none; font-family:inherit;">Назад</span>
+    </div>
+    <footer class="note">Расчёт приблизительный и учебный — по упрощённым астрономическим формулам, без учёта исторических переводов часов. Для точного разбора домов и аспектов приходи на консультацию.</footer>
+  </section>
+
+  <section class="screen" id="screen-loading">
+    <div class="loader-wrap">
+      <div class="loader-ring"></div>
+      <div class="loader-text" id="loading-text">Считываем положение планет на момент твоего рождения…</div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-cards">
+    <div class="progress" id="progress"></div>
+    <div class="stage">
+      <div class="card" id="card">
+        <div class="face face-front">
+          <div class="constellation-container" id="constellation-container"></div>
+          <div class="front-content">
+            <div class="glyph" id="front-glyph">☉</div>
+            <div class="pname" id="front-name">Солнце</div>
+            <div class="tap-hint">Нажми на карту, чтобы открыть</div>
+          </div>
+        </div>
+        <div class="face face-back">
+          <div class="back-content">
+            <div class="domain" id="back-domain">суть личности</div>
+            <h3 id="back-title">Солнце в Овне</h3>
+            <ul class="thesis" id="back-thesis"></ul>
+            <div class="house-note" id="back-house"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cards-nav">
+      <button class="btn btn-secondary" id="btn-prev">Назад</button>
+      <button class="btn btn-primary" id="btn-next">Далее</button>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-summary">
+    <div class="brand"><span class="dot"></span>ASTRO COACH</div>
+    <h2>Твой краткий портрет по картам</h2>
+    <ul class="recap" id="recap"></ul>
+    <div class="portrait" id="portrait"></div>
+    <div class="cta-panel">
+      <h3>Это только верхний слой карты</h3>
+      <p>Дома, аспекты между планетами и точные транзиты раскрываются на личной консультации — приходи, разберём твою натальную карту полностью.</p>
+      <a class="btn" href="https://vk.ru/astropuzzzle" target="_blank" rel="noopener">Перейти в сообщество ВКонтакте</a>
+    </div>
+    <span id="btn-restart" style="display:block; text-align:center; margin-top:16px; color:var(--paper-dim); font-size:13.5px; text-decoration:underline; text-underline-offset:3px; cursor:pointer; background:none; border:none; font-family:inherit;">Разложить карты заново</span>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var sky = document.getElementById('sky');
+  var orbWrap = document.createElement('div');
+  orbWrap.innerHTML = '<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>';
+  sky.appendChild(orbWrap);
+  var starCount = window.innerWidth < 480 ? 60 : 100;
+  for(var i=0;i<starCount;i++){
+    var s = document.createElement('div');
+    s.className = 'star';
+    var size = Math.random()*1.6+0.6;
+    s.style.width = size+'px';
+    s.style.height = size+'px';
+    s.style.left = (Math.random()*100)+'%';
+    s.style.top = (Math.random()*100)+'%';
+    s.style.animationDelay = (Math.random()*3.4)+'s';
+    s.style.opacity = (Math.random()*0.6+0.2).toFixed(2);
+    sky.appendChild(s);
+  }
+
+  var CONSTELLATIONS = {
+    'Овен': {
+      stars: [
+        {x: 20, y: 70}, {x: 40, y: 60}, {x: 60, y: 50}, {x: 80, y: 40},
+        {x: 50, y: 30}, {x: 70, y: 20}, {x: 90, y: 60}
+      ],
+      lines: [
+        [0, 1], [1, 2], [2, 3], [1, 4], [4, 5], [3, 6]
+      ]
+    },
+    'Телец': {
+      stars: [
+        {x: 30, y: 60}, {x: 50, y: 50}, {x: 70, y: 55}, {x: 85, y: 45},
+        {x: 60, y: 35}, {x: 40, y: 40}, {x: 25, y: 45}, {x: 50, y: 25}
+      ],
+      lines: [
+        [0, 1], [1, 2], [2, 3], [1, 4], [4, 5], [5, 6], [6, 0], [4, 7]
+      ]
+    },
+    'Близнецы': {
+      stars: [
+        {x: 25, y: 70}, {x: 35, y: 50}, {x: 30, y: 30},
+        {x: 65, y: 70}, {x: 75, y: 50}, {x: 70, y: 30},
+        {x: 50, y: 60}, {x: 50, y: 40}
+      ],
+      lines: [
+        [0, 1], [1, 2], [3, 4], [4, 5], [1, 6], [6, 4], [1, 7], [7, 4]
+      ]
+    },
+    'Рак': {
+      stars: [
+        {x: 30, y: 65}, {x: 45, y: 55}, {x: 50, y: 40}, {x: 60, y: 30},
+        {x: 70, y: 45}, {x: 65, y: 60}, {x: 40, y: 70}
+      ],
+      lines: [
+        [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 0], [1, 6]
+      ]
+    },
+    'Лев': {
+      stars: [
+        {x: 20, y: 40}, {x: 35, y: 35}, {x: 50, y: 30}, {x: 65, y: 40},
+        {x: 75, y: 55}, {x: 70, y: 70}, {x: 50, y: 65}, {x: 35, y: 55}
+      ],
+      lines: [
+        [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 0], [2, 6]
+      ]
+    },
+    'Дева': {
+      stars: [
+        {x: 30, y: 30}, {x: 45, y: 35}, {x: 60, y: 30}, {x: 70, y: 45},
+        {x: 65, y: 60}, {x: 50, y: 65}, {x: 35, y: 60}, {x: 25, y: 45},
+        {x: 50, y: 50}
+      ],
+      lines: [
+        [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 0],
+        [1, 8], [8, 5], [2, 8]
+      ]
+    },
+    'Весы': {
+      stars: [
+        {x: 25, y: 50}, {x: 40, y: 45}, {x: 55, y: 50}, {x: 70, y: 45},
+        {x: 80, y: 60}, {x: 65, y: 70}, {x: 45, y: 65}, {x: 30, y: 70}
+      ],
+      lines: [
+        [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 0],
+        [1, 6], [2, 5]
+      ]
+    },
+    'Скорпион': {
+      stars: [
+        {x: 20, y: 40}, {x: 35, y: 45}, {x: 50, y: 40}, {x: 65, y: 45},
+        {x: 75, y: 35}, {x: 85, y: 25}, {x: 70, y: 60}, {x: 55, y: 65}
+      ],
+      lines: [
+        [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [3, 6], [6, 7], [7, 2]
+      ]
+    },
+    'Стрелец': {
+      stars: [
+        {x: 30, y: 70}, {x: 40, y: 55}, {x: 50, y: 40}, {x: 60, y: 30},
+        {x: 70, y: 35}, {x: 75, y: 50}, {x: 65, y: 60}, {x: 50, y: 55}
+      ],
+      lines: [
+        [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 0],
+        [2, 7], [7, 5]
+      ]
+    },
+    'Козерог': {
+      stars: [
+        {x: 30, y: 60}, {x: 45, y: 50}, {x: 60, y: 45}, {x: 75, y: 50},
+        {x: 70, y: 65}, {x: 55, y: 70}, {x: 40, y: 65}, {x: 50, y: 35}
+      ],
+      lines: [
+        [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 0],
+        [1, 7], [7, 2]
+      ]
+    },
+    'Водолей': {
+      stars: [
+        {x: 25, y: 40}, {x: 40, y: 45}, {x: 55, y: 40}, {x: 70, y: 45},
+        {x: 80, y: 35}, {x: 65, y: 60}, {x: 50, y: 65}, {x: 35, y: 60}
+      ],
+      lines: [
+        [0, 1], [1, 2], [2, 3], [3, 4], [1, 5], [5, 6], [6, 7], [7, 0],
+        [2, 5]
+      ]
+    },
+    'Рыбы': {
+      stars: [
+        {x: 20, y: 50}, {x: 35, y: 45}, {x: 50, y: 50}, {x: 65, y: 45},
+        {x: 80, y: 50}, {x: 70, y: 65}, {x: 55, y: 70}, {x: 40, y: 65},
+        {x: 30, y: 35}, {x: 45, y: 30}
+      ],
+      lines: [
+        [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 0],
+        [1, 8], [8, 9], [9, 3]
+      ]
+    }
+  };
+
+  function renderConstellation(signName){
+    var container = document.getElementById('constellation-container');
+    container.innerHTML = '';
+    
+    var constellation = CONSTELLATIONS[signName];
+    if(!constellation) return;
+    
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'constellation-svg');
+    svg.setAttribute('viewBox', '0 0 100 100');
+    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    
+    constellation.lines.forEach(function(line){
+      var star1 = constellation.stars[line[0]];
+      var star2 = constellation.stars[line[1]];
+      var lineEl = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      lineEl.setAttribute('x1', star1.x);
+      lineEl.setAttribute('y1', star1.y);
+      lineEl.setAttribute('x2', star2.x);
+      lineEl.setAttribute('y2', star2.y);
+      lineEl.setAttribute('class', 'constellation-line');
+      svg.appendChild(lineEl);
+    });
+    
+    constellation.stars.forEach(function(star, index){
+      var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle.setAttribute('cx', star.x);
+      circle.setAttribute('cy', star.y);
+      circle.setAttribute('r', index === 0 ? 2.5 : 2);
+      circle.setAttribute('class', 'constellation-star');
+      if(index === 0){
+        circle.style.animationDelay = '0s';
+      } else {
+        circle.style.animationDelay = (index * 0.3) + 's';
+      }
+      svg.appendChild(circle);
+    });
+    
+    container.appendChild(svg);
+  }
+
+  var D2R = Math.PI/180, R2D = 180/Math.PI;
+  function norm360(x){ x = x % 360; if(x<0) x+=360; return x; }
+  function toJulian(Y,M,D,h){
+    if(M<=2){ Y-=1; M+=12; }
+    var A = Math.floor(Y/100);
+    var B = 2 - A + Math.floor(A/4);
+    return Math.floor(365.25*(Y+4716)) + Math.floor(30.6001*(M+1)) + D + B - 1524.5 + h/24;
+  }
+  function eccAnomaly(Mdeg, e){
+    var M = Mdeg*D2R;
+    var E = M + e*Math.sin(M)*(1+e*Math.cos(M));
+    for(var i=0;i<10;i++){
+      var dE = (E - e*Math.sin(E) - M) / (1 - e*Math.cos(E));
+      E -= dE;
+    }
+    return E;
+  }
+  function sunLon(d){
+    var w = norm360(282.9404 + 4.70935e-5*d);
+    var e = 0.016709 - 1.151e-9*d;
+    var M = norm360(356.0470 + 0.9856002585*d);
+    var E = eccAnomaly(M,e);
+    var xv = Math.cos(E) - e;
+    var yv = Math.sqrt(1-e*e)*Math.sin(E);
+    var v = norm360(Math.atan2(yv,xv)*R2D);
+    var r = Math.sqrt(xv*xv+yv*yv);
+    return { lon: norm360(v+w), r: r };
+  }
+  function elementsFor(planet,d){
+    switch(planet){
+      case 'moon': return {N:norm360(125.1228-0.0529538083*d), i:5.1454, w:norm360(318.0634+0.1643573223*d), a:60.2666, e:0.054900, M:norm360(115.3654+13.0649929509*d)};
+      case 'mercury': return {N:48.3313+3.24587e-5*d, i:7.0047+5.00e-8*d, w:29.1241+1.01444e-5*d, a:0.387098, e:0.205635+5.59e-10*d, M:norm360(168.6562+4.0923344368*d)};
+      case 'venus': return {N:76.6799+2.4659e-5*d, i:3.3946+2.75e-8*d, w:54.8910+1.38374e-5*d, a:0.723330, e:0.006773-1.302e-9*d, M:norm360(48.0052+1.6021302244*d)};
+      case 'mars': return {N:49.5574+2.11081e-5*d, i:1.8497-1.78e-8*d, w:286.5016+2.92961e-5*d, a:1.523688, e:0.093405+2.516e-9*d, M:norm360(18.6021+0.5240207766*d)};
+      case 'jupiter': return {N:100.4542+2.76854e-5*d, i:1.3030-1.557e-7*d, w:273.8777+1.64505e-5*d, a:5.20256, e:0.048498+4.469e-9*d, M:norm360(19.8950+0.0830853001*d)};
+      case 'saturn': return {N:113.6634+2.38980e-5*d, i:2.4886-1.081e-7*d, w:339.3939+2.97661e-5*d, a:9.55475, e:0.055546-9.499e-9*d, M:norm360(316.9670+0.0334442282*d)};
+    }
+  }
+  function helioPos(el){
+    var N=el.N*D2R, i=el.i*D2R, w=el.w*D2R;
+    var E = eccAnomaly(el.M, el.e);
+    var xv = el.a*(Math.cos(E)-el.e);
+    var yv = el.a*(Math.sqrt(1-el.e*el.e)*Math.sin(E));
+    var v = Math.atan2(yv,xv);
+    var r = Math.sqrt(xv*xv+yv*yv);
+    var xh = r*(Math.cos(N)*Math.cos(v+w) - Math.sin(N)*Math.sin(v+w)*Math.cos(i));
+    var yh = r*(Math.sin(N)*Math.cos(v+w) + Math.cos(N)*Math.sin(v+w)*Math.cos(i));
+    var zh = r*(Math.sin(v+w)*Math.sin(i));
+    return {xh:xh, yh:yh, zh:zh};
+  }
+  function geoLon(planet,d,xs,ys){
+    var el = elementsFor(planet,d);
+    var p = helioPos(el);
+    if(planet==='moon') return norm360(Math.atan2(p.yh,p.xh)*R2D);
+    var xg = p.xh+xs, yg = p.yh+ys;
+    return norm360(Math.atan2(yg,xg)*R2D);
+  }
+  function ascendantLon(ramc, latDeg){
+    var ecl = 23.4393*D2R;
+    var lat = latDeg*D2R;
+    var ramcR = ramc*D2R;
+    var asc = Math.atan2(Math.cos(ramcR), -(Math.sin(ramcR)*Math.cos(ecl) + Math.tan(lat)*Math.sin(ecl)));
+    return norm360(asc*R2D);
+  }
+  function mcLon(ramc){
+    var ecl = 23.4393*D2R, ramcR = ramc*D2R;
+    return norm360(Math.atan2(Math.sin(ramcR), Math.cos(ramcR)*Math.cos(ecl))*R2D);
+  }
+  function lonFromRA(raDeg){
+    var ecl = 23.4393*D2R, ra = raDeg*D2R;
+    return norm360(Math.atan2(Math.sin(ra), Math.cos(ra)*Math.cos(ecl))*R2D);
+  }
+  function declOf(lonDeg){
+    var ecl = 23.4393*D2R;
+    return Math.asin(Math.sin(ecl)*Math.sin(lonDeg*D2R))*R2D;
+  }
+  function solveSemiArcCusp(base, frac, useNocturnal, latDeg, startGuess){
+    var lon = startGuess;
+    for(var iter=0; iter<30; iter++){
+      var d = declOf(lon);
+      var x = Math.tan(latDeg*D2R) * Math.tan(d*D2R);
+      x = Math.max(-1, Math.min(1, useNocturnal ? x : -x));
+      var arc = Math.acos(x)*R2D;
+      var targetRA = norm360(base + frac*arc);
+      var newLon = lonFromRA(targetRA);
+      var delta = Math.abs(((newLon-lon+540)%360)-180);
+      lon = newLon;
+      if(delta < 1e-6) break;
+    }
+    return lon;
+  }
+  function placidusHouses(ramc, latDeg){
+    var mc = mcLon(ramc);
+    var ic = norm360(mc+180);
+    var asc = ascendantLon(ramc, latDeg);
+    var desc = norm360(asc+180);
+    var raIC = norm360(ramc+180);
+
+    var c11 = solveSemiArcCusp(ramc, 1/3, false, latDeg, norm360(mc+20));
+    var c12 = solveSemiArcCusp(ramc, 2/3, false, latDeg, norm360(mc+40));
+    var c3  = solveSemiArcCusp(raIC, -1/3, true, latDeg, norm360(ic-20));
+    var c2  = solveSemiArcCusp(raIC, -2/3, true, latDeg, norm360(ic-40));
+
+    return {
+      1:asc, 2:c2, 3:c3, 4:ic, 5:norm360(c11+180), 6:norm360(c12+180),
+      7:desc, 8:norm360(c2+180), 9:norm360(c3+180), 10:mc, 11:c11, 12:c12
+    };
+  }
+  function houseOfLongitude(lon, cusps){
+    for(var i=1;i<=12;i++){
+      var start = cusps[i];
+      var end = cusps[i%12+1];
+      var span = norm360(end-start);
+      var pos = norm360(lon-start);
+      if(pos < span) return i;
+    }
+    return 12;
+  }
+
+  function ramcOf(jd, lonDegEast){
+    var T = (jd-2451545.0)/36525;
+    var gmst = 280.46061837 + 360.98564736629*(jd-2451545.0) + 0.000387933*T*T - (T*T*T)/38710000;
+    return norm360(norm360(gmst) + lonDegEast);
+  }
+
+  function computeChart(Y,M,D,hh,mm,hasTime,lat,lon,tz){
+    var localHours = hh + mm/60;
+    var utHours = localHours - tz;
+    var jd = toJulian(Y,M,D,utHours);
+    var d = jd - 2451543.5;
+    var sun = sunLon(d);
+    var xs = sun.r*Math.cos(sun.lon*D2R), ys = sun.r*Math.sin(sun.lon*D2R);
+
+    var lons = { sun: sun.lon };
+    ['moon','mercury','venus','mars','jupiter','saturn'].forEach(function(p){
+      lons[p] = geoLon(p,d,xs,ys);
+    });
+
+    var res = {};
+    Object.keys(lons).forEach(function(k){
+      res[k] = { lon: lons[k], sign: SIGNS[Math.floor(norm360(lons[k])/30)], house: null };
+    });
+
+    if(hasTime){
+      var ramc = ramcOf(jd, lon);
+      var cusps = placidusHouses(ramc, lat);
+      res.asc = { lon: cusps[1], sign: SIGNS[Math.floor(norm360(cusps[1])/30)], house: 1 };
+      Object.keys(res).forEach(function(k){
+        if(k==='asc') return;
+        res[k].house = houseOfLongitude(res[k].lon, cusps);
+      });
+    }
+    return res;
+  }
+
+  var SIGNS = ['Овен','Телец','Близнецы','Рак','Лев','Дева','Весы','Скорпион','Стрелец','Козерог','Водолей','Рыбы'];
+  var SIGN_GLYPH = {'Овен':'♈','Телец':'','Близнецы':'♊','Рак':'♋','Лев':'♌','Дева':'♍','Весы':'♎','Скорпион':'♏','Стрелец':'♐','Козерог':'♑','Водолей':'♒','Рыбы':'♓'};
+
+  var TRAITS = {
+    'Овен':   {core:'Смелость, напор и жажда быть первым', gift:'решительность и умение начинать', shadow:'нетерпение и спешка'},
+    'Телец':  {core:'Любовь к устойчивости, комфорту и осязаемым удовольствиям', gift:'надёжность и терпение', shadow:'упрямство и сопротивление переменам'},
+    'Близнецы':{core:'Живой ум и жажда новых тем и связей', gift:'лёгкость в общении и гибкость мышления', shadow:'разбросанность и поверхностность'},
+    'Рак':    {core:'Глубокая чувствительность и привязанность к дому и близким', gift:'интуиция и забота', shadow:'ранимость и склонность закрываться'},
+    'Лев':    {core:'Потребность сиять, творить и быть замеченным', gift:'щедрость и харизма', shadow:'гордость и зависимость от внимания'},
+    'Дева':   {core:'Внимание к деталям и стремление быть полезным', gift:'аналитичность и надёжность', shadow:'самокритика и перфекционизм'},
+    'Весы':   {core:'Поиск баланса, красоты и партнёрства', gift:'дипломатичность и вкус', shadow:'нерешительность и оглядка на чужое мнение'},
+    'Скорпион':{core:'Глубина, интенсивность и притяжение к скрытому', gift:'сила воли и проницательность', shadow:'недоверие и склонность к контролю'},
+    'Стрелец':{core:'Жажда свободы, смысла и горизонтов', gift:'оптимизм и широта взглядов', shadow:'категоричность и обещания без меры'},
+    'Козерог':{core:'Дисциплина и стратегическое движение к цели', gift:'выносливость и ответственность', shadow:'излишняя строгость к себе и страх ошибок'},
+    'Водолей':{core:'Независимость и взгляд в будущее', gift:'оригинальность и объективность', shadow:'отстранённость и упрямая непредсказуемость'},
+    'Рыбы':   {core:'Чувствительность к тонким материям и воображение', gift:'эмпатия и творческое чутьё', shadow:'растворение границ и уход от реальности'}
+  };
+
+  var HOUSES = {
+    1:  {title:'Дом личности',        area:'себя и личных начинаний',              desc:'Как ты заявляешь о себе и с чего начинаешь любое дело.'},
+    2:  {title:'Дом денег и ценностей',area:'денег, ресурсов и ценностей',          desc:'Что даёт тебе чувство опоры и какими ресурсами ты дорожишь.'},
+    3:  {title:'Дом общения',         area:'общения, учёбы и повседневных связей', desc:'Как ты думаешь, учишься и общаешься с ближним кругом.'},
+    4:  {title:'Дом дома и семьи',    area:'дома, семьи и корней',                 desc:'Что стоит за твоим ощущением дома и связью с корнями.'},
+    5:  {title:'Дом творчества и любви',area:'творчества, любви и самовыражения',  desc:'Где ты проявляешь себя ярко, влюбляешься и творишь.'},
+    6:  {title:'Дом дела и здоровья', area:'работы, привычек и здоровья',          desc:'Как устроены твои будни, работа и забота о теле.'},
+    7:  {title:'Дом партнёрства',     area:'партнёрства и близких союзов',         desc:'Как ты строишь близкие союзы и что ценишь в других.'},
+    8:  {title:'Дом трансформации',   area:'трансформации и общих ресурсов',       desc:'Через что ты проходишь глубокие перемены и делишь ресурсы с другими.'},
+    9:  {title:'Дом смысла и путешествий',area:'философии, обучения и путешествий',desc:'Где ты ищешь смысл, расширяешь горизонты и учишься по-крупному.'},
+    10: {title:'Дом карьеры и статуса',area:'карьеры и статуса',                   desc:'Как ты строишь репутацию и к чему стремишься в деле жизни.'},
+    11: {title:'Дом сообществ и целей',area:'сообществ, друзей и планов на будущее',desc:'С кем ты идёшь к общим целям и каким видишь своё будущее.'},
+    12: {title:'Дом уединения',       area:'внутреннего мира и уединения',         desc:'Что происходит в твоём внутреннем мире, скрытом от посторонних глаз.'}
+  };
+
+  var PLANET_ACTION = {
+    sun:'ты проявляешь себя и светишь',
+    moon:'ты ищешь эмоциональную опору',
+    asc:'ты показываешь себя миру',
+    mercury:'ты думаешь, учишься и говоришь',
+    venus:'ты любишь и создаёшь красоту',
+    mars:'ты действуешь и идёшь напролом',
+    jupiter:'ты растёшь и находишь удачу',
+    saturn:'ты берёшь ответственность и проходишь главные уроки'
+  };
+
+  var PLANETS = {
+    sun:    {glyph:'☉', name:'Солнце',    domain:'суть личности и жизненная сила'},
+    moon:   {glyph:'☾', name:'Луна',      domain:'эмоции и внутренний мир'},
+    asc:    {glyph:'AC', name:'Асцендент', domain:'первое впечатление и подача себя'},
+    mercury:{glyph:'☿', name:'Меркурий',  domain:'мышление и общение'},
+    venus:  {glyph:'♀', name:'Венера',    domain:'любовь и ценности'},
+    mars:   {glyph:'♂', name:'Марс',      domain:'энергия и действие'},
+    jupiter:{glyph:'', name:'Юпитер',    domain:'рост, удача и убеждения'},
+    saturn: {glyph:'♄', name:'Сатурн',    domain:'дисциплина и главные уроки'}
+  };
+  var ORDER_FULL = ['sun','moon','asc','mercury','venus','mars','jupiter','saturn'];
+  var ORDER_NOTIME = ['sun','moon','mercury','venus','mars','jupiter','saturn'];
+
+  var CITIES = [
+    ['Москва',55.7558,37.6173,3],['Санкт-Петербург',59.9343,30.3351,3],['Новосибирск',55.0084,82.9357,7],
+    ['Екатеринбург',56.8389,60.6057,5],['Казань',55.8304,49.0661,3],['Нижний Новгород',56.2965,43.9361,3],
+    ['Челябинск',55.1644,61.4368,5],['Самара',53.2001,50.15,4],['Омск',54.9885,73.3242,6],
+    ['Ростов-на-Дону',47.2357,39.7015,3],['Уфа',54.7388,55.9721,5],['Красноярск',56.0184,92.8672,7],
+    ['Воронеж',51.672,39.1843,3],['Пермь',58.0105,56.2502,5],['Волгоград',48.708,44.5133,3],
+    ['Краснодар',45.0355,38.9753,3],['Саратов',51.5924,46.0348,4],['Тюмень',57.1522,65.5272,5],
+    ['Тольятти',53.5303,49.3461,4],['Ижевск',56.8526,53.2114,4],['Барнаул',53.3606,83.7636,7],
+    ['Иркутск',52.2869,104.305,8],['Хабаровск',48.4827,135.0838,10],['Владивосток',43.1155,131.8855,10],
+    ['Калининград',54.7104,20.4522,2],['Минск',53.9006,27.559,3],['Киев',50.4501,30.5234,2],
+    ['Алматы',43.222,76.8512,6],['Ташкент',41.2995,69.2401,5],['Ереван',40.1792,44.4991,4],
+    ['Тбилиси',41.7151,44.8271,4],['Баку',40.4093,49.8671,4],
+    ['Лондон',51.5074,-0.1278,0],['Берлин',52.52,13.405,1],['Париж',48.8566,2.3522,1],
+    ['Нью-Йорк',40.7128,-74.006,-5],['Дубай',25.2048,55.2708,4],['Тель-Авив',32.0853,34.7818,2],
+    ['Стамбул',41.0082,28.9784,3],['Бангкок',13.7563,100.5018,7],['Лимасол',34.6841,33.0379,2]
+  ];
+
+  var citySelect = document.getElementById('inp-city');
+  var og1 = document.createElement('optgroup'); og1.label = 'Россия и СНГ';
+  var og2 = document.createElement('optgroup'); og2.label = 'Другие страны';
+  CITIES.forEach(function(c, idx){
+    var opt = document.createElement('option');
+    opt.value = idx; opt.textContent = c[0];
+    if(idx <= 31) og1.appendChild(opt); else og2.appendChild(opt);
+  });
+  citySelect.appendChild(og1); citySelect.appendChild(og2);
+  var manualOpt = document.createElement('option');
+  manualOpt.value = 'manual'; manualOpt.textContent = 'Другой город (ввести вручную)';
+  citySelect.appendChild(manualOpt);
+
+  var manualBlock = document.getElementById('manual-fields');
+  citySelect.addEventListener('change', function(){
+    manualBlock.classList.toggle('show', citySelect.value === 'manual');
+  });
+
+  function showScreen(id){
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0,0);
+  }
+  document.getElementById('btn-start').addEventListener('click', function(){ showScreen('screen-form'); });
+  document.getElementById('btn-back-intro').addEventListener('click', function(){ showScreen('screen-intro'); });
+
+  var inpNoTime = document.getElementById('inp-notime');
+  var inpTime = document.getElementById('inp-time');
+  inpNoTime.addEventListener('change', function(){
+    inpTime.disabled = inpNoTime.checked;
+    inpTime.style.opacity = inpNoTime.checked ? 0.4 : 1;
+  });
+
+  var STATE = { results:null, order:[], idx:0 };
+
+  document.getElementById('btn-calc').addEventListener('click', function(){
+    var dateVal = document.getElementById('inp-date').value;
+    if(!dateVal){ alert('Укажи дату рождения'); return; }
+    var parts = dateVal.split('-');
+    var Y = parseInt(parts[0],10), M = parseInt(parts[1],10), D = parseInt(parts[2],10);
+
+    var hasTime = !inpNoTime.checked;
+    var hh = 12, mm = 0;
+    if(hasTime){
+      var tVal = inpTime.value;
+      if(!tVal){ alert('Укажи время рождения или отметь, что не знаешь его'); return; }
+      var tp = tVal.split(':'); hh = parseInt(tp[0],10); mm = parseInt(tp[1],10);
+    }
+
+    var lat, lon, tz;
+    if(citySelect.value === 'manual'){
+      lat = parseFloat(document.getElementById('inp-lat').value);
+      lon = parseFloat(document.getElementById('inp-lon').value);
+      tz = parseFloat(document.getElementById('inp-tz').value);
+      if(isNaN(lat)||isNaN(lon)||isNaN(tz)||lat<-90||lat>90||lon<-180||lon>180){
+        alert('Проверь координаты и часовой пояс'); return;
+      }
+    } else {
+      if(citySelect.value===''){ alert('Выбери город рождения'); return; }
+      var c = CITIES[parseInt(citySelect.value,10)];
+      lat = c[1]; lon = c[2]; tz = c[3];
+    }
+
+    STATE.results = computeChart(Y,M,D,hh,mm,hasTime,lat,lon,tz);
+    STATE.order = hasTime ? ORDER_FULL.slice() : ORDER_NOTIME.slice();
+    STATE.idx = 0;
+
+    showScreen('screen-loading');
+    setTimeout(function(){
+      buildProgress();
+      renderCard();
+      showScreen('screen-cards');
+    }, 1100);
+  });
+
+  var progressEl = document.getElementById('progress');
+  var cardEl = document.getElementById('card');
+  var frontGlyph = document.getElementById('front-glyph');
+  var frontName = document.getElementById('front-name');
+  var backDomain = document.getElementById('back-domain');
+  var backTitle = document.getElementById('back-title');
+  var backThesis = document.getElementById('back-thesis');
+  var backHouse = document.getElementById('back-house');
+  var btnPrev = document.getElementById('btn-prev');
+  var btnNext = document.getElementById('btn-next');
+
+  function buildProgress(){
+    progressEl.innerHTML = '';
+    STATE.order.forEach(function(){
+      var d = document.createElement('div');
+      d.className = 'd';
+      progressEl.appendChild(d);
+    });
+  }
+  function updateProgress(){
+    var dots = progressEl.children;
+    for(var i=0;i<dots.length;i++){
+      dots[i].className = 'd' + (i===STATE.idx ? ' on' : (i<STATE.idx ? ' done' : ''));
+    }
+  }
+
+  function renderCard(){
+    var key = STATE.order[STATE.idx];
+    var pinfo = PLANETS[key];
+    var res = STATE.results[key];
+    var traits = TRAITS[res.sign];
+
+    cardEl.classList.remove('flipped');
+    renderConstellation(res.sign);
+    frontGlyph.textContent = pinfo.glyph;
+    frontName.textContent = pinfo.name;
+    backDomain.textContent = pinfo.domain;
+    backTitle.textContent = pinfo.name + ' в ' + res.sign + ' ' + SIGN_GLYPH[res.sign];
+
+    backThesis.innerHTML =
+      '<li>' + traits.core + '</li>' +
+      '<li><b>Дар:</b> ' + traits.gift + '</li>' +
+      '<li><b>Тень:</b> ' + traits.shadow + '</li>';
+
+    if(res.house){
+      var h = HOUSES[res.house];
+      var action = PLANET_ACTION[key];
+      backHouse.innerHTML =
+        '<b class="house-title">' + res.house + ' дом — ' + h.title + '</b>' +
+        '<p>' + h.desc + '</p>' +
+        '<p>Здесь ' + action + ' — ярче всего это касается ' + h.area + '.</p>';
+      backHouse.style.display = 'block';
+    } else {
+      backHouse.style.display = 'none';
+    }
+
+    updateProgress();
+    btnPrev.disabled = STATE.idx === 0;
+    btnNext.textContent = (STATE.idx === STATE.order.length-1) ? 'Завершить' : 'Далее';
+  }
+
+  cardEl.addEventListener('click', function(e){
+    if (e.target.closest('.back-content')) return; 
+    cardEl.classList.toggle('flipped');
+  });
+  
+  btnPrev.addEventListener('click', function(){
+    if(STATE.idx>0){ STATE.idx--; renderCard(); }
+  });
+  btnNext.addEventListener('click', function(){
+    if(STATE.idx < STATE.order.length-1){
+      STATE.idx++; renderCard();
+    } else {
+      renderSummary();
+      showScreen('screen-summary');
+    }
+  });
+
+  var recapEl = document.getElementById('recap');
+  var portraitEl = document.getElementById('portrait');
+
+  function renderSummary(){
+    recapEl.innerHTML = '';
+    STATE.order.forEach(function(key){
+      var pinfo = PLANETS[key];
+      var res = STATE.results[key];
+      var li = document.createElement('li');
+      li.innerHTML = '<span class="g">'+pinfo.glyph+'</span><span class="t"><b>'+pinfo.name+' в '+res.sign+'</b><span>'+pinfo.domain+'</span></span>';
+      recapEl.appendChild(li);
+    });
+
+    var sunSign = STATE.results.sun.sign;
+    var moonSign = STATE.results.moon.sign;
+    var text = 'По сути ты — ' + sunSign.toLowerCase() + ': ' + TRAITS[sunSign].core.toLowerCase() + '. ';
+    text += 'А в душе, в мире эмоций, тобой управляет ' + moonSign.toLowerCase() + ' — ' + TRAITS[moonSign].core.toLowerCase() + '. ';
+    if(STATE.results.asc){
+      var ascSign = STATE.results.asc.sign;
+      text += 'Миру же ты показываешь себя через ' + ascSign.toLowerCase() + ': именно так тебя считывают при первой встрече.';
+    } else {
+      text += 'Время рождения не было указано точно, поэтому асцендент и дома в этой раскладке не участвовали — на консультации их можно рассчитать точно.';
+    }
+    portraitEl.textContent = text;
+  }
+
+  document.getElementById('btn-restart').addEventListener('click', function(){
+    showScreen('screen-intro');
+  });
+
+})();
+</script>
+</body>
+</html>
