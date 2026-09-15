@@ -257,26 +257,177 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     container.appendChild(svg);
   }
 
+  // ===== ИСПРАВЛЕННЫЙ РАСЧЁТ =====
   var D2R=Math.PI/180,R2D=180/Math.PI;
   function norm360(x){x=x%360;if(x<0)x+=360;return x;}
-  function toJulian(Y,M,D,h){if(M<=2){Y-=1;M+=12;}var A=Math.floor(Y/100);var B=2-A+Math.floor(A/4);return Math.floor(365.25*(Y+4716))+Math.floor(30.6001*(M+1))+D+B-1524.5+h/24;}
-  function eccAnomaly(Mdeg,e){var M=Mdeg*D2R;var E=M+e*Math.sin(M)*(1+e*Math.cos(M));for(var i=0;i<10;i++){var dE=(E-e*Math.sin(E)-M)/(1-e*Math.cos(E));E-=dE;}return E;}
-  function sunLon(d){var w=norm360(282.9404+4.70935e-5*d);var e=0.016709-1.151e-9*d;var M=norm360(356.0470+0.9856002585*d);var E=eccAnomaly(M,e);var xv=Math.cos(E)-e;var yv=Math.sqrt(1-e*e)*Math.sin(E);var v=norm360(Math.atan2(yv,xv)*R2D);var r=Math.sqrt(xv*xv+yv*yv);return{lon:norm360(v+w),r:r};}
-  function elementsFor(planet,d){switch(planet){case'moon':return{N:norm360(125.1228-0.0529538083*d),i:5.1454,w:norm360(318.0634+0.1643573223*d),a:60.2666,e:0.054900,M:norm360(115.3654+13.0649929509*d)};case'mercury':return{N:48.3313+3.24587e-5*d,i:7.0047,w:29.1241,a:0.387098,e:0.205635,M:norm360(168.6562+4.0923344368*d)};case'venus':return{N:76.6799+2.4659e-5*d,i:3.3946,w:54.8910,a:0.723330,e:0.006773,M:norm360(48.0052+1.6021302244*d)};case'mars':return{N:49.5574+2.11081e-5*d,i:1.8497,w:286.5016,a:1.523688,e:0.093405,M:norm360(18.6021+0.5240207766*d)};case'jupiter':return{N:100.4542+2.76854e-5*d,i:1.3030,w:273.8777,a:5.20256,e:0.048498,M:norm360(19.8950+0.0830853001*d)};case'saturn':return{N:113.6634+2.38980e-5*d,i:2.4886,w:339.3939,a:9.55475,e:0.055546,M:norm360(316.9670+0.0334442282*d)};}}
-  function helioPos(el){var N=el.N*D2R,i=el.i*D2R,w=el.w*D2R;var E=eccAnomaly(el.M,el.e);var xv=el.a*(Math.cos(E)-el.e);var yv=el.a*(Math.sqrt(1-el.e*el.e)*Math.sin(E));var v=Math.atan2(yv,xv);var r=Math.sqrt(xv*xv+yv*yv);var xh=r*(Math.cos(N)*Math.cos(v+w)-Math.sin(N)*Math.sin(v+w)*Math.cos(i));var yh=r*(Math.sin(N)*Math.cos(v+w)+Math.cos(N)*Math.sin(v+w)*Math.cos(i));var zh=r*(Math.sin(v+w)*Math.sin(i));return{xh:xh,yh:yh,zh:zh};}
-  function geoLon(planet,d,xs,ys){var el=elementsFor(planet,d);var p=helioPos(el);if(planet==='moon')return norm360(Math.atan2(p.yh,p.xh)*R2D);var xg=p.xh+xs,yg=p.yh+ys;return norm360(Math.atan2(yg,xg)*R2D);}
-  function ascendantLon(ramc,latDeg){var ecl=23.4393*D2R;var lat=latDeg*D2R;var ramcR=ramc*D2R;var asc=Math.atan2(Math.cos(ramcR),-(Math.sin(ramcR)*Math.cos(ecl)+Math.tan(lat)*Math.sin(ecl)));return norm360(asc*R2D);}
-  function mcLon(ramc){var ecl=23.4393*D2R,ramcR=ramc*D2R;return norm360(Math.atan2(Math.sin(ramcR),Math.cos(ramcR)*Math.cos(ecl))*R2D);}
-  function lonFromRA(raDeg){var ecl=23.4393*D2R,ra=raDeg*D2R;return norm360(Math.atan2(Math.sin(ra),Math.cos(ra)*Math.cos(ecl))*R2D);}
-  function declOf(lonDeg){var ecl=23.4393*D2R;return Math.asin(Math.sin(ecl)*Math.sin(lonDeg*D2R))*R2D;}
-  function solveSemiArcCusp(base,frac,useNocturnal,latDeg,startGuess){var lon=startGuess;for(var iter=0;iter<30;iter++){var d=declOf(lon);var x=Math.tan(latDeg*D2R)*Math.tan(d*D2R);x=Math.max(-1,Math.min(1,useNocturnal?x:-x));var arc=Math.acos(x)*R2D;var targetRA=norm360(base+frac*arc);var newLon=lonFromRA(targetRA);var delta=Math.abs(((newLon-lon+540)%360)-180);lon=newLon;if(delta<1e-6)break;}return lon;}
-  function placidusHouses(ramc,latDeg){var mc=mcLon(ramc);var ic=norm360(mc+180);var asc=ascendantLon(ramc,latDeg);var desc=norm360(asc+180);var raIC=norm360(ramc+180);var c11=solveSemiArcCusp(ramc,1/3,false,latDeg,norm360(mc+20));var c12=solveSemiArcCusp(ramc,2/3,false,latDeg,norm360(mc+40));var c3=solveSemiArcCusp(raIC,-1/3,true,latDeg,norm360(ic-20));var c2=solveSemiArcCusp(raIC,-2/3,true,latDeg,norm360(ic-40));return{1:asc,2:c2,3:c3,4:ic,5:norm360(c11+180),6:norm360(c12+180),7:desc,8:norm360(c2+180),9:norm360(c3+180),10:mc,11:c11,12:c12};}
-  function houseOfLongitude(lon,cusps){for(var i=1;i<=12;i++){var start=cusps[i];var end=cusps[i%12+1];var span=norm360(end-start);var pos=norm360(lon-start);if(pos<span)return i;}return 12;}
-  function ramcOf(jd,lonDegEast){var gmst=280.46061837+360.98564736629*(jd-2451545.0);return norm360(norm360(gmst)+lonDegEast);}
-  function computeChart(Y,M,D,hh,mm,hasTime,lat,lon,tz){var localHours=hh+mm/60;var utHours=localHours-tz;var jd=toJulian(Y,M,D,utHours);var d=jd-2451543.5;var sun=sunLon(d);var xs=sun.r*Math.cos(sun.lon*D2R),ys=sun.r*Math.sin(sun.lon*D2R);var lons={sun:sun.lon};['moon','mercury','venus','mars','jupiter','saturn'].forEach(function(p){lons[p]=geoLon(p,d,xs,ys);});var res={};Object.keys(lons).forEach(function(k){res[k]={lon:lons[k],sign:SIGNS[Math.floor(norm360(lons[k])/30)],house:null};});if(hasTime){var ramc=ramcOf(jd,lon);var cusps=placidusHouses(ramc,lat);res.asc={lon:cusps[1],sign:SIGNS[Math.floor(norm360(cusps[1])/30)],house:1};Object.keys(res).forEach(function(k){if(k==='asc')return;res[k].house=houseOfLongitude(res[k].lon,cusps);});}return res;}
+  
+  function toJulian(Y,M,D,h){
+    if(M<=2){Y-=1;M+=12;}
+    var A=Math.floor(Y/100);
+    var B=2-A+Math.floor(A/4);
+    return Math.floor(365.25*(Y+4716))+Math.floor(30.6001*(M+1))+D+B-1524.5+h/24;
+  }
+  
+  function sunLon(d){
+    var w=norm360(282.9404+4.70935e-5*d);
+    var e=0.016709-1.151e-9*d;
+    var M=norm360(356.0470+0.9856002585*d);
+    var E=M+e*Math.sin(M*D2R)*(1+e*Math.cos(M*D2R));
+    for(var i=0;i<5;i++)E=E+(M*D2R-E+e*Math.sin(E))/(1-e*Math.cos(E));
+    var v=2*Math.atan(Math.sqrt((1+e)/(1-e))*Math.tan(E/2))*R2D;
+    var r=1.0000002*(1-e*e)/(1+e*Math.cos(E));
+    return{lon:norm360(v+w),r:r};
+  }
+  
+  function elementsFor(planet,d){
+    switch(planet){
+      case'moon':return{N:norm360(125.1228-0.0529538083*d),i:5.1454,w:norm360(318.0634+0.1643573223*d),a:60.2666,e:0.054900,M:norm360(115.3654+13.0649929509*d)};
+      case'mercury':return{N:48.3313+3.24587e-5*d,i:7.0047,w:29.1241,a:0.387098,e:0.205635,M:norm360(168.6562+4.0923344368*d)};
+      case'venus':return{N:76.6799+2.4659e-5*d,i:3.3946,w:54.8910,a:0.723330,e:0.006773,M:norm360(48.0052+1.6021302244*d)};
+      case'mars':return{N:49.5574+2.11081e-5*d,i:1.8497,w:286.5016,a:1.523688,e:0.093405,M:norm360(18.6021+0.5240207766*d)};
+      case'jupiter':return{N:100.4542+2.76854e-5*d,i:1.3030,w:273.8777,a:5.20256,e:0.048498,M:norm360(19.8950+0.0830853001*d)};
+      case'saturn':return{N:113.6634+2.38980e-5*d,i:2.4886,w:339.3939,a:9.55475,e:0.055546,M:norm360(316.9670+0.0334442282*d)};
+    }
+  }
+  
+  function helioPos(el){
+    var N=el.N*D2R,i=el.i*D2R,w=el.w*D2R;
+    var E=el.M*D2R+el.e*Math.sin(el.M*D2R);
+    for(var j=0;j<5;j++)E=E+(el.M*D2R-E+el.e*Math.sin(E))/(1-el.e*Math.cos(E));
+    var xv=el.a*(Math.cos(E)-el.e);
+    var yv=el.a*Math.sqrt(1-el.e*el.e)*Math.sin(E);
+    var v=Math.atan2(yv,xv);
+    var r=el.a*(1-el.e*Math.cos(E));
+    var xh=r*(Math.cos(N)*Math.cos(v+w)-Math.sin(N)*Math.sin(v+w)*Math.cos(i));
+    var yh=r*(Math.sin(N)*Math.cos(v+w)+Math.cos(N)*Math.sin(v+w)*Math.cos(i));
+    var zh=r*(Math.sin(v+w)*Math.sin(i));
+    return{xh:xh,yh:yh,zh:zh};
+  }
+  
+  function geoLon(planet,d,xs,ys){
+    var el=elementsFor(planet,d);
+    var p=helioPos(el);
+    if(planet==='moon')return norm360(Math.atan2(p.yh,p.xh)*R2D);
+    var xg=p.xh+xs,yg=p.yh+ys;
+    return norm360(Math.atan2(yg,xg)*R2D);
+  }
+  
+  // Правильный расчёт RAMC
+  function ramcOf(jd,lon){
+    var T=(jd-2451545.0)/36525;
+    var gmst=280.46061837+360.98564736629*(jd-2451545.0)+0.000387933*T*T;
+    return norm360(gmst+lon);
+  }
+  
+  // Функция для расчёта куспидов домов
+  function solveSemiArcCusp(ramc,fraction,lat,eps){
+    var phi=lat*D2R;
+    var targetRamc=norm360(ramc+fraction*90);
+    var guess=targetRamc;
+    
+    for(var iter=0;iter<50;iter++){
+      var tanDecl=Math.tan(eps)*Math.sin(guess*D2R);
+      var decl=Math.atan(tanDecl)*R2D;
+      var tanLat=Math.tan(phi);
+      var tanDeclRad=Math.tan(decl*D2R);
+      var cosH=-tanLat*tanDeclRad;
+      
+      if(cosH<-1)cosH=-1;
+      if(cosH>1)cosH=1;
+      
+      var h=Math.acos(cosH)*R2D;
+      var ra=norm360(guess+(fraction*h));
+      var diff=norm360(ra-targetRamc);
+      if(diff>180)diff-=360;
+      
+      guess=norm360(guess-diff);
+      if(Math.abs(diff)<0.0001)break;
+    }
+    return guess;
+  }
+  
+  // Правильная система домов Плацидуса
+  function placidusHouses(ramc,lat){
+    var eps=23.439291*D2R;
+    var phi=lat*D2R;
+    var ramcRad=ramc*D2R;
+    
+    // MC
+    var tanMC=Math.tan(ramcRad)/Math.cos(eps);
+    var mc=norm360(Math.atan2(tanMC,1)*R2D);
+    if(ramc>=90&&ramc<270)mc=norm360(mc+180);
+    
+    // ASC
+    var asc=norm360(Math.atan2(-Math.cos(ramcRad),-Math.sin(ramcRad)*Math.cos(eps)+Math.tan(phi)*Math.sin(eps))*R2D);
+    
+    // Дома 11, 12, 2, 3
+    var c11=solveSemiArcCusp(ramc,1.0/3.0,lat,eps);
+    var c12=solveSemiArcCusp(ramc,2.0/3.0,lat,eps);
+    var c2=solveSemiArcCusp(norm360(ramc+180),2.0/3.0,lat,eps);
+    var c3=solveSemiArcCusp(norm360(ramc+180),1.0/3.0,lat,eps);
+    
+    return{
+      1:asc,
+      2:norm360(c2),
+      3:norm360(c3),
+      4:norm360(mc+180),
+      5:norm360(c11+180),
+      6:norm360(c12+180),
+      7:norm360(asc+180),
+      8:norm360(c2+180),
+      9:norm360(c3+180),
+      10:mc,
+      11:c11,
+      12:c12
+    };
+  }
+  
+  function houseOfPlanet(lon,cusps){
+    for(var i=1;i<=12;i++){
+      var start=cusps[i];
+      var end=cusps[i===12?1:i+1];
+      var span=(end-start+360)%360;
+      var pos=(lon-start+360)%360;
+      if(pos<span)return i;
+    }
+    return 12;
+  }
+  
+  function computeChart(Y,M,D,hh,mm,hasTime,lat,lon,tz){
+    var utHours=hh+mm/60-tz;
+    var jd=toJulian(Y,M,D,utHours);
+    var d=jd-2451545.0;
+    
+    var sun=sunLon(d);
+    var xs=sun.r*Math.cos(sun.lon*D2R);
+    var ys=sun.r*Math.sin(sun.lon*D2R);
+    
+    var lons={sun:sun.lon};
+    ['moon','mercury','venus','mars','jupiter','saturn'].forEach(function(p){
+      lons[p]=geoLon(p,d,xs,ys);
+    });
+    
+    var res={};
+    Object.keys(lons).forEach(function(k){
+      res[k]={lon:lons[k],sign:SIGNS[Math.floor(norm360(lons[k])/30)],house:null};
+    });
+    
+    if(hasTime){
+      var ramc=ramcOf(jd,lon);
+      var cusps=placidusHouses(ramc,lat);
+      res.asc={lon:cusps[1],sign:SIGNS[Math.floor(norm360(cusps[1])/30)],house:1};
+      
+      Object.keys(res).forEach(function(k){
+        if(k==='asc')return;
+        res[k].house=houseOfPlanet(res[k].lon,cusps);
+      });
+    }
+    
+    return res;
+  }
 
   var SIGNS=['Овен','Телец','Близнецы','Рак','Лев','Дева','Весы','Скорпион','Стрелец','Козерог','Водолей','Рыбы'];
-  var SIGN_GLYPH={'Овен':'♈','Телец':'♉','Близнецы':'♊','Рак':'♋','Лев':'♌','Дева':'♍','Весы':'♎','Скорпион':'♏','Стрелец':'♐','Козерог':'♑','Водолей':'♒','Рыбы':'♓'};
+  var SIGN_GLYPH={'Овен':'♈','Телец':'♉','Близнецы':'♊','Рак':'♋','Лев':'♌','Дева':'♍','Весы':'♎','Скорпион':'♏','Стрелец':'♐','Козерог':'♑','Водолей':'','Рыбы':'♓'};
 
   var PLANET_IN_SIGN = {
     'sun-Овен':{core:'Лидер и пионер. Солнце в Овне даёт мощную жизненную силу, смелость и инициативу. Ты действуешь первым, не боишься рисковать.',gift:'лидерские качества, смелость, энергия действия',shadow:'импульсивность, эгоцентризм, нетерпеливость'},
@@ -392,13 +543,13 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     12:{title:'Дом подсознания',desc:'Тайное, уединение, карма.'}
   };
 
-  var PLANET_ACTION={sun:'ты светишь и проявляешь себя',moon:'ты чувствуешь и заботишься',asc:'ты показываешь себя миру',mercury:'ты думаешь и общаешься',venus:'ты любишь и ценишь',mars:'ты действуешь и стремишься',jupiter:'ты растёшь и расширяешься',saturn:'ты строишь и ограничиваешь'};
+  var PLANET_ACTION={sun:'ты светишь и проявляешь себя',moon:'ты чувствуешь и заботишься',asc:'ты показываешь себя миру',mercury:'ты думаешь и общаешься',venus:'ты любишь и ценишь',mars:'ты действуешь и стремишься',jupiter:'ты растёшь и расширяешься',saturn:'ты Строишь и ограничиваешь'};
   
   var PLANETS={
-    sun:{glyph:'☉',name:'Солнце',domain:'суть личности'},
+    sun:{glyph:'',name:'Солнце',domain:'суть личности'},
     moon:{glyph:'☽',name:'Луна',domain:'эмоции и подсознание'},
     asc:{glyph:'ASC',name:'Асцендент',domain:'внешнее проявление'},
-    mercury:{glyph:'☿',name:'Меркурий',domain:'мышление'},
+    mercury:{glyph:'',name:'Меркурий',domain:'мышление'},
     venus:{glyph:'♀',name:'Венера',domain:'любовь и ценности'},
     mars:{glyph:'♂',name:'Марс',domain:'действие и воля'},
     jupiter:{glyph:'♃',name:'Юпитер',domain:'рост и удача'},
