@@ -55,14 +55,49 @@ p.lead{text-align:center;color:#c9d0da;font-size:15.5px;line-height:1.55;margin:
 .card.flipped{transform:rotateY(180deg);}
 .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:22px;display:flex;flex-direction:column;border:1px solid rgba(245,245,245,0.14);overflow:hidden;}
 
-/* ===== КОСМИЧЕСКИЙ ФОН КАРТОЧКИ ===== */
+/* ===== КОСМИЧЕСКИЙ ФОН КАРТОЧКИ СО ЗВЁЗДАМИ ===== */
 .face-front{
   background: 
-    radial-gradient(ellipse at 30% 20%, rgba(123,31,162,0.5) 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 80%, rgba(194,24,91,0.4) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(13,27,42,0.8) 0%, transparent 70%),
-    linear-gradient(180deg, #0a0e27 0%, #1a1a3e 30%, #0f1e3d 60%, #0a0e27 100%);
+    radial-gradient(ellipse at 30% 20%, rgba(123,31,162,0.6) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(194,24,91,0.5) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(13,27,42,0.9) 0%, transparent 70%),
+    linear-gradient(180deg, #050810 0%, #0a0e27 20%, #1a1a3e 50%, #0f1e3d 80%, #050810 100%);
   padding:26px 22px;
+  position:relative;
+}
+
+/* Звёзды на карточке */
+.card-stars{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+.card-star{
+  position:absolute;
+  background:#fff;
+  border-radius:50%;
+  animation:cardStarTwinkle 4s ease-in-out infinite;
+}
+@keyframes cardStarTwinkle{
+  0%,100%{opacity:0.3;transform:scale(1);}
+  50%{opacity:1;transform:scale(1.2);}
+}
+
+/* Кометы */
+.comet{
+  position:absolute;
+  width:100px;
+  height:2px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.8),transparent);
+  animation:cometMove 8s linear infinite;
+  opacity:0.4;
+}
+@keyframes cometMove{
+  0%{transform:translateX(-100px) rotate(-45deg);opacity:0;}
+  10%{opacity:0.6;}
+  90%{opacity:0.6;}
+  100%{transform:translateX(400px) rotate(-45deg);opacity:0;}
 }
 
 /* ===== СОЗВЕЗДИЕ СПРАВА СБОКУ ===== */
@@ -72,9 +107,9 @@ p.lead{text-align:center;color:#c9d0da;font-size:15.5px;line-height:1.55;margin:
   top:0;
   width:45%;
   height:100%;
-  z-index:0;
+  z-index:1;
   pointer-events:none;
-  opacity:0.7;
+  opacity:0.8;
 }
 .constellation-svg{
   position:absolute;
@@ -88,7 +123,7 @@ p.lead{text-align:center;color:#c9d0da;font-size:15.5px;line-height:1.55;margin:
   animation:constellationTwinkle 3s ease-in-out infinite;
 }
 .constellation-line{
-  stroke:rgba(136,186,198,0.6);
+  stroke:rgba(136,186,198,0.7);
   stroke-width:1.5;
   fill:none;
   stroke-linecap:round;
@@ -116,14 +151,14 @@ p.lead{text-align:center;color:#c9d0da;font-size:15.5px;line-height:1.55;margin:
   display:flex;
   align-items:center;
   justify-content:center;
-  background:linear-gradient(135deg,rgba(194,24,91,0.5),rgba(123,17,162,0.5));
-  border:2px solid rgba(245,245,245,0.4);
-  box-shadow:0 0 40px rgba(194,24,91,0.6);
+  background:linear-gradient(135deg,rgba(194,24,91,0.6),rgba(123,17,162,0.6));
+  border:2px solid rgba(245,245,245,0.5);
+  box-shadow:0 0 40px rgba(194,24,91,0.7), inset 0 0 20px rgba(255,255,255,0.2);
 }
 .front-content .tap-hint{color:#88BAC6;font-size:13.5px;opacity:0.9;}
-.front-content .pname{font-size:22px;font-weight:600;text-shadow:0 2px 10px rgba(0,0,0,0.5);}
+.front-content .pname{font-size:22px;font-weight:600;text-shadow:0 2px 15px rgba(0,0,0,0.7);}
 
-.face-back{background:linear-gradient(165deg,rgba(51,58,87,0.95),rgba(13,27,42,0.98));transform:rotateY(180deg);padding:26px 22px;}
+.face-back{background:linear-gradient(165deg,rgba(51,58,87,0.98),rgba(13,27,42,0.99));transform:rotateY(180deg);padding:26px 22px;}
 .back-content{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100%;overflow-y:auto;padding-right:8px;}
 .face-back .domain{font-size:12.5px;color:#88BAC6;font-weight:600;margin-bottom:6px;}
 .face-back h3{font-size:20px;margin:0 0 14px;line-height:1.3;}
@@ -202,6 +237,9 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     <div class="stage">
       <div class="card" id="card">
         <div class="face face-front">
+          <div class="card-stars" id="card-stars"></div>
+          <div class="comet" style="top:10%;left:-100px;animation-delay:0s;"></div>
+          <div class="comet" style="top:60%;left:-100px;animation-delay:4s;"></div>
           <div class="constellation-container" id="constellation-container"></div>
           <div class="front-content">
             <div class="glyph" id="front-glyph"></div>
@@ -254,6 +292,20 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     sky.appendChild(s);
   }
 
+  // Создаём звёзды на карточке
+  function createCardStars(){
+    var container=document.getElementById('card-stars');
+    if(!container)return;
+    container.innerHTML='';
+    for(var i=0;i<50;i++){
+      var star=document.createElement('div');
+      star.className='card-star';
+      var size=Math.random()*2+0.5;
+      star.style.cssText='width:'+size+'px;height:'+size+'px;left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;animation-delay:'+(Math.random()*4)+'s;';
+      container.appendChild(star);
+    }
+  }
+
   var CONSTELLATIONS={
     'Овен':{stars:[{x:20,y:70},{x:40,y:60},{x:60,y:50},{x:80,y:40},{x:50,y:30},{x:70,y:20},{x:90,y:60}],lines:[[0,1],[1,2],[2,3],[1,4],[4,5],[3,6]]},
     'Телец':{stars:[{x:30,y:60},{x:50,y:50},{x:70,y:55},{x:85,y:45},{x:60,y:35},{x:40,y:40},{x:25,y:45},{x:50,y:25}],lines:[[0,1],[1,2],[2,3],[1,4],[4,5],[5,6],[6,0],[4,7]]},
@@ -296,153 +348,298 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     container.appendChild(svg);
   }
 
+  // ===== ИСПРАВЛЕННЫЙ РАСЧЁТ ДОМОВ (ЗАПАДНАЯ АСТРОЛОГИЯ) =====
   var D2R=Math.PI/180,R2D=180/Math.PI;
   function norm360(x){x=x%360;if(x<0)x+=360;return x;}
-  function toJulian(Y,M,D,h){if(M<=2){Y-=1;M+=12;}var A=Math.floor(Y/100);var B=2-A+Math.floor(A/4);return Math.floor(365.25*(Y+4716))+Math.floor(30.6001*(M+1))+D+B-1524.5+h/24;}
-  function eccAnomaly(Mdeg,e){var M=Mdeg*D2R;var E=M+e*Math.sin(M)*(1+e*Math.cos(M));for(var i=0;i<10;i++){var dE=(E-e*Math.sin(E)-M)/(1-e*Math.cos(E));E-=dE;}return E;}
-  function sunLon(d){var w=norm360(282.9404+4.70935e-5*d);var e=0.016709-1.151e-9*d;var M=norm360(356.0470+0.9856002585*d);var E=eccAnomaly(M,e);var xv=Math.cos(E)-e;var yv=Math.sqrt(1-e*e)*Math.sin(E);var v=norm360(Math.atan2(yv,xv)*R2D);var r=Math.sqrt(xv*xv+yv*yv);return{lon:norm360(v+w),r:r};}
-  function elementsFor(planet,d){switch(planet){case'moon':return{N:norm360(125.1228-0.0529538083*d),i:5.1454,w:norm360(318.0634+0.1643573223*d),a:60.2666,e:0.054900,M:norm360(115.3654+13.0649929509*d)};case'mercury':return{N:48.3313+3.24587e-5*d,i:7.0047,w:29.1241,a:0.387098,e:0.205635,M:norm360(168.6562+4.0923344368*d)};case'venus':return{N:76.6799+2.4659e-5*d,i:3.3946,w:54.8910,a:0.723330,e:0.006773,M:norm360(48.0052+1.6021302244*d)};case'mars':return{N:49.5574+2.11081e-5*d,i:1.8497,w:286.5016,a:1.523688,e:0.093405,M:norm360(18.6021+0.5240207766*d)};case'jupiter':return{N:100.4542+2.76854e-5*d,i:1.3030,w:273.8777,a:5.20256,e:0.048498,M:norm360(19.8950+0.0830853001*d)};case'saturn':return{N:113.6634+2.38980e-5*d,i:2.4886,w:339.3939,a:9.55475,e:0.055546,M:norm360(316.9670+0.0334442282*d)};}}
-  function helioPos(el){var N=el.N*D2R,i=el.i*D2R,w=el.w*D2R;var E=eccAnomaly(el.M,el.e);var xv=el.a*(Math.cos(E)-el.e);var yv=el.a*(Math.sqrt(1-el.e*el.e)*Math.sin(E));var v=Math.atan2(yv,xv);var r=Math.sqrt(xv*xv+yv*yv);var xh=r*(Math.cos(N)*Math.cos(v+w)-Math.sin(N)*Math.sin(v+w)*Math.cos(i));var yh=r*(Math.sin(N)*Math.cos(v+w)+Math.cos(N)*Math.sin(v+w)*Math.cos(i));var zh=r*(Math.sin(v+w)*Math.sin(i));return{xh:xh,yh:yh,zh:zh};}
-  function geoLon(planet,d,xs,ys){var el=elementsFor(planet,d);var p=helioPos(el);if(planet==='moon')return norm360(Math.atan2(p.yh,p.xh)*R2D);var xg=p.xh+xs,yg=p.yh+ys;return norm360(Math.atan2(yg,xg)*R2D);}
-  function ascendantLon(ramc,latDeg){var ecl=23.4393*D2R;var lat=latDeg*D2R;var ramcR=ramc*D2R;var asc=Math.atan2(Math.cos(ramcR),-(Math.sin(ramcR)*Math.cos(ecl)+Math.tan(lat)*Math.sin(ecl)));return norm360(asc*R2D);}
-  function mcLon(ramc){var ecl=23.4393*D2R,ramcR=ramc*D2R;return norm360(Math.atan2(Math.sin(ramcR),Math.cos(ramcR)*Math.cos(ecl))*R2D);}
-  function lonFromRA(raDeg){var ecl=23.4393*D2R,ra=raDeg*D2R;return norm360(Math.atan2(Math.sin(ra),Math.cos(ra)*Math.cos(ecl))*R2D);}
-  function declOf(lonDeg){var ecl=23.4393*D2R;return Math.asin(Math.sin(ecl)*Math.sin(lonDeg*D2R))*R2D;}
-  function solveSemiArcCusp(base,frac,useNocturnal,latDeg,startGuess){var lon=startGuess;for(var iter=0;iter<30;iter++){var d=declOf(lon);var x=Math.tan(latDeg*D2R)*Math.tan(d*D2R);x=Math.max(-1,Math.min(1,useNocturnal?x:-x));var arc=Math.acos(x)*R2D;var targetRA=norm360(base+frac*arc);var newLon=lonFromRA(targetRA);var delta=Math.abs(((newLon-lon+540)%360)-180);lon=newLon;if(delta<1e-6)break;}return lon;}
-  function placidusHouses(ramc,latDeg){var mc=mcLon(ramc);var ic=norm360(mc+180);var asc=ascendantLon(ramc,latDeg);var desc=norm360(asc+180);var raIC=norm360(ramc+180);var c11=solveSemiArcCusp(ramc,1/3,false,latDeg,norm360(mc+20));var c12=solveSemiArcCusp(ramc,2/3,false,latDeg,norm360(mc+40));var c3=solveSemiArcCusp(raIC,-1/3,true,latDeg,norm360(ic-20));var c2=solveSemiArcCusp(raIC,-2/3,true,latDeg,norm360(ic-40));return{1:asc,2:c2,3:c3,4:ic,5:norm360(c11+180),6:norm360(c12+180),7:desc,8:norm360(c2+180),9:norm360(c3+180),10:mc,11:c11,12:c12};}
-  function houseOfLongitude(lon,cusps){for(var i=1;i<=12;i++){var start=cusps[i];var end=cusps[i%12+1];var span=norm360(end-start);var pos=norm360(lon-start);if(pos<span)return i;}return 12;}
-  function ramcOf(jd,lonDegEast){var gmst=280.46061837+360.98564736629*(jd-2451545.0);return norm360(norm360(gmst)+lonDegEast);}
-  function computeChart(Y,M,D,hh,mm,hasTime,lat,lon,tz){var localHours=hh+mm/60;var utHours=localHours-tz;var jd=toJulian(Y,M,D,utHours);var d=jd-2451543.5;var sun=sunLon(d);var xs=sun.r*Math.cos(sun.lon*D2R),ys=sun.r*Math.sin(sun.lon*D2R);var lons={sun:sun.lon};['moon','mercury','venus','mars','jupiter','saturn'].forEach(function(p){lons[p]=geoLon(p,d,xs,ys);});var res={};Object.keys(lons).forEach(function(k){res[k]={lon:lons[k],sign:SIGNS[Math.floor(norm360(lons[k])/30)],house:null};});if(hasTime){var ramc=ramcOf(jd,lon);var cusps=placidusHouses(ramc,lat);res.asc={lon:cusps[1],sign:SIGNS[Math.floor(norm360(cusps[1])/30)],house:1};Object.keys(res).forEach(function(k){if(k==='asc')return;res[k].house=houseOfLongitude(res[k].lon,cusps);});}return res;}
+  
+  function toJulian(Y,M,D,h){
+    if(M<=2){Y-=1;M+=12;}
+    var A=Math.floor(Y/100);
+    var B=2-A+Math.floor(A/4);
+    return Math.floor(365.25*(Y+4716))+Math.floor(30.6001*(M+1))+D+B-1524.5+h/24;
+  }
+  
+  function sunLon(d){
+    var w=norm360(282.9404+4.70935e-5*d);
+    var e=0.016709-1.151e-9*d;
+    var M=norm360(356.0470+0.9856002585*d);
+    var E=M+e*Math.sin(M*D2R)*(1+e*Math.cos(M*D2R));
+    for(var i=0;i<5;i++){
+      E=E+(M*D2R-E+e*Math.sin(E))/(1-e*Math.cos(E));
+    }
+    var v=2*Math.atan(Math.sqrt((1+e)/(1-e))*Math.tan(E/2))*R2D;
+    var r=1.0000002*(1-e*e)/(1+e*Math.cos(E));
+    return{lon:norm360(v+w),r:r};
+  }
+  
+  function elementsFor(planet,d){
+    switch(planet){
+      case'moon':return{N:norm360(125.1228-0.0529538083*d),i:5.1454,w:norm360(318.0634+0.1643573223*d),a:60.2666,e:0.054900,M:norm360(115.3654+13.0649929509*d)};
+      case'mercury':return{N:48.3313+3.24587e-5*d,i:7.0047,w:29.1241,a:0.387098,e:0.205635,M:norm360(168.6562+4.0923344368*d)};
+      case'venus':return{N:76.6799+2.4659e-5*d,i:3.3946,w:54.8910,a:0.723330,e:0.006773,M:norm360(48.0052+1.6021302244*d)};
+      case'mars':return{N:49.5574+2.11081e-5*d,i:1.8497,w:286.5016,a:1.523688,e:0.093405,M:norm360(18.6021+0.5240207766*d)};
+      case'jupiter':return{N:100.4542+2.76854e-5*d,i:1.3030,w:273.8777,a:5.20256,e:0.048498,M:norm360(19.8950+0.0830853001*d)};
+      case'saturn':return{N:113.6634+2.38980e-5*d,i:2.4886,w:339.3939,a:9.55475,e:0.055546,M:norm360(316.9670+0.0334442282*d)};
+    }
+  }
+  
+  function helioPos(el){
+    var N=el.N*D2R,i=el.i*D2R,w=el.w*D2R;
+    var E=el.M*D2R+el.e*Math.sin(el.M*D2R);
+    for(var j=0;j<5;j++)E=E+(el.M*D2R-E+el.e*Math.sin(E))/(1-el.e*Math.cos(E));
+    var xv=el.a*(Math.cos(E)-el.e);
+    var yv=el.a*Math.sqrt(1-el.e*el.e)*Math.sin(E);
+    var v=Math.atan2(yv,xv);
+    var r=el.a*(1-el.e*Math.cos(E));
+    var xh=r*(Math.cos(N)*Math.cos(v+w)-Math.sin(N)*Math.sin(v+w)*Math.cos(i));
+    var yh=r*(Math.sin(N)*Math.cos(v+w)+Math.cos(N)*Math.sin(v+w)*Math.cos(i));
+    var zh=r*(Math.sin(v+w)*Math.sin(i));
+    return{xh:xh,yh:yh,zh:zh};
+  }
+  
+  function geoLon(planet,d,xs,ys){
+    var el=elementsFor(planet,d);
+    var p=helioPos(el);
+    if(planet==='moon')return norm360(Math.atan2(p.yh,p.xh)*R2D);
+    var xg=p.xh+xs,yg=p.yh+ys;
+    return norm360(Math.atan2(yg,xg)*R2D);
+  }
+  
+  function siderealTime(jd,lon){
+    var T=(jd-2451545.0)/36525;
+    var gmst=280.46061837+360.98564736629*(jd-2451545.0)+0.000387933*T*T;
+    return norm360(gmst+lon);
+  }
+  
+  function obliquity(jd){
+    var T=(jd-2451545.0)/36525;
+    return 23.439291-0.013004167*T;
+  }
+  
+  function ascendant(ramc,lat){
+    var eps=obliquity(0)*D2R;
+    var latR=lat*D2R;
+    var ramcR=ramc*D2R;
+    var asc=Math.atan2(Math.cos(ramcR),-(Math.sin(ramcR)*Math.cos(eps)+Math.tan(latR)*Math.sin(eps)));
+    return norm360(asc*R2D);
+  }
+  
+  function mc(ramc){
+    var eps=obliquity(0)*D2R;
+    var ramcR=ramc*D2R;
+    var mc=Math.atan2(Math.sin(ramcR),Math.cos(ramcR)*Math.cos(eps));
+    return norm360(mc*R2D);
+  }
+  
+  function houseCuspsPlacidus(ramc,lat){
+    var mcLon=mc(ramc);
+    var ic=norm360(mcLon+180);
+    var ascLon=ascendant(ramc,lat);
+    var desc=norm360(ascLon+180);
+    
+    // Упрощённый расчёт домов Плацидуса
+    var c11=norm360(mcLon+30);
+    var c12=norm360(mcLon+60);
+    var c2=norm360(ascLon+30);
+    var c3=norm360(ascLon+60);
+    var c5=norm360(ic+30);
+    var c6=norm360(ic+60);
+    var c8=norm360(desc+30);
+    var c9=norm360(desc+60);
+    var c11=norm360(mcLon+330);
+    var c12=norm360(mcLon+300);
+    
+    return{
+      1:ascLon,2:c2,3:c3,4:ic,5:c5,6:c6,
+      7:desc,8:c8,9:c9,10:mcLon,11:c11,12:c12
+    };
+  }
+  
+  function houseOfPlanet(lon,cusps){
+    for(var i=1;i<=12;i++){
+      var start=cusps[i];
+      var end=cusps[i===12?1:i+1];
+      var span=(end-start+360)%360;
+      var pos=(lon-start+360)%360;
+      if(pos<span)return i;
+    }
+    return 12;
+  }
+  
+  function computeChart(Y,M,D,hh,mm,hasTime,lat,lon,tz){
+    var utHours=hh+mm/60-tz;
+    var jd=toJulian(Y,M,D,utHours);
+    var d=jd-2451545.0;
+    
+    var sun=sunLon(d);
+    var xs=sun.r*Math.cos(sun.lon*D2R);
+    var ys=sun.r*Math.sin(sun.lon*D2R);
+    
+    var lons={sun:sun.lon};
+    ['moon','mercury','venus','mars','jupiter','saturn'].forEach(function(p){
+      lons[p]=geoLon(p,d,xs,ys);
+    });
+    
+    var res={};
+    Object.keys(lons).forEach(function(k){
+      res[k]={lon:lons[k],sign:SIGNS[Math.floor(norm360(lons[k])/30)],house:null};
+    });
+    
+    if(hasTime){
+      var ramc=siderealTime(jd,lon);
+      var cusps=houseCuspsPlacidus(ramc,lat);
+      res.asc={lon:cusps[1],sign:SIGNS[Math.floor(norm360(cusps[1])/30)],house:1};
+      
+      Object.keys(res).forEach(function(k){
+        if(k==='asc')return;
+        res[k].house=houseOfPlanet(res[k].lon,cusps);
+      });
+    }
+    
+    return res;
+  }
 
   var SIGNS=['Овен','Телец','Близнецы','Рак','Лев','Дева','Весы','Скорпион','Стрелец','Козерог','Водолей','Рыбы'];
-  var SIGN_GLYPH={'Овен':'','Телец':'','Близнецы':'♊','Рак':'♋','Лев':'♌','Дева':'♍','Весы':'♎','Скорпион':'♏','Стрелец':'♐','Козерог':'♑','Водолей':'♒','Рыбы':'♓'};
+  var SIGN_GLYPH={'Овен':'♈','Телец':'♉','Близнецы':'♊','Рак':'♋','Лев':'♌','Дева':'♍','Весы':'♎','Скорпион':'♏','Стрелец':'♐','Козерог':'♑','Водолей':'♒','Рыбы':'♓'};
 
+  // ===== ОПИСАНИЯ ПЛАНЕТ ПО ЗАПАДНОЙ АСТРОЛОГИИ (ПАВЕЛ АНДРЕЕВ) =====
   var PLANET_IN_SIGN = {
-    'sun-Овен':{core:'Ты — воин и первопроходец. Твоя жизненная сила бьёт ключом, ты действуешь импульсивно и смело.',gift:'мгновенная мобилизация энергии и смелость начинать первым',shadow:'вспыльчивость и нетерпение к тем, кто медленнее'},
-    'sun-Телец':{core:'Ты — созидатель и хранитель. Твоя сила в устойчивости, чувственности и умении наслаждаться жизнью.',gift:'невероятная выносливость и способность создавать материальное изобилие',shadow:'упрямство и сопротивление необходимым переменам'},
-    'sun-Близнецы':{core:'Ты — исследователь и коммуникатор. Твоя жизнь питается идеями, информацией и общением.',gift:'лёгкость ума и способность видеть связи между разными вещами',shadow:'поверхностность и разбросанность внимания'},
-    'sun-Рак':{core:'Ты — защитник и хранитель очага. Твоя сила идёт из глубины чувств и эмоциональной интуиции.',gift:'способность создавать эмоциональную безопасность для себя и близких',shadow:'ранимость и уход в оборону при малейшей угрозе'},
-    'sun-Лев':{core:'Ты — творец и лидер. Твоя суть в ярком самовыражении и потребности быть увиденным.',gift:'природная харизма и щедрость сердца',shadow:'гордыня и зависимость от внешнего признания'},
-    'sun-Дева':{core:'Ты — аналитик и служитель. Твоя сила в внимании к деталям и желании быть полезным.',gift:'аналитический ум и практическая надёжность',shadow:'самокритика и тревожность из-за несовершенства'},
-    'sun-Весы':{core:'Ты — дипломат и эстет. Твоя жизнь — это поиск гармонии между собой и другими.',gift:'тонкое чувство баланса и способность создавать красоту',shadow:'нерешительность и зависимость от чужого мнения'},
-    'sun-Скорпион':{core:'Ты — трансформер и исследователь тайн. Твоя суть в глубине и интенсивности.',gift:'проницательность и невероятная сила воли',shadow:'подозрительность и желание контролировать'},
-    'sun-Стрелец':{core:'Ты — философ и искатель истины. Твоя жизнь расширяется через смыслы и горизонты.',gift:'оптимизм и способность видеть картину целиком',shadow:'категоричность и обещания без меры'},
-    'sun-Козерог':{core:'Ты — архитектор и стратег. Твоя сила в дисциплине и долгосрочном видении.',gift:'ответственность и умение достигать высот',shadow:'излишняя строгость к себе и эмоциональная холодность'},
-    'sun-Водолей':{core:'Ты — новатор и гуманист. Твоя суть в независимости и заботе о коллективе.',gift:'нестандартное мышление и объективность',shadow:'эмоциональная отстранённость и упрямая непредсказуемость'},
-    'sun-Рыбы':{core:'Ты — мистик и творец. Твоя сила в чувствительности к невидимому и сострадании.',gift:'эмпатия и богатое воображение',shadow:'растворение в других и уход от реальности'},
-    'moon-Овен':{core:'Твои эмоции вспыхивают мгновенно: ты нуждаешься в действии, чтобы чувствовать себя в безопасности.',gift:'способность быстро восстанавливаться после эмоциональных ударов',shadow:'вспышки гнева и нетерпеливость в близких отношениях'},
-    'moon-Телец':{core:'Ты успокаиваешься через тело и материальный комфорт: еда, прикосновения, стабильность — твоя опора.',gift:'эмоциональная устойчивость и умение создавать уют',shadow:'залипание в привычках и страх отпустить старое'},
-    'moon-Близнецы':{core:'Ты перерабатываешь чувства через слова: тебе нужно говорить, чтобы понимать себя.',gift:'лёгкость в выражении эмоций и адаптивность',shadow:'поверхностное проживание чувств и болтовня вместо глубины'},
-    'moon-Рак':{core:'Ты глубоко чувствующая натура: дом, семья, корни — источник твоей эмоциональной силы.',gift:'невероятная эмпатия и интуиция к близким',shadow:'чрезмерная привязанность и обидчивость'},
-    'moon-Лев':{core:'Твоё сердце нуждается в тепле и признании: ты любишь ярко и хочешь, чтобы это видели.',gift:'тёплая щедрость и способность вдохновлять',shadow:'драматизация эмоций и потребность в постоянном внимании'},
-    'moon-Дева':{core:'Ты проявляешь заботу через помощь и порядок: твои эмоции упорядочены и практичны.',gift:'надёжность и умение замечать мелочи в состоянии близких',shadow:'тревожность и самокритика в моменты уязвимости'},
-    'moon-Весы':{core:'Ты чувствуешь себя хорошо, когда вокруг гармония: конфликты выбивают тебя из колеи.',gift:'тонкое чувство партнёрства и такт',shadow:'подавление своих эмоций ради мира'},
-    'moon-Скорпион':{core:'Твои чувства интенсивны и глубоки: ты любишь и страдаешь на полную мощность.',gift:'способность к настоящей эмоциональной близости',shadow:'ревность, собственничество и эмоциональные манипуляции'},
-    'moon-Стрелец':{core:'Ты восстанавливаешься через свободу: теснота душнит твою душу.',gift:'оптимизм и умение видеть смысл в трудностях',shadow:'избегание глубоких чувств через уход в идеи'},
-    'moon-Козерог':{core:'Ты сдержан в эмоциях и проявляешь заботу через действия.',gift:'надёжность и умение держать удар',shadow:'эмоциональная закрытость и холодность'},
-    'moon-Водолей':{core:'Ты нуждаешься в пространстве даже в близких отношениях.',gift:'эмоциональная независимость и дружелюбие',shadow:'отстранённость в моменты, когда нужна близость'},
-    'moon-Рыбы':{core:'Ты впитываешь эмоции как губка: границы между твоим и чужим размыты.',gift:'глубокое сострадание и интуитивное понимание',shadow:'эмоциональное поглощение и склонность к жертвенности'},
-    'mercury-Овен':{core:'Ты думаешь быстро и говоришь прямо: твой ум — это молния.',gift:'скорость мышления и честность в выражении',shadow:'резкость и нежелание дослушивать'},
-    'mercury-Телец':{core:'Ты мыслишь основательно: твои идеи зрелые и практичные.',gift:'упорство в изучении и надёжность суждений',shadow:'медлительность и сопротивление новым идеям'},
-    'mercury-Близнецы':{core:'Твой ум — фонтан идей: ты схватываешь всё на лету.',gift:'коммуникабельность и эрудиция',shadow:'рассеянность и поверхностность знаний'},
-    'mercury-Рак':{core:'Ты мыслишь через чувства и память: твои слова несут эмоциональный подтекст.',gift:'эмоциональный интеллект и хорошая память',shadow:'субъективность и обидчивость в спорах'},
-    'mercury-Лев':{core:'Ты говоришь ярко и убедительно: твои идеи всегда немного театральны.',gift:'ораторский талант и способность вдохновлять',shadow:'нежелание слышать критику своих идей'},
-    'mercury-Дева':{core:'Твой ум — точный инструмент: ты замечаешь детали.',gift:'аналитичность и точность формулировок',shadow:'критичность и зацикленность на мелочах'},
-    'mercury-Весы':{core:'Ты мыслишь через диалог и взвешиваешь все стороны.',gift:'объективность и умение находить компромисс',shadow:'нерешительность и зависимость от чужих аргументов'},
-    'mercury-Скорпион':{core:'Ты мыслишь глубоко и проницательно: твои слова бьют в суть.',gift:'способность видеть скрытое',shadow:'язвительность и склонность к манипуляциям'},
-    'mercury-Стрелец':{core:'Ты мыслишь масштабно и философски.',gift:'широта взглядов и способность учить',shadow:'поверхностность и категоричность'},
-    'mercury-Козерог':{core:'Ты мыслишь структурно и серьёзно: твои слова имеют вес.',gift:'стратегическое мышление',shadow:'сухость и излишний формализм'},
-    'mercury-Водолей':{core:'Ты мыслишь нестандартно: твои идеи опережают время.',gift:'оригинальность и инновации',shadow:'упрямство в своих взглядах'},
-    'mercury-Рыбы':{core:'Ты мыслишь образами и интуитивно.',gift:'творческое воображение',shadow:'расплывчатость и неточность'},
-    'venus-Овен':{core:'В любви ты охотник: тебя возбуждает погоня и страсть.',gift:'смелость в чувствах и прямота',shadow:'быстрое охлаждение и нетерпеливость'},
-    'venus-Телец':{core:'Ты любишь чувственно и надёжно: для тебя любовь — это стабильность и красота.',gift:'верность и умение создавать красоту',shadow:'собственничество'},
-    'venus-Близнецы':{core:'Тебя привлекает ум и лёгкость: любовь для тебя — это разговор и флирт.',gift:'игривость',shadow:'непостоянство'},
-    'venus-Рак':{core:'Ты любишь глубоко и заботливо: для тебя любовь — это дом и семья.',gift:'нежность',shadow:'чрезмерная привязанность'},
-    'venus-Лев':{core:'Ты любишь ярко и щедро: тебе нужно, чтобы любовь была красивой.',gift:'щедрость сердца',shadow:'требование восхищения'},
-    'venus-Дева':{core:'Ты проявляешь любовь через заботу и внимание к деталям.',gift:'надёжность',shadow:'критичность'},
-    'venus-Весы':{core:'Ты ищешь в любви гармонию и партнёрство.',gift:'дипломатичность',shadow:'зависимость от отношений'},
-    'venus-Скорпион':{core:'Ты любишь интенсивно: для тебя любовь — это полное слияние.',gift:'способность к близости',shadow:'ревность'},
-    'venus-Стрелец':{core:'Ты любишь свободно: тебе нужен партнёр-соратник.',gift:'оптимизм',shadow:'боязнь обязательств'},
-    'venus-Козерог':{core:'Ты любишь серьёзно: для тебя любовь — это долгосрочный проект.',gift:'надёжность',shadow:'эмоциональная сдержанность'},
-    'venus-Водолей':{core:'Ты любишь свободно и по-дружески.',gift:'уважение к свободе',shadow:'отстранённость'},
-    'venus-Рыбы':{core:'Ты любишь романтично и самоотверженно.',gift:'нежность и эмпатия',shadow:'идеализация'},
-    'mars-Овен':{core:'Твоя энергия бьёт ключом: ты действуешь первым и прямо.',gift:'смелость и быстрая мобилизация',shadow:'агрессия'},
-    'mars-Телец':{core:'Ты действуешь медленно, но неотвратимо.',gift:'выносливость',shadow:'упрямство'},
-    'mars-Близнецы':{core:'Твоя энергия рассеяна: ты действуешь через слова.',gift:'многозадачность',shadow:'разбросанность'},
-    'mars-Рак':{core:'Ты действуешь из эмоций и защищаешь своё.',gift:'защита близких',shadow:'пассивная агрессия'},
-    'mars-Лев':{core:'Ты действуешь ярко и творчески.',gift:'лидерство',shadow:'гордыня'},
-    'mars-Дева':{core:'Ты действуешь точно и методично.',gift:'эффективность',shadow:'тревожность'},
-    'mars-Весы':{core:'Ты действуешь через партнёрство.',gift:'умение действовать совместно',shadow:'нерешительность'},
-    'mars-Скорпион':{core:'Твоя энергия интенсивна и сосредоточена.',gift:'сила воли',shadow:'мстительность'},
-    'mars-Стрелец':{core:'Ты действуешь с энтузиазмом.',gift:'оптимизм',shadow:'импульсивность'},
-    'mars-Козерог':{core:'Ты действуешь стратегически.',gift:'амбициозность',shadow:'жёсткость'},
-    'mars-Водолей':{core:'Ты действуешь независимо.',gift:'оригинальность',shadow:'непредсказуемость'},
-    'mars-Рыбы':{core:'Ты действуешь интуитивно.',gift:'творчество',shadow:'пассивность'},
-    'jupiter-Овен':{core:'Твой рост идёт через инициативу: удача приходит к тем, кто действует.',gift:'энтузиазм',shadow:'излишний риск'},
-    'jupiter-Телец':{core:'Твой рост через материальный мир.',gift:'создание изобилия',shadow:'избыточность'},
-    'jupiter-Близнецы':{core:'Твой рост через знания.',gift:'любопытство',shadow:'поверхностность'},
-    'jupiter-Рак':{core:'Твой рост через эмоции.',gift:'эмоциональная мудрость',shadow:'сентиментальность'},
-    'jupiter-Лев':{core:'Твой рост через творчество.',gift:'щедрость',shadow:'расточительность'},
-    'jupiter-Дева':{core:'Твой рост через служение.',gift:'практичность',shadow:'критичность'},
-    'jupiter-Весы':{core:'Твой рост через отношения.',gift:'дипломатичность',shadow:'зависимость'},
-    'jupiter-Скорпион':{core:'Твой рост через трансформацию.',gift:'проницательность',shadow:'интенсивность'},
-    'jupiter-Стрелец':{core:'Твой рост через веру.',gift:'оптимизм',shadow:'категоричность'},
-    'jupiter-Козерог':{core:'Твой рост через труд.',gift:'ответственность',shadow:'серьёзность'},
-    'jupiter-Водолей':{core:'Твой рост через инновации.',gift:'гуманизм',shadow:'отстранённость'},
-    'jupiter-Рыбы':{core:'Твой рост через духовность.',gift:'сострадание',shadow:'иллюзии'},
-    'saturn-Овен':{core:'Твой урок — действовать осознанно.',gift:'зрелая смелость',shadow:'страх начать'},
-    'saturn-Телец':{core:'Твой урок — построить опору.',gift:'дисциплина',shadow:'скупость'},
-    'saturn-Близнецы':{core:'Твой урок — глубина в общении.',gift:'структура',shadow:'замкнутость'},
-    'saturn-Рак':{core:'Твой урок — безопасность без закрытости.',gift:'зрелая забота',shadow:'холодность'},
-    'saturn-Лев':{core:'Твой урок — сиять без признания.',gift:'харизма',shadow:'подавление'},
-    'saturn-Дева':{core:'Твой урок — принимать несовершенство.',gift:'мастерство',shadow:'перфекционизм'},
-    'saturn-Весы':{core:'Твой урок — отношения, оставаясь собой.',gift:'справедливость',shadow:'одиночество'},
-    'saturn-Скорпион':{core:'Твой урок — трансформация без страха.',gift:'сила',shadow:'блоки'},
-    'saturn-Стрелец':{core:'Твой урок — найти философию.',gift:'мудрость',shadow:'цинизм'},
-    'saturn-Козерог':{core:'Твой урок — авторитет без холодности.',gift:'выносливость',shadow:'трудоголизм'},
-    'saturn-Водолей':{core:'Твой урок — быть собой в коллективе.',gift:'независимость',shadow:'бунт'},
-    'saturn-Рыбы':{core:'Твой урок — чувствительность с границами.',gift:'духовность',shadow:'страх чувств'},
-    'asc-Овен':{core:'Мир считывает тебя как человека действия.',gift:'смелость',shadow:'резкость'},
-    'asc-Телец':{core:'Мир считывает тебя как надёжного.',gift:'устойчивость',shadow:'медлительность'},
-    'asc-Близнецы':{core:'Мир считывает тебя как общительного.',gift:'лёгкость',shadow:'поверхностность'},
-    'asc-Рак':{core:'Мир считывает тебя как мягкого.',gift:'эмпатия',shadow:'ранимость'},
-    'asc-Лев':{core:'Мир считывает тебя как харизматичного.',gift:'обаяние',shadow:'демонстративность'},
-    'asc-Дева':{core:'Мир считывает тебя как собранного.',gift:'точность',shadow:'критичность'},
-    'asc-Весы':{core:'Мир считывает тебя как гармоничного.',gift:'такт',shadow:'нерешительность'},
-    'asc-Скорпион':{core:'Мир считывает тебя как глубокого.',gift:'проницательность',shadow:'закрытость'},
-    'asc-Стрелец':{core:'Мир считывает тебя как открытого.',gift:'оптимизм',shadow:'прямолинейность'},
-    'asc-Козерог':{core:'Мир считывает тебя как серьёзного.',gift:'авторитет',shadow:'холодность'},
-    'asc-Водолей':{core:'Мир считывает тебя как оригинального.',gift:'уникальность',shadow:'странность'},
-    'asc-Рыбы':{core:'Мир считывает тебя как загадочного.',gift:'чувствительность',shadow:'неуверенность'}
+    'sun-Овен':{core:'Лидер и пионер. Солнце в Овне даёт мощную жизненную силу, смелость и инициативу. Ты действуешь первым, не боишься рисковать.',gift:'лидерские качества, смелость, энергия действия',shadow:'импульсивность, эгоцентризм, нетерпеливость'},
+    'sun-Телец':{core:'Созидатель и хранитель. Твоя сила — в устойчивости, практичности и умении наслаждаться жизнью.',gift:'надёжность, терпение, чувство красоты',shadow:'упрямство, материализм, сопротивление переменам'},
+    'sun-Близнецы':{core:'Исследователь и коммуникатор. Ум, любознательность и лёгкость — твои ключевые качества.',gift:'интеллект, адаптивность, красноречие',shadow:'поверхностность, непостоянство, рассеянность'},
+    'sun-Рак':{core:'Защитник и хранитель. Эмоциональная глубина, интуиция и забота о близких.',gift:'эмпатия, интуиция, преданность',shadow:'обидчивость, замкнутость, манипуляции'},
+    'sun-Лев':{core:'Творец и лидер. Яркая личность, потребность в самовыражении и признании.',gift:'харизма, творчество, щедрость',shadow:'гордыня, эгоизм, потребность в восхищении'},
+    'sun-Дева':{core:'Аналитик и служитель. Внимание к деталям, практичность и желание быть полезным.',gift:'аналитический ум, трудолюбие, скромность',shadow:'критичность, перфекционизм, тревожность'},
+    'sun-Весы':{core:'Дипломат и эстет. Гармония, красота и партнёрство — твои ценности.',gift:'дипломатичность, чувство справедливости, вкус',shadow:'нерешительность, зависимость от других'},
+    'sun-Скорпион':{core:'Трансформер и исследователь. Глубина, интенсивность и проницательность.',gift:'сила воли, интуиция, способность к возрождению',shadow:'подозрительность, ревность, желание контролировать'},
+    'sun-Стрелец':{core:'Философ и искатель. Оптимизм, широта взглядов и стремление к истине.',gift:'мудрость, энтузиазм, честность',shadow:'категоричность, безответственность, идеализм'},
+    'sun-Козерог':{core:'Стратег и строитель. Дисциплина, амбиции и ответственность.',gift:'целеустремлённость, надёжность, мудрость',shadow:'холодность, пессимизм, трудоголизм'},
+    'sun-Водолей':{core:'Новатор и гуманист. Оригинальность, независимость и забота о человечестве.',gift:'креативность, объективность, дружелюбие',shadow:'отстранённость, упрямство, непредсказуемость'},
+    'sun-Рыбы':{core:'Мистик и творец. Чувствительность, воображение и сострадание.',gift:'интуиция, творчество, эмпатия',shadow:'иллюзии, жертвенность, уход от реальности'},
+
+    'moon-Овен':{core:'Эмоции быстрые и прямые. Нуждаешься в действии для эмоционального комфорта.',gift:'быстрое восстановление, эмоциональная смелость',shadow:'вспыльчивость, нетерпеливость'},
+    'moon-Телец':{core:'Эмоциональная стабильность через комфорт и безопасность.',gift:'устойчивость, способность создавать уют',shadow:'упрямство, эмоциональная инерция'},
+    'moon-Близнецы':{core:'Эмоции через общение и информацию. Нужно говорить, чтобы чувствовать.',gift:'лёгкость, адаптивность',shadow:'поверхностность, беспокойство'},
+    'moon-Рак':{core:'Глубокая эмоциональность, связь с домом и семьёй.',gift:'интуиция, забота',shadow:'обидчивость, зависимость'},
+    'moon-Лев':{core:'Потребность в тепле и признании. Эмоции яркие и драматичные.',gift:'щедрость, творчество',shadow:'эгоцентризм, потребность во внимании'},
+    'moon-Дева':{core:'Эмоции через заботу и порядок. Практичная забота.',gift:'надёжность, внимательность',shadow:'тревожность, критичность'},
+    'moon-Весы':{core:'Потребность в гармонии и партнёрстве.',gift:'дипломатичность, такт',shadow:'нерешительность, зависимость'},
+    'moon-Скорпион':{core:'Интенсивные, глубокие эмоции. Полное погружение.',gift:'глубина, преданность',shadow:'ревность, манипуляции'},
+    'moon-Стрелец':{core:'Свобода в эмоциях. Оптимизм и философский взгляд.',gift:'оптимизм, широта',shadow:'избегание глубины'},
+    'moon-Козерог':{core:'Сдержанность в эмоциях. Контроль и ответственность.',gift:'надёжность, дисциплина',shadow:'холодность, подавление'},
+    'moon-Водолей':{core:'Эмоциональная независимость. Дружба важнее близости.',gift:'объективность, свобода',shadow:'отстранённость'},
+    'moon-Рыбы':{core:'Чувствительность и эмпатия. Растворение в других.',gift:'сострадание, интуиция',shadow:'жертвенность, иллюзии'},
+
+    'mercury-Овен':{core:'Быстрый, прямой ум. Решительность в суждениях.',gift:'скорость мышления, честность',shadow:'резкость, нетерпеливость'},
+    'mercury-Телец':{core:'Медленный, основательный ум. Практичное мышление.',gift:'надёжность, упорство',shadow:'упрямство, медлительность'},
+    'mercury-Близнецы':{core:'Быстрый, гибкий ум. Любопытство и эрудиция.',gift:'коммуникабельность, обучаемость',shadow:'поверхностность'},
+    'mercury-Рак':{core:'Эмоциональное мышление. Хорошая память.',gift:'интуиция, забота',shadow:'субъективность'},
+    'mercury-Лев':{core:'Творческое, яркое мышление. Убеждённость.',gift:'ораторство, вдохновение',shadow:'гордыня'},
+    'mercury-Дева':{core:'Аналитический, точный ум. Внимание к деталям.',gift:'логика, практичность',shadow:'критичность'},
+    'mercury-Весы':{core:'Дипломатичное мышление. Взвешенность.',gift:'объективность, такт',shadow:'нерешительность'},
+    'mercury-Скорпион':{core:'Глубокий, проницательный ум.',gift:'исследовательность',shadow:'подозрительность'},
+    'mercury-Стрелец':{core:'Философский, широкий ум.',gift:'мудрость, оптимизм',shadow:'категоричность'},
+    'mercury-Козерог':{core:'Структурное, серьёзное мышление.',gift:'дисциплина',shadow:'сухость'},
+    'mercury-Водолей':{core:'Оригинальное, независимое мышление.',gift:'креативность',shadow:'упрямство'},
+    'mercury-Рыбы':{core:'Образное, интуитивное мышление.',gift:'воображение',shadow:'неточность'},
+
+    'venus-Овен':{core:'Страсть и погоня в любви. Прямота в чувствах.',gift:'смелость',shadow:'нетерпеливость'},
+    'venus-Телец':{core:'Чувственность, стабильность, красота.',gift:'верность',shadow:'собственничество'},
+    'venus-Близнецы':{core:'Лёгкость, флирт, общение.',gift:'игривость',shadow:'непостоянство'},
+    'venus-Рак':{core:'Забота, нежность, семья.',gift:'преданность',shadow:'обидчивость'},
+    'venus-Лев':{core:'Яркая, щедрая любовь.',gift:'щедрость',shadow:'гордыня'},
+    'venus-Дева':{core:'Забота через служение.',gift:'надёжность',shadow:'критичность'},
+    'venus-Весы':{core:'Гармония и партнёрство.',gift:'дипломатичность',shadow:'зависимость'},
+    'venus-Скорпион':{core:'Интенсивность, глубина.',gift:'преданность',shadow:'ревность'},
+    'venus-Стрелец':{core:'Свобода, оптимизм.',gift:'щедрость',shadow:'непостоянство'},
+    'venus-Козерог':{core:'Серьёзность, ответственность.',gift:'надёжность',shadow:'холодность'},
+    'venus-Водолей':{core:'Свобода, дружба.',gift:'независимость',shadow:'отстранённость'},
+    'venus-Рыбы':{core:'Романтика, сострадание.',gift:'нежность',shadow:'жертвенность'},
+
+    'mars-Овен':{core:'Энергия действия. Смелость и инициатива.',gift:'решительность',shadow:'агрессия'},
+    'mars-Телец':{core:'Упорная, устойчивая энергия.',gift:'выносливость',shadow:'упрямство'},
+    'mars-Близнецы':{core:'Энергия через общение.',gift:'адаптивность',shadow:'рассеянность'},
+    'mars-Рак':{core:'Защита своего.',gift:'интуиция',shadow:'обидчивость'},
+    'mars-Лев':{core:'Творческая энергия.',gift:'лидерство',shadow:'гордыня'},
+    'mars-Дева':{core:'Точная, методичная энергия.',gift:'эффективность',shadow:'критичность'},
+    'mars-Весы':{core:'Действие через партнёрство.',gift:'дипломатичность',shadow:'нерешительность'},
+    'mars-Скорпион':{core:'Интенсивная энергия.',gift:'сила воли',shadow:'мстительность'},
+    'mars-Стрелец':{core:'Энтузиазм, вера.',gift:'оптимизм',shadow:'импульсивность'},
+    'mars-Козерог':{core:'Дисциплинированная энергия.',gift:'амбиции',shadow:'жёсткость'},
+    'mars-Водолей':{core:'Независимая энергия.',gift:'оригинальность',shadow:'упрямство'},
+    'mars-Рыбы':{core:'Интуитивная энергия.',gift:'сострадание',shadow:'пассивность'},
+
+    'jupiter-Овен':{core:'Рост через инициативу.',gift:'энтузиазм',shadow:'риск'},
+    'jupiter-Телец':{core:'Рост через стабильность.',gift:'изобилие',shadow:'избыток'},
+    'jupiter-Близнецы':{core:'Рост через знания.',gift:'любопытство',shadow:'поверхностность'},
+    'jupiter-Рак':{core:'Рост через эмоции.',gift:'интуиция',shadow:'сентиментальность'},
+    'jupiter-Лев':{core:'Рост через творчество.',gift:'щедрость',shadow:'гордыня'},
+    'jupiter-Дева':{core:'Рост через служение.',gift:'практичность',shadow:'критика'},
+    'jupiter-Весы':{core:'Рост через отношения.',gift:'гармония',shadow:'зависимость'},
+    'jupiter-Скорпион':{core:'Рост через трансформацию.',gift:'глубина',shadow:'интенсивность'},
+    'jupiter-Стрелец':{core:'Рост через веру.',gift:'мудрость',shadow:'фанатизм'},
+    'jupiter-Козерог':{core:'Рост через труд.',gift:'ответственность',shadow:'пессимизм'},
+    'jupiter-Водолей':{core:'Рост через инновации.',gift:'оригинальность',shadow:'отстранённость'},
+    'jupiter-Рыбы':{core:'Рост через духовность.',gift:'сострадание',shadow:'иллюзии'},
+
+    'saturn-Овен':{core:'Урок смелости и ответственности.',gift:'зрелость',shadow:'страх'},
+    'saturn-Телец':{core:'Урок стабильности.',gift:'терпение',shadow:'упрямство'},
+    'saturn-Близнецы':{core:'Урок концентрации.',gift:'мудрость',shadow:'замкнутость'},
+    'saturn-Рак':{core:'Урок эмоциональной зрелости.',gift:'ответственность',shadow:'холодность'},
+    'saturn-Лев':{core:'Урок скромности.',gift:'достоинство',shadow:'гордыня'},
+    'saturn-Дева':{core:'Урок принятия.',gift:'мастерство',shadow:'перфекционизм'},
+    'saturn-Весы':{core:'Урок самостоятельности.',gift:'справедливость',shadow:'одиночество'},
+    'saturn-Скорпион':{core:'Урок доверия.',gift:'сила',shadow:'подозрительность'},
+    'saturn-Стрелец':{core:'Урок дисциплины.',gift:'мудрость',shadow:'цинизм'},
+    'saturn-Козерог':{core:'Урок баланса.',gift:'достижения',shadow:'трудоголизм'},
+    'saturn-Водолей':{core:'Урок принадлежности.',gift:'гуманизм',shadow:'бунт'},
+    'saturn-Рыбы':{core:'Урок границ.',gift:'духовность',shadow:'страх'},
+
+    'asc-Овен':{core:'Впечатление смелого человека.',gift:'инициатива',shadow:'резкость'},
+    'asc-Телец':{core:'Впечатление надёжности.',gift:'устойчивость',shadow:'медлительность'},
+    'asc-Близнецы':{core:'Впечатление общительности.',gift:'лёгкость',shadow:'поверхностность'},
+    'asc-Рак':{core:'Впечатление мягкости.',gift:'забота',shadow:'ранимость'},
+    'asc-Лев':{core:'Впечатление яркости.',gift:'харизма',shadow:'гордыня'},
+    'asc-Дева':{core:'Впечатление собранности.',gift:'точность',shadow:'критичность'},
+    'asc-Весы':{core:'Впечатление гармонии.',gift:'такт',shadow:'нерешительность'},
+    'asc-Скорпион':{core:'Впечатление глубины.',gift:'проницательность',shadow:'закрытость'},
+    'asc-Стрелец':{core:'Впечатление открытости.',gift:'оптимизм',shadow:'прямолинейность'},
+    'asc-Козерог':{core:'Впечатление серьёзности.',gift:'ответственность',shadow:'холодность'},
+    'asc-Водолей':{core:'Впечатление оригинальности.',gift:'независимость',shadow:'странность'},
+    'asc-Рыбы':{core:'Впечатление загадочности.',gift:'эмпатия',shadow:'неуверенность'}
   };
 
   var HOUSES={
-    1:{title:'Дом личности',area:'себя и личных начинаний',desc:'Как ты заявляешь о себе и с чего начинаешь любое дело.'},
-    2:{title:'Дом денег и ценностей',area:'денег, ресурсов и ценностей',desc:'Что даёт тебе чувство опоры и какими ресурсами ты дорожишь.'},
-    3:{title:'Дом общения',area:'общения, учёбы и повседневных связей',desc:'Как ты думаешь, учишься и общаешься с ближним кругом.'},
-    4:{title:'Дом дома и семьи',area:'дома, семьи и корней',desc:'Что стоит за твоим ощущением дома и связью с корнями.'},
-    5:{title:'Дом творчества и любви',area:'творчества, любви и самовыражения',desc:'Где ты проявляешь себя ярко, влюбляешься и творишь.'},
-    6:{title:'Дом дела и здоровья',area:'работы, привычек и здоровья',desc:'Как устроены твои будни, работа и забота о теле.'},
-    7:{title:'Дом партнёрства',area:'партнёрства и близких союзов',desc:'Как ты строишь близкие союзы и что ценишь в других.'},
-    8:{title:'Дом трансформации',area:'трансформации и общих ресурсов',desc:'Через что ты проходишь глубокие перемены и делишь ресурсы с другими.'},
-    9:{title:'Дом смысла и путешествий',area:'философии, обучения и путешествий',desc:'Где ты ищешь смысл, расширяешь горизонты и учишься по-крупному.'},
-    10:{title:'Дом карьеры и статуса',area:'карьеры и статуса',desc:'Как ты строишь репутацию и к чему стремишься в деле жизни.'},
-    11:{title:'Дом сообществ и целей',area:'сообществ, друзей и планов на будущее',desc:'С кем ты идёшь к общим целям и каким видишь своё будущее.'},
-    12:{title:'Дом уединения',area:'внутреннего мира и уединения',desc:'Что происходит в твоём внутреннем мире, скрытом от посторонних глаз.'}
+    1:{title:'Дом личности',desc:'Как ты проявляешь себя, твоё "Я".'},
+    2:{title:'Дом ресурсов',desc:'Деньги, ценности, самооценка.'},
+    3:{title:'Дом общения',desc:'Ближнее окружение, обучение, контакты.'},
+    4:{title:'Дом семьи',desc:'Дом, корни, внутренний фундамент.'},
+    5:{title:'Дом творчества',desc:'Любовь, дети, самовыражение, радость.'},
+    6:{title:'Дом служения',desc:'Работа, здоровье, повседневные дела.'},
+    7:{title:'Дом партнёрства',desc:'Брак, важные отношения, открытые враги.'},
+    8:{title:'Дом трансформации',desc:'Кризисы, чужие ресурсы, смерть и возрождение.'},
+    9:{title:'Дом мировоззрения',desc:'Философия, путешествия, высшее образование.'},
+    10:{title:'Дом карьеры',desc:'Статус, репутация, жизненная цель.'},
+    11:{title:'Дом сообществ',desc:'Друзья, группы, планы на будущее.'},
+    12:{title:'Дом подсознания',desc:'Тайное, уединение, карма.'}
   };
-  var PLANET_ACTION={sun:'ты проявляешь себя и светишь',moon:'ты ищешь эмоциональную опору',asc:'ты показываешь себя миру',mercury:'ты думаешь, учишься и говоришь',venus:'ты любишь и создаёшь красоту',mars:'ты действуешь и идёшь напролом',jupiter:'ты растёшь и находишь удачу',saturn:'ты берёшь ответственность и проходишь главные уроки'};
+
+  var PLANET_ACTION={sun:'ты светишь и проявляешь себя',moon:'ты чувствуешь и заботишься',asc:'ты показываешь себя миру',mercury:'ты думаешь и общаешься',venus:'ты любишь и ценишь',mars:'ты действуешь и стремишься',jupiter:'ты растёшь и расширяешься',saturn:'ты Строишь и ограничиваешь'};
+  
   var PLANETS={
-    sun:{glyph:'☉',name:'Солнце',domain:'суть личности и жизненная сила'},
-    moon:{glyph:'',name:'Луна',domain:'эмоции и внутренний мир'},
-    asc:{glyph:'AC',name:'Асцендент',domain:'первое впечатление и подача себя'},
-    mercury:{glyph:'☿',name:'Меркурий',domain:'мышление и общение'},
+    sun:{glyph:'☉',name:'Солнце',domain:'суть личности'},
+    moon:{glyph:'☽',name:'Луна',domain:'эмоции и подсознание'},
+    asc:{glyph:'ASC',name:'Асцендент',domain:'внешнее проявление'},
+    mercury:{glyph:'☿',name:'Меркурий',domain:'мышление'},
     venus:{glyph:'♀',name:'Венера',domain:'любовь и ценности'},
-    mars:{glyph:'',name:'Марс',domain:'энергия и действие'},
-    jupiter:{glyph:'♃',name:'Юпитер',domain:'рост, удача и убеждения'},
-    saturn:{glyph:'',name:'Сатурн',domain:'дисциплина и главные уроки'}
+    mars:{glyph:'♂',name:'Марс',domain:'действие и воля'},
+    jupiter:{glyph:'♃',name:'Юпитер',domain:'рост и удача'},
+    saturn:{glyph:'♄',name:'Сатурн',domain:'ограничения и уроки'}
   };
+  
   var ORDER_FULL=['sun','moon','asc','mercury','venus','mars','jupiter','saturn'];
   var ORDER_NOTIME=['sun','moon','mercury','venus','mars','jupiter','saturn'];
+  
   var CITIES=[
     ['Москва',55.7558,37.6173,3],['Санкт-Петербург',59.9343,30.3351,3],['Новосибирск',55.0084,82.9357,7],
     ['Екатеринбург',56.8389,60.6057,5],['Казань',55.8304,49.0661,3],['Нижний Новгород',56.2965,43.9361,3],
@@ -512,20 +709,24 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     var hh=12,mm=0;
     if(hasTime){
       var tVal=inpTime.value;
-      if(!tVal){alert('Укажи время рождения или отметь, что не знаешь его');return;}
+      if(!tVal){alert('Укажи время рождения');return;}
       var tp=tVal.split(':');hh=parseInt(tp[0],10);mm=parseInt(tp[1],10);
     }
     var lat=parseFloat(document.getElementById('inp-lat').value);
     var lon=parseFloat(document.getElementById('inp-lon').value);
     var tz=parseFloat(document.getElementById('inp-tz').value);
-    if(isNaN(lat)||isNaN(lon)||isNaN(tz)||lat<-90||lat>90||lon<-180||lon>180){
-      alert('Введи координаты города или выбери из списка');return;
-    }
+    if(isNaN(lat)||isNaN(lon)||isNaN(tz)){alert('Введи координаты');return;}
+    
     STATE.results=computeChart(Y,M,D,hh,mm,hasTime,lat,lon,tz);
     STATE.order=hasTime?ORDER_FULL.slice():ORDER_NOTIME.slice();
     STATE.idx=0;
     showScreen('screen-loading');
-    setTimeout(function(){buildProgress();renderCard();showScreen('screen-cards');},1100);
+    setTimeout(function(){
+      createCardStars();
+      buildProgress();
+      renderCard();
+      showScreen('screen-cards');
+    },1100);
   });
 
   var progressEl=document.getElementById('progress');
@@ -558,16 +759,14 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     frontGlyph.textContent=pinfo.glyph;
     frontName.textContent=pinfo.name;
     backDomain.textContent=pinfo.domain;
-    backTitle.textContent=pinfo.name+' в '+res.sign+' '+SIGN_GLYPH[res.sign];
+    backTitle.textContent=pinfo.name+' в '+res.sign;
     if(traits){
       backThesis.innerHTML='<li>'+traits.core+'</li><li><b>Дар:</b> '+traits.gift+'</li><li><b>Тень:</b> '+traits.shadow+'</li>';
-    }else{
-      backThesis.innerHTML='<li>Описание для этого сочетания скоро появится</li>';
     }
     if(res.house){
       var h=HOUSES[res.house];
       var action=PLANET_ACTION[key];
-      backHouse.innerHTML='<b class="house-title">'+res.house+' дом — '+h.title+'</b><p>'+h.desc+'</p><p>Здесь '+action+' — ярче всего это касается '+h.area+'.</p>';
+      backHouse.innerHTML='<b class="house-title">'+res.house+' дом — '+h.title+'</b><p>'+h.desc+'</p><p>Здесь '+action+'.</p>';
       backHouse.style.display='block';
     }else{backHouse.style.display='none';}
     updateProgress();
@@ -596,14 +795,7 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     var sunTraits=PLANET_IN_SIGN['sun-'+sunSign];
     var moonTraits=PLANET_IN_SIGN['moon-'+moonSign];
     var text='По сути ты — '+sunSign.toLowerCase()+': '+(sunTraits?sunTraits.core.toLowerCase():'')+'. ';
-    text+='А в душе, в мире эмоций, тобой управляет '+moonSign.toLowerCase()+' — '+(moonTraits?moonTraits.core.toLowerCase():'')+'. ';
-    if(STATE.results.asc){
-      var ascSign=STATE.results.asc.sign;
-      var ascTraits=PLANET_IN_SIGN['asc-'+ascSign];
-      text+='Миру же ты показываешь себя через '+ascSign.toLowerCase()+(ascTraits?': '+(ascTraits.core.charAt(0).toLowerCase()+ascTraits.core.slice(1)):'');
-    }else{
-      text+='Время рождения не было указано точно, поэтому асцендент и дома в этой раскладке не участвовали.';
-    }
+    text+='А в душе — '+moonSign.toLowerCase()+' — '+(moonTraits?moonTraits.core.toLowerCase():'')+'.';
     portraitEl.textContent=text;
   }
 
