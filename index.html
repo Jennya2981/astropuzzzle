@@ -15,7 +15,7 @@ body{min-height:100vh;background:#0D1B2A;color:#F5F5F5;font-family:system-ui,-ap
 .orb.o2{width:200px;height:200px;right:-40px;top:55%;background:radial-gradient(circle at 40% 40%,#C2185B,transparent 70%);animation-duration:60s;}
 .orb.o3{width:160px;height:160px;left:12%;bottom:-40px;background:radial-gradient(circle at 40% 40%,#4D869B,transparent 70%);animation-duration:44s;}
 @keyframes drift{0%,100%{transform:translate(0,0);}50%{transform:translate(22px,-28px);}}
-#app{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 18px;}
+#app{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px 18px;}
 .screen{width:100%;max-width:460px;display:none;animation:rise 0.5s ease both;}
 .screen.active{display:block;}
 @keyframes rise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
@@ -50,114 +50,25 @@ p.lead{text-align:center;color:#c9d0da;font-size:15.5px;line-height:1.55;margin:
 .progress .d{width:7px;height:7px;border-radius:50%;background:rgba(245,245,245,0.2);}
 .progress .d.on{background:linear-gradient(135deg,#C2185B,#7B1FA2);}
 .progress .d.done{background:#88BAC6;}
-.stage{perspective:1400px;margin-bottom:20px;}
-.card{position:relative;width:100%;height:520px;transform-style:preserve-3d;transition:transform 0.7s cubic-bezier(.2,.8,.25,1);cursor:pointer;}
+.stage{perspective:1400px;margin-bottom:10px;}
+.card{position:relative;width:100%;height:400px;transform-style:preserve-3d;transition:transform 0.7s cubic-bezier(.2,.8,.25,1);cursor:pointer;}
 .card.flipped{transform:rotateY(180deg);}
 .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:22px;display:flex;flex-direction:column;border:1px solid rgba(245,245,245,0.14);overflow:hidden;}
-
-/* ===== КОСМИЧЕСКИЙ ФОН КАРТОЧКИ СО ЗВЁЗДАМИ ===== */
-.face-front{
-  background: 
-    radial-gradient(ellipse at 30% 20%, rgba(123,31,162,0.6) 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 80%, rgba(194,24,91,0.5) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(13,27,42,0.9) 0%, transparent 70%),
-    linear-gradient(180deg, #050810 0%, #0a0e27 20%, #1a1a3e 50%, #0f1e3d 80%, #050810 100%);
-  padding:26px 22px;
-  position:relative;
-}
-
-/* Звёзды на карточке */
-.card-stars{
-  position:absolute;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
-}
-.card-star{
-  position:absolute;
-  background:#fff;
-  border-radius:50%;
-  animation:cardStarTwinkle 4s ease-in-out infinite;
-}
-@keyframes cardStarTwinkle{
-  0%,100%{opacity:0.3;transform:scale(1);}
-  50%{opacity:1;transform:scale(1.2);}
-}
-
-/* Кометы */
-.comet{
-  position:absolute;
-  width:100px;
-  height:2px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.8),transparent);
-  animation:cometMove 8s linear infinite;
-  opacity:0.4;
-}
-@keyframes cometMove{
-  0%{transform:translateX(-100px) rotate(-45deg);opacity:0;}
-  10%{opacity:0.6;}
-  90%{opacity:0.6;}
-  100%{transform:translateX(400px) rotate(-45deg);opacity:0;}
-}
-
-/* ===== СОЗВЕЗДИЕ СПРАВА СБОКУ ===== */
-.constellation-container{
-  position:absolute;
-  right:0;
-  top:0;
-  width:45%;
-  height:100%;
-  z-index:1;
-  pointer-events:none;
-  opacity:0.8;
-}
-.constellation-svg{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-}
-.constellation-star{
-  fill:#fff;
-  filter:drop-shadow(0 0 8px rgba(255,255,255,1));
-  animation:constellationTwinkle 3s ease-in-out infinite;
-}
-.constellation-line{
-  stroke:rgba(136,186,198,0.7);
-  stroke-width:1.5;
-  fill:none;
-  stroke-linecap:round;
-}
+.face-front{background:radial-gradient(ellipse at 30% 20%, rgba(123,31,162,0.6) 0%, transparent 50%),radial-gradient(ellipse at 70% 80%, rgba(194,24,91,0.5) 0%, transparent 50%),radial-gradient(ellipse at 50% 50%, rgba(13,27,42,0.9) 0%, transparent 70%),linear-gradient(180deg, #050810 0%, #0a0e27 20%, #1a1a3e 50%, #0f1e3d 80%, #050810 100%);padding:26px 22px;position:relative;}
+.card-stars{position:absolute;inset:0;z-index:0;pointer-events:none;}
+.card-star{position:absolute;background:#fff;border-radius:50%;animation:cardStarTwinkle 4s ease-in-out infinite;}
+@keyframes cardStarTwinkle{0%,100%{opacity:0.3;transform:scale(1);}50%{opacity:1;transform:scale(1.2);}}
+.comet{position:absolute;width:100px;height:2px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.8),transparent);animation:cometMove 8s linear infinite;opacity:0.4;}
+@keyframes cometMove{0%{transform:translateX(-100px) rotate(-45deg);opacity:0;}10%{opacity:0.6;}90%{opacity:0.6;}100%{transform:translateX(400px) rotate(-45deg);opacity:0;}}
+.constellation-container{position:absolute;right:0;top:0;width:45%;height:100%;z-index:1;pointer-events:none;opacity:0.8;}
+.constellation-svg{position:absolute;inset:0;width:100%;height:100%;}
+.constellation-star{fill:#fff;filter:drop-shadow(0 0 8px rgba(255,255,255,1));animation:constellationTwinkle 3s ease-in-out infinite;}
+.constellation-line{stroke:rgba(136,186,198,0.7);stroke-width:1.5;fill:none;stroke-linecap:round;}
 @keyframes constellationTwinkle{0%,100%{opacity:0.6;}50%{opacity:1;}}
-
-/* ===== КОНТЕНТ СЛЕВА ПО ЦЕНТРУ ===== */
-.front-content{
-  position:relative;
-  z-index:2;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:16px;
-  width:55%;
-  margin-right:auto;
-}
-.front-content .glyph{
-  font-size:52px;
-  width:96px;
-  height:96px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,rgba(194,24,91,0.6),rgba(123,17,162,0.6));
-  border:2px solid rgba(245,245,245,0.5);
-  box-shadow:0 0 40px rgba(194,24,91,0.7), inset 0 0 20px rgba(255,255,255,0.2);
-}
+.front-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;width:55%;margin-right:auto;}
+.front-content .glyph{font-size:52px;width:96px;height:96px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(194,24,91,0.6),rgba(123,17,162,0.6));border:2px solid rgba(245,245,245,0.5);box-shadow:0 0 40px rgba(194,24,91,0.7), inset 0 0 20px rgba(255,255,255,0.2);}
 .front-content .tap-hint{color:#88BAC6;font-size:13.5px;opacity:0.9;}
 .front-content .pname{font-size:22px;font-weight:600;text-shadow:0 2px 15px rgba(0,0,0,0.7);}
-
 .face-back{background:linear-gradient(165deg,rgba(51,58,87,0.98),rgba(13,27,42,0.99));transform:rotateY(180deg);padding:26px 22px;}
 .back-content{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100%;overflow-y:auto;padding-right:8px;}
 .face-back .domain{font-size:12.5px;color:#88BAC6;font-weight:600;margin-bottom:6px;}
@@ -170,8 +81,7 @@ p.lead{text-align:center;color:#c9d0da;font-size:15.5px;line-height:1.55;margin:
 .house-note .house-title{display:block;color:#88BAC6;font-size:12.5px;font-weight:600;margin-bottom:6px;}
 .house-note p{margin:0 0 6px;}
 .house-note p:last-child{margin-bottom:0;}
-
-.cards-nav{display:flex;gap:10px;}
+.cards-nav{display:flex;gap:10px;margin-top:8px;}
 .recap{list-style:none;margin:0 0 20px;padding:0;display:flex;flex-direction:column;gap:10px;}
 .recap li{display:flex;align-items:center;gap:12px;background:rgba(245,245,245,0.06);border:1px solid rgba(245,245,245,0.14);border-radius:14px;padding:11px 14px;font-size:14px;}
 .recap .g{width:34px;height:34px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(77,134,155,0.35),rgba(66,44,71,0.5));font-size:15px;}
@@ -292,7 +202,6 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     sky.appendChild(s);
   }
 
-  // Создаём звёзды на карточке
   function createCardStars(){
     var container=document.getElementById('card-stars');
     if(!container)return;
@@ -348,161 +257,27 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     container.appendChild(svg);
   }
 
-  // ===== ИСПРАВЛЕННЫЙ РАСЧЁТ ДОМОВ (ЗАПАДНАЯ АСТРОЛОГИЯ) =====
   var D2R=Math.PI/180,R2D=180/Math.PI;
   function norm360(x){x=x%360;if(x<0)x+=360;return x;}
-  
-  function toJulian(Y,M,D,h){
-    if(M<=2){Y-=1;M+=12;}
-    var A=Math.floor(Y/100);
-    var B=2-A+Math.floor(A/4);
-    return Math.floor(365.25*(Y+4716))+Math.floor(30.6001*(M+1))+D+B-1524.5+h/24;
-  }
-  
-  function sunLon(d){
-    var w=norm360(282.9404+4.70935e-5*d);
-    var e=0.016709-1.151e-9*d;
-    var M=norm360(356.0470+0.9856002585*d);
-    var E=M+e*Math.sin(M*D2R)*(1+e*Math.cos(M*D2R));
-    for(var i=0;i<5;i++){
-      E=E+(M*D2R-E+e*Math.sin(E))/(1-e*Math.cos(E));
-    }
-    var v=2*Math.atan(Math.sqrt((1+e)/(1-e))*Math.tan(E/2))*R2D;
-    var r=1.0000002*(1-e*e)/(1+e*Math.cos(E));
-    return{lon:norm360(v+w),r:r};
-  }
-  
-  function elementsFor(planet,d){
-    switch(planet){
-      case'moon':return{N:norm360(125.1228-0.0529538083*d),i:5.1454,w:norm360(318.0634+0.1643573223*d),a:60.2666,e:0.054900,M:norm360(115.3654+13.0649929509*d)};
-      case'mercury':return{N:48.3313+3.24587e-5*d,i:7.0047,w:29.1241,a:0.387098,e:0.205635,M:norm360(168.6562+4.0923344368*d)};
-      case'venus':return{N:76.6799+2.4659e-5*d,i:3.3946,w:54.8910,a:0.723330,e:0.006773,M:norm360(48.0052+1.6021302244*d)};
-      case'mars':return{N:49.5574+2.11081e-5*d,i:1.8497,w:286.5016,a:1.523688,e:0.093405,M:norm360(18.6021+0.5240207766*d)};
-      case'jupiter':return{N:100.4542+2.76854e-5*d,i:1.3030,w:273.8777,a:5.20256,e:0.048498,M:norm360(19.8950+0.0830853001*d)};
-      case'saturn':return{N:113.6634+2.38980e-5*d,i:2.4886,w:339.3939,a:9.55475,e:0.055546,M:norm360(316.9670+0.0334442282*d)};
-    }
-  }
-  
-  function helioPos(el){
-    var N=el.N*D2R,i=el.i*D2R,w=el.w*D2R;
-    var E=el.M*D2R+el.e*Math.sin(el.M*D2R);
-    for(var j=0;j<5;j++)E=E+(el.M*D2R-E+el.e*Math.sin(E))/(1-el.e*Math.cos(E));
-    var xv=el.a*(Math.cos(E)-el.e);
-    var yv=el.a*Math.sqrt(1-el.e*el.e)*Math.sin(E);
-    var v=Math.atan2(yv,xv);
-    var r=el.a*(1-el.e*Math.cos(E));
-    var xh=r*(Math.cos(N)*Math.cos(v+w)-Math.sin(N)*Math.sin(v+w)*Math.cos(i));
-    var yh=r*(Math.sin(N)*Math.cos(v+w)+Math.cos(N)*Math.sin(v+w)*Math.cos(i));
-    var zh=r*(Math.sin(v+w)*Math.sin(i));
-    return{xh:xh,yh:yh,zh:zh};
-  }
-  
-  function geoLon(planet,d,xs,ys){
-    var el=elementsFor(planet,d);
-    var p=helioPos(el);
-    if(planet==='moon')return norm360(Math.atan2(p.yh,p.xh)*R2D);
-    var xg=p.xh+xs,yg=p.yh+ys;
-    return norm360(Math.atan2(yg,xg)*R2D);
-  }
-  
-  function siderealTime(jd,lon){
-    var T=(jd-2451545.0)/36525;
-    var gmst=280.46061837+360.98564736629*(jd-2451545.0)+0.000387933*T*T;
-    return norm360(gmst+lon);
-  }
-  
-  function obliquity(jd){
-    var T=(jd-2451545.0)/36525;
-    return 23.439291-0.013004167*T;
-  }
-  
-  function ascendant(ramc,lat){
-    var eps=obliquity(0)*D2R;
-    var latR=lat*D2R;
-    var ramcR=ramc*D2R;
-    var asc=Math.atan2(Math.cos(ramcR),-(Math.sin(ramcR)*Math.cos(eps)+Math.tan(latR)*Math.sin(eps)));
-    return norm360(asc*R2D);
-  }
-  
-  function mc(ramc){
-    var eps=obliquity(0)*D2R;
-    var ramcR=ramc*D2R;
-    var mc=Math.atan2(Math.sin(ramcR),Math.cos(ramcR)*Math.cos(eps));
-    return norm360(mc*R2D);
-  }
-  
-  function houseCuspsPlacidus(ramc,lat){
-    var mcLon=mc(ramc);
-    var ic=norm360(mcLon+180);
-    var ascLon=ascendant(ramc,lat);
-    var desc=norm360(ascLon+180);
-    
-    // Упрощённый расчёт домов Плацидуса
-    var c11=norm360(mcLon+30);
-    var c12=norm360(mcLon+60);
-    var c2=norm360(ascLon+30);
-    var c3=norm360(ascLon+60);
-    var c5=norm360(ic+30);
-    var c6=norm360(ic+60);
-    var c8=norm360(desc+30);
-    var c9=norm360(desc+60);
-    var c11=norm360(mcLon+330);
-    var c12=norm360(mcLon+300);
-    
-    return{
-      1:ascLon,2:c2,3:c3,4:ic,5:c5,6:c6,
-      7:desc,8:c8,9:c9,10:mcLon,11:c11,12:c12
-    };
-  }
-  
-  function houseOfPlanet(lon,cusps){
-    for(var i=1;i<=12;i++){
-      var start=cusps[i];
-      var end=cusps[i===12?1:i+1];
-      var span=(end-start+360)%360;
-      var pos=(lon-start+360)%360;
-      if(pos<span)return i;
-    }
-    return 12;
-  }
-  
-  function computeChart(Y,M,D,hh,mm,hasTime,lat,lon,tz){
-    var utHours=hh+mm/60-tz;
-    var jd=toJulian(Y,M,D,utHours);
-    var d=jd-2451545.0;
-    
-    var sun=sunLon(d);
-    var xs=sun.r*Math.cos(sun.lon*D2R);
-    var ys=sun.r*Math.sin(sun.lon*D2R);
-    
-    var lons={sun:sun.lon};
-    ['moon','mercury','venus','mars','jupiter','saturn'].forEach(function(p){
-      lons[p]=geoLon(p,d,xs,ys);
-    });
-    
-    var res={};
-    Object.keys(lons).forEach(function(k){
-      res[k]={lon:lons[k],sign:SIGNS[Math.floor(norm360(lons[k])/30)],house:null};
-    });
-    
-    if(hasTime){
-      var ramc=siderealTime(jd,lon);
-      var cusps=houseCuspsPlacidus(ramc,lat);
-      res.asc={lon:cusps[1],sign:SIGNS[Math.floor(norm360(cusps[1])/30)],house:1};
-      
-      Object.keys(res).forEach(function(k){
-        if(k==='asc')return;
-        res[k].house=houseOfPlanet(res[k].lon,cusps);
-      });
-    }
-    
-    return res;
-  }
+  function toJulian(Y,M,D,h){if(M<=2){Y-=1;M+=12;}var A=Math.floor(Y/100);var B=2-A+Math.floor(A/4);return Math.floor(365.25*(Y+4716))+Math.floor(30.6001*(M+1))+D+B-1524.5+h/24;}
+  function eccAnomaly(Mdeg,e){var M=Mdeg*D2R;var E=M+e*Math.sin(M)*(1+e*Math.cos(M));for(var i=0;i<10;i++){var dE=(E-e*Math.sin(E)-M)/(1-e*Math.cos(E));E-=dE;}return E;}
+  function sunLon(d){var w=norm360(282.9404+4.70935e-5*d);var e=0.016709-1.151e-9*d;var M=norm360(356.0470+0.9856002585*d);var E=eccAnomaly(M,e);var xv=Math.cos(E)-e;var yv=Math.sqrt(1-e*e)*Math.sin(E);var v=norm360(Math.atan2(yv,xv)*R2D);var r=Math.sqrt(xv*xv+yv*yv);return{lon:norm360(v+w),r:r};}
+  function elementsFor(planet,d){switch(planet){case'moon':return{N:norm360(125.1228-0.0529538083*d),i:5.1454,w:norm360(318.0634+0.1643573223*d),a:60.2666,e:0.054900,M:norm360(115.3654+13.0649929509*d)};case'mercury':return{N:48.3313+3.24587e-5*d,i:7.0047,w:29.1241,a:0.387098,e:0.205635,M:norm360(168.6562+4.0923344368*d)};case'venus':return{N:76.6799+2.4659e-5*d,i:3.3946,w:54.8910,a:0.723330,e:0.006773,M:norm360(48.0052+1.6021302244*d)};case'mars':return{N:49.5574+2.11081e-5*d,i:1.8497,w:286.5016,a:1.523688,e:0.093405,M:norm360(18.6021+0.5240207766*d)};case'jupiter':return{N:100.4542+2.76854e-5*d,i:1.3030,w:273.8777,a:5.20256,e:0.048498,M:norm360(19.8950+0.0830853001*d)};case'saturn':return{N:113.6634+2.38980e-5*d,i:2.4886,w:339.3939,a:9.55475,e:0.055546,M:norm360(316.9670+0.0334442282*d)};}}
+  function helioPos(el){var N=el.N*D2R,i=el.i*D2R,w=el.w*D2R;var E=eccAnomaly(el.M,el.e);var xv=el.a*(Math.cos(E)-el.e);var yv=el.a*(Math.sqrt(1-el.e*el.e)*Math.sin(E));var v=Math.atan2(yv,xv);var r=Math.sqrt(xv*xv+yv*yv);var xh=r*(Math.cos(N)*Math.cos(v+w)-Math.sin(N)*Math.sin(v+w)*Math.cos(i));var yh=r*(Math.sin(N)*Math.cos(v+w)+Math.cos(N)*Math.sin(v+w)*Math.cos(i));var zh=r*(Math.sin(v+w)*Math.sin(i));return{xh:xh,yh:yh,zh:zh};}
+  function geoLon(planet,d,xs,ys){var el=elementsFor(planet,d);var p=helioPos(el);if(planet==='moon')return norm360(Math.atan2(p.yh,p.xh)*R2D);var xg=p.xh+xs,yg=p.yh+ys;return norm360(Math.atan2(yg,xg)*R2D);}
+  function ascendantLon(ramc,latDeg){var ecl=23.4393*D2R;var lat=latDeg*D2R;var ramcR=ramc*D2R;var asc=Math.atan2(Math.cos(ramcR),-(Math.sin(ramcR)*Math.cos(ecl)+Math.tan(lat)*Math.sin(ecl)));return norm360(asc*R2D);}
+  function mcLon(ramc){var ecl=23.4393*D2R,ramcR=ramc*D2R;return norm360(Math.atan2(Math.sin(ramcR),Math.cos(ramcR)*Math.cos(ecl))*R2D);}
+  function lonFromRA(raDeg){var ecl=23.4393*D2R,ra=raDeg*D2R;return norm360(Math.atan2(Math.sin(ra),Math.cos(ra)*Math.cos(ecl))*R2D);}
+  function declOf(lonDeg){var ecl=23.4393*D2R;return Math.asin(Math.sin(ecl)*Math.sin(lonDeg*D2R))*R2D;}
+  function solveSemiArcCusp(base,frac,useNocturnal,latDeg,startGuess){var lon=startGuess;for(var iter=0;iter<30;iter++){var d=declOf(lon);var x=Math.tan(latDeg*D2R)*Math.tan(d*D2R);x=Math.max(-1,Math.min(1,useNocturnal?x:-x));var arc=Math.acos(x)*R2D;var targetRA=norm360(base+frac*arc);var newLon=lonFromRA(targetRA);var delta=Math.abs(((newLon-lon+540)%360)-180);lon=newLon;if(delta<1e-6)break;}return lon;}
+  function placidusHouses(ramc,latDeg){var mc=mcLon(ramc);var ic=norm360(mc+180);var asc=ascendantLon(ramc,latDeg);var desc=norm360(asc+180);var raIC=norm360(ramc+180);var c11=solveSemiArcCusp(ramc,1/3,false,latDeg,norm360(mc+20));var c12=solveSemiArcCusp(ramc,2/3,false,latDeg,norm360(mc+40));var c3=solveSemiArcCusp(raIC,-1/3,true,latDeg,norm360(ic-20));var c2=solveSemiArcCusp(raIC,-2/3,true,latDeg,norm360(ic-40));return{1:asc,2:c2,3:c3,4:ic,5:norm360(c11+180),6:norm360(c12+180),7:desc,8:norm360(c2+180),9:norm360(c3+180),10:mc,11:c11,12:c12};}
+  function houseOfLongitude(lon,cusps){for(var i=1;i<=12;i++){var start=cusps[i];var end=cusps[i%12+1];var span=norm360(end-start);var pos=norm360(lon-start);if(pos<span)return i;}return 12;}
+  function ramcOf(jd,lonDegEast){var gmst=280.46061837+360.98564736629*(jd-2451545.0);return norm360(norm360(gmst)+lonDegEast);}
+  function computeChart(Y,M,D,hh,mm,hasTime,lat,lon,tz){var localHours=hh+mm/60;var utHours=localHours-tz;var jd=toJulian(Y,M,D,utHours);var d=jd-2451543.5;var sun=sunLon(d);var xs=sun.r*Math.cos(sun.lon*D2R),ys=sun.r*Math.sin(sun.lon*D2R);var lons={sun:sun.lon};['moon','mercury','venus','mars','jupiter','saturn'].forEach(function(p){lons[p]=geoLon(p,d,xs,ys);});var res={};Object.keys(lons).forEach(function(k){res[k]={lon:lons[k],sign:SIGNS[Math.floor(norm360(lons[k])/30)],house:null};});if(hasTime){var ramc=ramcOf(jd,lon);var cusps=placidusHouses(ramc,lat);res.asc={lon:cusps[1],sign:SIGNS[Math.floor(norm360(cusps[1])/30)],house:1};Object.keys(res).forEach(function(k){if(k==='asc')return;res[k].house=houseOfLongitude(res[k].lon,cusps);});}return res;}
 
   var SIGNS=['Овен','Телец','Близнецы','Рак','Лев','Дева','Весы','Скорпион','Стрелец','Козерог','Водолей','Рыбы'];
   var SIGN_GLYPH={'Овен':'♈','Телец':'♉','Близнецы':'♊','Рак':'♋','Лев':'♌','Дева':'♍','Весы':'♎','Скорпион':'♏','Стрелец':'♐','Козерог':'♑','Водолей':'♒','Рыбы':'♓'};
 
-  // ===== ОПИСАНИЯ ПЛАНЕТ ПО ЗАПАДНОЙ АСТРОЛОГИИ (ПАВЕЛ АНДРЕЕВ) =====
   var PLANET_IN_SIGN = {
     'sun-Овен':{core:'Лидер и пионер. Солнце в Овне даёт мощную жизненную силу, смелость и инициативу. Ты действуешь первым, не боишься рисковать.',gift:'лидерские качества, смелость, энергия действия',shadow:'импульсивность, эгоцентризм, нетерпеливость'},
     'sun-Телец':{core:'Созидатель и хранитель. Твоя сила — в устойчивости, практичности и умении наслаждаться жизнью.',gift:'надёжность, терпение, чувство красоты',shadow:'упрямство, материализм, сопротивление переменам'},
@@ -516,7 +291,6 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     'sun-Козерог':{core:'Стратег и строитель. Дисциплина, амбиции и ответственность.',gift:'целеустремлённость, надёжность, мудрость',shadow:'холодность, пессимизм, трудоголизм'},
     'sun-Водолей':{core:'Новатор и гуманист. Оригинальность, независимость и забота о человечестве.',gift:'креативность, объективность, дружелюбие',shadow:'отстранённость, упрямство, непредсказуемость'},
     'sun-Рыбы':{core:'Мистик и творец. Чувствительность, воображение и сострадание.',gift:'интуиция, творчество, эмпатия',shadow:'иллюзии, жертвенность, уход от реальности'},
-
     'moon-Овен':{core:'Эмоции быстрые и прямые. Нуждаешься в действии для эмоционального комфорта.',gift:'быстрое восстановление, эмоциональная смелость',shadow:'вспыльчивость, нетерпеливость'},
     'moon-Телец':{core:'Эмоциональная стабильность через комфорт и безопасность.',gift:'устойчивость, способность создавать уют',shadow:'упрямство, эмоциональная инерция'},
     'moon-Близнецы':{core:'Эмоции через общение и информацию. Нужно говорить, чтобы чувствовать.',gift:'лёгкость, адаптивность',shadow:'поверхностность, беспокойство'},
@@ -529,7 +303,6 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     'moon-Козерог':{core:'Сдержанность в эмоциях. Контроль и ответственность.',gift:'надёжность, дисциплина',shadow:'холодность, подавление'},
     'moon-Водолей':{core:'Эмоциональная независимость. Дружба важнее близости.',gift:'объективность, свобода',shadow:'отстранённость'},
     'moon-Рыбы':{core:'Чувствительность и эмпатия. Растворение в других.',gift:'сострадание, интуиция',shadow:'жертвенность, иллюзии'},
-
     'mercury-Овен':{core:'Быстрый, прямой ум. Решительность в суждениях.',gift:'скорость мышления, честность',shadow:'резкость, нетерпеливость'},
     'mercury-Телец':{core:'Медленный, основательный ум. Практичное мышление.',gift:'надёжность, упорство',shadow:'упрямство, медлительность'},
     'mercury-Близнецы':{core:'Быстрый, гибкий ум. Любопытство и эрудиция.',gift:'коммуникабельность, обучаемость',shadow:'поверхностность'},
@@ -542,7 +315,6 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     'mercury-Козерог':{core:'Структурное, серьёзное мышление.',gift:'дисциплина',shadow:'сухость'},
     'mercury-Водолей':{core:'Оригинальное, независимое мышление.',gift:'креативность',shadow:'упрямство'},
     'mercury-Рыбы':{core:'Образное, интуитивное мышление.',gift:'воображение',shadow:'неточность'},
-
     'venus-Овен':{core:'Страсть и погоня в любви. Прямота в чувствах.',gift:'смелость',shadow:'нетерпеливость'},
     'venus-Телец':{core:'Чувственность, стабильность, красота.',gift:'верность',shadow:'собственничество'},
     'venus-Близнецы':{core:'Лёгкость, флирт, общение.',gift:'игривость',shadow:'непостоянство'},
@@ -555,7 +327,6 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     'venus-Козерог':{core:'Серьёзность, ответственность.',gift:'надёжность',shadow:'холодность'},
     'venus-Водолей':{core:'Свобода, дружба.',gift:'независимость',shadow:'отстранённость'},
     'venus-Рыбы':{core:'Романтика, сострадание.',gift:'нежность',shadow:'жертвенность'},
-
     'mars-Овен':{core:'Энергия действия. Смелость и инициатива.',gift:'решительность',shadow:'агрессия'},
     'mars-Телец':{core:'Упорная, устойчивая энергия.',gift:'выносливость',shadow:'упрямство'},
     'mars-Близнецы':{core:'Энергия через общение.',gift:'адаптивность',shadow:'рассеянность'},
@@ -568,7 +339,6 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     'mars-Козерог':{core:'Дисциплинированная энергия.',gift:'амбиции',shadow:'жёсткость'},
     'mars-Водолей':{core:'Независимая энергия.',gift:'оригинальность',shadow:'упрямство'},
     'mars-Рыбы':{core:'Интуитивная энергия.',gift:'сострадание',shadow:'пассивность'},
-
     'jupiter-Овен':{core:'Рост через инициативу.',gift:'энтузиазм',shadow:'риск'},
     'jupiter-Телец':{core:'Рост через стабильность.',gift:'изобилие',shadow:'избыток'},
     'jupiter-Близнецы':{core:'Рост через знания.',gift:'любопытство',shadow:'поверхностность'},
@@ -581,7 +351,6 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     'jupiter-Козерог':{core:'Рост через труд.',gift:'ответственность',shadow:'пессимизм'},
     'jupiter-Водолей':{core:'Рост через инновации.',gift:'оригинальность',shadow:'отстранённость'},
     'jupiter-Рыбы':{core:'Рост через духовность.',gift:'сострадание',shadow:'иллюзии'},
-
     'saturn-Овен':{core:'Урок смелости и ответственности.',gift:'зрелость',shadow:'страх'},
     'saturn-Телец':{core:'Урок стабильности.',gift:'терпение',shadow:'упрямство'},
     'saturn-Близнецы':{core:'Урок концентрации.',gift:'мудрость',shadow:'замкнутость'},
@@ -594,7 +363,6 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     'saturn-Козерог':{core:'Урок баланса.',gift:'достижения',shadow:'трудоголизм'},
     'saturn-Водолей':{core:'Урок принадлежности.',gift:'гуманизм',shadow:'бунт'},
     'saturn-Рыбы':{core:'Урок границ.',gift:'духовность',shadow:'страх'},
-
     'asc-Овен':{core:'Впечатление смелого человека.',gift:'инициатива',shadow:'резкость'},
     'asc-Телец':{core:'Впечатление надёжности.',gift:'устойчивость',shadow:'медлительность'},
     'asc-Близнецы':{core:'Впечатление общительности.',gift:'лёгкость',shadow:'поверхностность'},
@@ -624,7 +392,7 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     12:{title:'Дом подсознания',desc:'Тайное, уединение, карма.'}
   };
 
-  var PLANET_ACTION={sun:'ты светишь и проявляешь себя',moon:'ты чувствуешь и заботишься',asc:'ты показываешь себя миру',mercury:'ты думаешь и общаешься',venus:'ты любишь и ценишь',mars:'ты действуешь и стремишься',jupiter:'ты растёшь и расширяешься',saturn:'ты Строишь и ограничиваешь'};
+  var PLANET_ACTION={sun:'ты светишь и проявляешь себя',moon:'ты чувствуешь и заботишься',asc:'ты показываешь себя миру',mercury:'ты думаешь и общаешься',venus:'ты любишь и ценишь',mars:'ты действуешь и стремишься',jupiter:'ты растёшь и расширяешься',saturn:'ты строишь и ограничиваешь'};
   
   var PLANETS={
     sun:{glyph:'☉',name:'Солнце',domain:'суть личности'},
