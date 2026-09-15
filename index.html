@@ -54,16 +54,75 @@ p.lead{text-align:center;color:#c9d0da;font-size:15.5px;line-height:1.55;margin:
 .card{position:relative;width:100%;height:520px;transform-style:preserve-3d;transition:transform 0.7s cubic-bezier(.2,.8,.25,1);cursor:pointer;}
 .card.flipped{transform:rotateY(180deg);}
 .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:22px;display:flex;flex-direction:column;border:1px solid rgba(245,245,245,0.14);overflow:hidden;}
-.face-front{background:radial-gradient(ellipse at 30% 20%, rgba(123,31,162,0.4) 0%, transparent 50%),radial-gradient(ellipse at 70% 80%, rgba(194,24,91,0.3) 0%, transparent 50%),linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);padding:26px 22px;}
-.constellation-container{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0.6;}
-.constellation-svg{position:absolute;inset:0;width:100%;height:100%;}
-.constellation-star{fill:#fff;filter:drop-shadow(0 0 6px rgba(255,255,255,0.9));animation:constellationTwinkle 3s ease-in-out infinite;}
-.constellation-line{stroke:rgba(136,186,198,0.4);stroke-width:1;fill:none;stroke-linecap:round;}
-@keyframes constellationTwinkle{0%,100%{opacity:0.5;}50%{opacity:1;}}
-.front-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:rgba(13,27,42,0.3);backdrop-filter:blur(2px);border-radius:16px;padding:20px;}
-.front-content .glyph{font-size:52px;width:96px;height:96px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(194,24,91,0.4),rgba(123,17,162,0.4));border:2px solid rgba(245,245,245,0.3);box-shadow:0 0 30px rgba(194,24,91,0.4);}
+
+/* ===== КОСМИЧЕСКИЙ ФОН КАРТОЧКИ ===== */
+.face-front{
+  background: 
+    radial-gradient(ellipse at 30% 20%, rgba(123,31,162,0.5) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(194,24,91,0.4) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(13,27,42,0.8) 0%, transparent 70%),
+    linear-gradient(180deg, #0a0e27 0%, #1a1a3e 30%, #0f1e3d 60%, #0a0e27 100%);
+  padding:26px 22px;
+}
+
+/* ===== СОЗВЕЗДИЕ СПРАВА СБОКУ ===== */
+.constellation-container{
+  position:absolute;
+  right:0;
+  top:0;
+  width:45%;
+  height:100%;
+  z-index:0;
+  pointer-events:none;
+  opacity:0.7;
+}
+.constellation-svg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+.constellation-star{
+  fill:#fff;
+  filter:drop-shadow(0 0 8px rgba(255,255,255,1));
+  animation:constellationTwinkle 3s ease-in-out infinite;
+}
+.constellation-line{
+  stroke:rgba(136,186,198,0.6);
+  stroke-width:1.5;
+  fill:none;
+  stroke-linecap:round;
+}
+@keyframes constellationTwinkle{0%,100%{opacity:0.6;}50%{opacity:1;}}
+
+/* ===== КОНТЕНТ СЛЕВА ПО ЦЕНТРУ ===== */
+.front-content{
+  position:relative;
+  z-index:2;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  width:55%;
+  margin-right:auto;
+}
+.front-content .glyph{
+  font-size:52px;
+  width:96px;
+  height:96px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,rgba(194,24,91,0.5),rgba(123,17,162,0.5));
+  border:2px solid rgba(245,245,245,0.4);
+  box-shadow:0 0 40px rgba(194,24,91,0.6);
+}
 .front-content .tap-hint{color:#88BAC6;font-size:13.5px;opacity:0.9;}
-.front-content .pname{font-size:22px;font-weight:600;}
+.front-content .pname{font-size:22px;font-weight:600;text-shadow:0 2px 10px rgba(0,0,0,0.5);}
+
 .face-back{background:linear-gradient(165deg,rgba(51,58,87,0.95),rgba(13,27,42,0.98));transform:rotateY(180deg);padding:26px 22px;}
 .back-content{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100%;overflow-y:auto;padding-right:8px;}
 .face-back .domain{font-size:12.5px;color:#88BAC6;font-weight:600;margin-bottom:6px;}
@@ -76,6 +135,7 @@ p.lead{text-align:center;color:#c9d0da;font-size:15.5px;line-height:1.55;margin:
 .house-note .house-title{display:block;color:#88BAC6;font-size:12.5px;font-weight:600;margin-bottom:6px;}
 .house-note p{margin:0 0 6px;}
 .house-note p:last-child{margin-bottom:0;}
+
 .cards-nav{display:flex;gap:10px;}
 .recap{list-style:none;margin:0 0 20px;padding:0;display:flex;flex-direction:column;gap:10px;}
 .recap li{display:flex;align-items:center;gap:12px;background:rgba(245,245,245,0.06);border:1px solid rgba(245,245,245,0.14);border-radius:14px;padding:11px 14px;font-size:14px;}
@@ -373,7 +433,7 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
   var PLANET_ACTION={sun:'ты проявляешь себя и светишь',moon:'ты ищешь эмоциональную опору',asc:'ты показываешь себя миру',mercury:'ты думаешь, учишься и говоришь',venus:'ты любишь и создаёшь красоту',mars:'ты действуешь и идёшь напролом',jupiter:'ты растёшь и находишь удачу',saturn:'ты берёшь ответственность и проходишь главные уроки'};
   var PLANETS={
     sun:{glyph:'☉',name:'Солнце',domain:'суть личности и жизненная сила'},
-    moon:{glyph:'☾',name:'Луна',domain:'эмоции и внутренний мир'},
+    moon:{glyph:'',name:'Луна',domain:'эмоции и внутренний мир'},
     asc:{glyph:'AC',name:'Асцендент',domain:'первое впечатление и подача себя'},
     mercury:{glyph:'☿',name:'Меркурий',domain:'мышление и общение'},
     venus:{glyph:'♀',name:'Венера',domain:'любовь и ценности'},
@@ -400,7 +460,6 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     ['Стамбул',41.0082,28.9784,3],['Бангкок',13.7563,100.5018,7],['Лимасол',34.6841,33.0379,2]
   ];
 
-  // Создаём datalist с городами
   var cityList=document.getElementById('city-list');
   CITIES.forEach(function(c){
     var option=document.createElement('option');
@@ -411,7 +470,6 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
   var cityInput=document.getElementById('inp-city');
   var manualBlock=document.getElementById('manual-fields');
   
-  // При вводе города ищем его в базе
   cityInput.addEventListener('input',function(){
     var cityName=this.value.trim();
     var found=false;
