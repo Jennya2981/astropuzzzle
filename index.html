@@ -59,16 +59,69 @@ p.lead{text-align:center;color:#c9d0da;font-size:15.5px;line-height:1.55;margin:
 
 /* ===== КОСМИЧЕСКИЙ ФОН КАРТОЧКИ ===== */
 .face-front{
-  background: 
-    radial-gradient(ellipse at 25% 30%, rgba(123,31,162,0.5) 0%, transparent 55%),
-    radial-gradient(ellipse at 75% 70%, rgba(194,24,91,0.4) 0%, transparent 55%),
-    radial-gradient(ellipse at 50% 50%, rgba(15,52,96,0.6) 0%, transparent 70%),
-    linear-gradient(180deg, #1a0a2e 0%, #16213e 50%, #0f3460 100%);
-  padding:26px 22px;
+  background: #05051a;
+  padding:0;
+  position: relative;
+}
+.face-front::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(1px 1px at 10% 20%, #fff, transparent),
+    radial-gradient(1px 1px at 20% 40%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 30% 10%, #fff, transparent),
+    radial-gradient(1px 1px at 40% 60%, #fff, transparent),
+    radial-gradient(1px 1px at 50% 30%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 60% 80%, #fff, transparent),
+    radial-gradient(1px 1px at 70% 50%, #fff, transparent),
+    radial-gradient(1px 1px at 80% 20%, #fff, transparent),
+    radial-gradient(1px 1px at 90% 70%, #fff, transparent),
+    radial-gradient(1px 1px at 15% 85%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 25% 55%, #fff, transparent),
+    radial-gradient(1px 1px at 35% 90%, #fff, transparent),
+    radial-gradient(1px 1px at 45% 15%, #fff, transparent),
+    radial-gradient(1px 1px at 55% 75%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 65% 45%, #fff, transparent),
+    radial-gradient(1px 1px at 75% 95%, #fff, transparent),
+    radial-gradient(1px 1px at 85% 35%, #fff, transparent),
+    radial-gradient(1px 1px at 95% 5%, #fff, transparent),
+    radial-gradient(1px 1px at 5% 50%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 12% 65%, #fff, transparent),
+    radial-gradient(1px 1px at 22% 8%, #fff, transparent),
+    radial-gradient(1px 1px at 32% 48%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 42% 88%, #fff, transparent),
+    radial-gradient(1px 1px at 52% 18%, #fff, transparent),
+    radial-gradient(1px 1px at 62% 58%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 72% 8%, #fff, transparent),
+    radial-gradient(1px 1px at 82% 48%, #fff, transparent),
+    radial-gradient(1px 1px at 92% 88%, #fff, transparent),
+    radial-gradient(1px 1px at 8% 28%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 18% 68%, #fff, transparent),
+    radial-gradient(1px 1px at 28% 98%, #fff, transparent),
+    radial-gradient(1px 1px at 38% 38%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 48% 78%, #fff, transparent),
+    radial-gradient(1px 1px at 58% 18%, #fff, transparent),
+    radial-gradient(1px 1px at 68% 58%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 78% 98%, #fff, transparent),
+    radial-gradient(1px 1px at 88% 38%, #fff, transparent),
+    radial-gradient(1px 1px at 98% 78%, #fff, transparent),
+    radial-gradient(1px 1px at 3% 13%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 13% 53%, #fff, transparent),
+    radial-gradient(1px 1px at 23% 93%, #fff, transparent),
+    radial-gradient(1px 1px at 33% 33%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 43% 73%, #fff, transparent),
+    radial-gradient(1px 1px at 53% 13%, #fff, transparent),
+    radial-gradient(1px 1px at 63% 53%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 73% 93%, #fff, transparent),
+    radial-gradient(1px 1px at 83% 33%, #fff, transparent),
+    radial-gradient(1px 1px at 93% 73%, #fff, transparent);
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* ===== СОЗВЕЗДИЕ НА ЗАДНЕМ ПЛАНЕ ===== */
-.constellation-container{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0.7;}
+.constellation-container{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0.7;}
 .constellation-svg{position:absolute;inset:0;width:100%;height:100%;}
 .constellation-star{fill:#fff;filter:drop-shadow(0 0 6px rgba(255,255,255,0.9));animation:constellationTwinkle 3s ease-in-out infinite;}
 .constellation-line{stroke:rgba(136,186,198,0.5);stroke-width:1.5;fill:none;stroke-linecap:round;}
@@ -93,6 +146,7 @@ p.lead{text-align:center;color:#c9d0da;font-size:15.5px;line-height:1.55;margin:
   display:flex;
   align-items:center;
   justify-content:center;
+  z-index: 2;
   background:linear-gradient(135deg,rgba(194,24,91,0.5),rgba(123,17,162,0.5));
   border:2px solid rgba(245,245,245,0.35);
   box-shadow:0 0 40px rgba(194,24,91,0.5), inset 0 0 30px rgba(123,17,162,0.3);
