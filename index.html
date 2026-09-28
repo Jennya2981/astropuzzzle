@@ -1,280 +1,669 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Астрологическая карта - Южный Узел</title>
-    <!-- Подключаем библиотеку для создания скриншотов -->
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #1a1c2e 0%, #0f1016 100%);
-            color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* Индикаторы (точки сверху) */
-        .dots-container {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #4a5568;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .dot.active {
-            background-color: #d53f8c; /* Розовый цвет как на скриншоте */
-            transform: scale(1.2);
-        }
-
-        /* Карточка */
-        .card {
-            background: #2d3748;
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            border: 1px solid #4a5568;
-        }
-
-        .card-subtitle {
-            color: #a0aec0;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-
-        .card-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .card-title span {
-            font-size: 20px;
-        }
-
-        .card-text {
-            font-size: 15px;
-            line-height: 1.6;
-            color: #e2e8f0;
-            margin-bottom: 16px;
-        }
-
-        .traits {
-            margin-bottom: 16px;
-        }
-
-        .trait {
-            font-size: 15px;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-        }
-
-        .trait-label {
-            font-weight: bold;
-            margin-right: 5px;
-        }
-
-        .trait.gift .trait-label { color: #48bb78; }
-        .trait.shadow .trait-label { color: #f56565; }
-
-        .divider {
-            height: 1px;
-            background-color: #4a5568;
-            margin: 20px 0;
-        }
-
-        .house-info {
-            margin-top: 20px;
-        }
-
-        .house-title {
-            color: #90cdf4;
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .house-text {
-            font-size: 14px;
-            color: #a0aec0;
-            line-height: 1.5;
-        }
-
-        /* Кнопки */
-        .buttons-container {
-            display: flex;
-            gap: 12px;
-            margin-top: 10px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 16px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .btn:active {
-            opacity: 0.8;
-        }
-
-        .btn-back {
-            background-color: #2d3748;
-            color: #ffffff;
-            border: 1px solid #4a5568;
-        }
-
-        .btn-finish {
-            background: linear-gradient(90deg, #d53f8c 0%, #805ad5 100%);
-            color: #ffffff;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASTRO COACH — Карты натальной карты</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{min-height:100vh;background:#0D1B2A;color:#F5F5F5;font-family:system-ui,-apple-system,sans-serif;overflow-x:hidden;}
+#sky{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 20% 15%,rgba(66,44,71,0.55),transparent 55%),radial-gradient(ellipse at 85% 75%,rgba(51,58,87,0.55),transparent 55%),#0D1B2A;}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle 3.4s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0.15;}50%{opacity:0.9;}}
+.orb{position:absolute;border-radius:50%;filter:blur(2px);opacity:0.5;animation:drift 46s ease-in-out infinite;}
+.orb.o1{width:260px;height:260px;left:-60px;top:8%;background:radial-gradient(circle at 35% 35%,#7B1FA2,transparent 70%);animation-duration:52s;}
+.orb.o2{width:200px;height:200px;right:-40px;top:55%;background:radial-gradient(circle at 40% 40%,#C2185B,transparent 70%);animation-duration:60s;}
+.orb.o3{width:160px;height:160px;left:12%;bottom:-40px;background:radial-gradient(circle at 40% 40%,#4D869B,transparent 70%);animation-duration:44s;}
+@keyframes drift{0%,100%{transform:translate(0,0);}50%{transform:translate(22px,-28px);}}
+#app{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px 18px;}
+.screen{width:100%;max-width:460px;display:none;animation:rise 0.5s ease both;}
+.screen.active{display:block;}
+@keyframes rise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.brand{display:flex;align-items:center;gap:8px;font-size:13px;color:#88BAC6;margin-bottom:26px;justify-content:center;}
+.brand span.dot{width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,#C2185B,#7B1FA2);}
+h1{font-size:30px;margin:0 0 14px;text-align:center;line-height:1.2;}
+h2{font-size:22px;margin:0 0 10px;text-align:center;}
+p.lead{text-align:center;color:#c9d0da;font-size:15.5px;line-height:1.55;margin:0 0 30px;}
+.panel{background:linear-gradient(165deg,rgba(51,58,87,0.55),rgba(13,27,42,0.55));border:1px solid rgba(245,245,245,0.14);border-radius:22px;padding:26px 22px;}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;padding:15px 20px;border-radius:999px;border:none;font-weight:700;font-size:15.5px;cursor:pointer;transition:transform 0.15s;text-decoration:none;}
+.btn:active{transform:scale(0.98);}
+.btn-primary{background:linear-gradient(100deg,#C2185B,#7B1FA2);color:#fff;}
+.btn-secondary{background:rgba(77,134,155,0.18);color:#F5F5F5;border:1px solid rgba(136,186,198,0.35);}
+.btn:disabled{opacity:0.35;cursor:not-allowed;}
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:13px;color:#88BAC6;margin-bottom:7px;font-weight:600;}
+.field input,.field select{width:100%;padding:13px 14px;border-radius:13px;background:rgba(245,245,245,0.95);border:1px solid rgba(245,245,245,0.14);color:#1a1a2e;font-size:15px;}
+.field input::placeholder{color:#666;}
+.field input:focus,.field select:focus{outline:2px solid #C2185B;outline-offset:1px;}
+.checkline{display:flex;align-items:center;gap:9px;margin:-4px 0 18px;}
+.checkline input{width:17px;height:17px;accent-color:#C2185B;}
+.checkline label{font-size:13.5px;color:#c9d0da;margin:0;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.manual-fields{display:none;margin-top:4px;border-top:1px dashed rgba(245,245,245,0.14);padding-top:14px;}
+.manual-fields.show{display:block;}
+.hint{font-size:12px;color:#c9d0da;opacity:0.75;margin-top:-8px;margin-bottom:16px;}
+.loader-wrap{display:flex;flex-direction:column;align-items:center;gap:22px;padding:60px 0;}
+.loader-ring{width:64px;height:64px;border-radius:50%;border:2px solid rgba(245,245,245,0.15);border-top-color:#C2185B;border-right-color:#7B1FA2;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loader-text{color:#c9d0da;font-size:14px;text-align:center;}
+.progress{display:flex;justify-content:center;gap:7px;margin-bottom:16px;}
+.progress .d{width:7px;height:7px;border-radius:50%;background:rgba(245,245,245,0.2);}
+.progress .d.on{background:linear-gradient(135deg,#C2185B,#7B1FA2);}
+.progress .d.done{background:#88BAC6;}
+.stage{perspective:1400px;margin-bottom:14px;}
+.card{position:relative;width:100%;height:580px;transform-style:preserve-3d;transition:transform 0.7s cubic-bezier(.2,.8,.25,1);cursor:pointer;}
+.card.flipped{transform:rotateY(180deg);}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:22px;display:flex;flex-direction:column;border:1px solid rgba(245,245,245,0.14);overflow:hidden;}
+.face-front{background-color:#05051a;background-image:radial-gradient(1px 1px at 10% 20%, #fff, transparent),radial-gradient(1px 1px at 20% 40%, #fff, transparent),radial-gradient(1.5px 1.5px at 30% 10%, #fff, transparent),radial-gradient(1px 1px at 40% 60%, #fff, transparent),radial-gradient(1px 1px at 50% 30%, #fff, transparent),radial-gradient(1.5px 1.5px at 60% 80%, #fff, transparent),radial-gradient(1px 1px at 70% 50%, #fff, transparent),radial-gradient(1px 1px at 80% 20%, #fff, transparent),radial-gradient(1px 1px at 90% 70%, #fff, transparent),radial-gradient(1px 1px at 15% 85%, #fff, transparent),radial-gradient(1.5px 1.5px at 25% 55%, #fff, transparent),radial-gradient(1px 1px at 35% 90%, #fff, transparent),radial-gradient(1px 1px at 45% 15%, #fff, transparent),radial-gradient(1px 1px at 55% 75%, #fff, transparent),radial-gradient(1.5px 1.5px at 65% 45%, #fff, transparent),radial-gradient(1px 1px at 75% 95%, #fff, transparent),radial-gradient(1px 1px at 85% 35%, #fff, transparent),radial-gradient(1px 1px at 95% 5%, #fff, transparent),radial-gradient(1px 1px at 5% 50%, #fff, transparent),radial-gradient(1.5px 1.5px at 12% 65%, #fff, transparent),radial-gradient(1px 1px at 22% 8%, #fff, transparent),radial-gradient(1px 1px at 32% 48%, #fff, transparent),radial-gradient(1.5px 1.5px at 42% 88%, #fff, transparent),radial-gradient(1px 1px at 52% 18%, #fff, transparent),radial-gradient(1px 1px at 62% 58%, #fff, transparent),radial-gradient(1.5px 1.5px at 72% 8%, #fff, transparent),radial-gradient(1px 1px at 82% 48%, #fff, transparent),radial-gradient(1px 1px at 92% 88%, #fff, transparent),radial-gradient(1px 1px at 8% 28%, #fff, transparent),radial-gradient(1.5px 1.5px at 18% 68%, #fff, transparent),radial-gradient(1px 1px at 28% 98%, #fff, transparent),radial-gradient(1px 1px at 38% 38%, #fff, transparent),radial-gradient(1.5px 1.5px at 48% 78%, #fff, transparent),radial-gradient(1px 1px at 58% 18%, #fff, transparent),radial-gradient(1px 1px at 68% 58%, #fff, transparent),radial-gradient(1.5px 1.5px at 78% 98%, #fff, transparent),radial-gradient(1px 1px at 88% 38%, #fff, transparent),radial-gradient(1px 1px at 98% 78%, #fff, transparent),radial-gradient(1px 1px at 3% 13%, #fff, transparent),radial-gradient(1.5px 1.5px at 13% 53%, #fff, transparent),radial-gradient(1px 1px at 23% 93%, #fff, transparent),radial-gradient(1px 1px at 33% 33%, #fff, transparent),radial-gradient(1.5px 1.5px at 43% 73%, #fff, transparent),radial-gradient(1px 1px at 53% 13%, #fff, transparent),radial-gradient(1px 1px at 63% 53%, #fff, transparent),radial-gradient(1.5px 1.5px at 73% 93%, #fff, transparent),radial-gradient(1px 1px at 83% 33%, #fff, transparent),radial-gradient(1px 1px at 93% 73%, #fff, transparent),radial-gradient(1px 1px at 7% 43%, #fff, transparent),radial-gradient(1.5px 1.5px at 17% 83%, #fff, transparent),radial-gradient(1px 1px at 27% 23%, #fff, transparent),radial-gradient(1px 1px at 37% 63%, #fff, transparent),radial-gradient(1.5px 1.5px at 47% 3%, #fff, transparent),radial-gradient(1px 1px at 57% 43%, #fff, transparent),radial-gradient(1px 1px at 67% 83%, #fff, transparent),radial-gradient(1.5px 1.5px at 77% 23%, #fff, transparent),radial-gradient(1px 1px at 87% 63%, #fff, transparent),radial-gradient(1px 1px at 97% 3%, #fff, transparent);padding:0;}
+.constellation-container{position:absolute;top:0;left:0;right:0;height:55%;z-index:1;pointer-events:none;overflow:hidden;}
+.constellation-svg{position:absolute;top:10%;left:10%;width:80%;height:80%;}
+.constellation-star{fill:#fff;filter:drop-shadow(0 0 6px rgba(255,255,255,1));animation:constellationTwinkle 3s ease-in-out infinite;}
+.constellation-line{stroke:rgba(136,186,198,0.7);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+@keyframes constellationTwinkle{0%,100%{opacity:0.6;}50%{opacity:1;}}
+.front-content{position:absolute;top:55%;left:0;right:0;bottom:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:20px;}
+.front-content .glyph{font-size:58px;width:110px;height:110px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(194,24,91,0.5),rgba(123,17,162,0.5));border:2px solid rgba(245,245,245,0.35);box-shadow:0 0 40px rgba(194,24,91,0.5), inset 0 0 30px rgba(123,17,162,0.3);}
+.front-content .tap-hint{color:#88BAC6;font-size:14px;opacity:0.9;}
+.front-content .pname{font-size:24px;font-weight:600;letter-spacing:0.5px;}
+.face-back{background:linear-gradient(165deg,rgba(51,58,87,0.95),rgba(13,27,42,0.98));transform:rotateY(180deg);padding:26px 22px;}
+.back-content{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100%;overflow-y:auto;padding-right:8px;}
+.face-back .domain{font-size:12.5px;color:#88BAC6;font-weight:600;margin-bottom:6px;}
+.face-back h3{font-size:20px;margin:0 0 14px;line-height:1.3;}
+.thesis{list-style:none;margin:0 0 14px;padding:0;display:flex;flex-direction:column;gap:10px;}
+.thesis li{padding-left:16px;position:relative;font-size:14.5px;line-height:1.5;}
+.thesis li::before{content:"—";position:absolute;left:0;color:#88BAC6;}
+.thesis li b{color:#F5F5F5;font-weight:700;}
+.house-note{margin-top:auto;padding-top:12px;border-top:1px solid rgba(245,245,245,0.14);font-size:13px;color:#c9d0da;line-height:1.5;}
+.house-note .house-title{display:block;color:#88BAC6;font-size:12.5px;font-weight:600;margin-bottom:6px;}
+.house-note p{margin:0 0 6px;}
+.house-note p:last-child{margin-bottom:0;}
+.cards-nav{display:flex;gap:10px;margin-top:0;}
+.recap{list-style:none;margin:0 0 20px;padding:0;display:flex;flex-direction:column;gap:10px;}
+.recap li{display:flex;align-items:center;gap:12px;background:rgba(245,245,245,0.06);border:1px solid rgba(245,245,245,0.14);border-radius:14px;padding:11px 14px;font-size:14px;}
+.recap .g{width:34px;height:34px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(77,134,155,0.35),rgba(66,44,71,0.5));font-size:15px;}
+.recap .t b{display:block;color:#F5F5F5;}
+.recap .t span{color:#c9d0da;font-size:12.5px;}
+.portrait{font-size:14.5px;line-height:1.6;color:#F5F5F5;margin-bottom:22px;padding:16px;border-left:2px solid #C2185B;background:rgba(245,245,245,0.06);border-radius:0 14px 14px 0;}
+.cta-panel{background:linear-gradient(135deg,#C2185B,#7B1FA2);border-radius:20px;padding:24px 20px;text-align:center;margin-bottom:14px;}
+.cta-panel h3{font-size:18px;margin:0 0 8px;}
+.cta-panel p{font-size:14px;margin:0 0 18px;opacity:0.94;line-height:1.5;}
+.cta-panel .btn{background:#fff;color:#422C47;box-shadow:none;}
+.share-buttons{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+.share-buttons .btn{flex:1;min-width:140px;font-size:14px;padding:12px 16px;}
+footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-top:18px;}
+.link-quiet{display:block;text-align:center;margin-top:16px;color:#c9d0da;font-size:13.5px;text-decoration:underline;cursor:pointer;}
+#screenshot-modal{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.9);align-items:center;justify-content:center;padding:20px;}
+#screenshot-modal.active{display:flex;}
+#screenshot-modal .modal-content{background:#0D1B2A;border-radius:22px;padding:20px;max-width:90%;max-height:90vh;overflow:auto;text-align:center;}
+#screenshot-modal img{max-width:100%;border-radius:14px;margin-bottom:16px;}
+#screenshot-modal .modal-buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+</style>
 </head>
 <body>
 
-    <div class="app-container">
-        <!-- Точки для переключения знаков -->
-        <div class="dots-container" id="dotsContainer"></div>
+<div id="sky"></div>
+<div id="app">
 
-        <!-- Область, которая будет попадать на скриншот -->
-        <div class="card" id="captureArea">
-            <div class="card-subtitle">опыт прошлых жизней и зона комфорта</div>
-            <h1 class="card-title" id="cardTitle">Южный Узел в Весах <span>♎</span></h1>
-            
-            <p class="card-text" id="cardPastLife">— Ты уже умеешь находить баланс и дипломатичность — это твой прошлый опыт.</p>
-            
-            <div class="traits">
-                <div class="trait gift">
-                    <span class="trait-label">— Дар:</span> <span id="cardGift">такт</span>
-                </div>
-                <div class="trait shadow">
-                    <span class="trait-label">— Тень:</span> <span id="cardShadow">нерешительность</span>
-                </div>
-            </div>
-
-            <p class="card-text" id="cardFullText" style="margin-top: 20px;">
-                <!-- Полный текст подгрузится через JS -->
-            </p>
-
-            <div class="divider"></div>
-
-            <div class="house-info">
-                <div class="house-title">11 дом — Дом сообществ и целей</div>
-                <p class="house-text">С кем ты идёшь к общим целям и каким видишь своё будущее. Здесь ты опираешься на опыт прошлых жизней — ярче всего это касается сообществ, друзей и планов на будущее.</p>
-            </div>
-        </div>
-
-        <div class="buttons-container">
-            <button class="btn btn-back" onclick="alert('Возврат назад')">Назад</button>
-            <button class="btn btn-finish" id="btnFinish">Завершить</button>
-        </div>
+  <section class="screen active" id="screen-intro">
+    <div class="brand"><span class="dot"></span>ASTRO COACH</div>
+    <h1>Что говорят звёзды о тебе?</h1>
+    <p class="lead">Введи дату, время и место рождения — и разложи карты своей натальной карты: Солнце, Луна, планеты, Лунные Узлы и асцендент, тезисно и по делу.</p>
+    <div class="panel">
+      <button class="btn btn-primary" id="btn-start">Разложить карты</button>
+      <p class="link-quiet">Займёт около двух минут</p>
     </div>
+  </section>
 
-    <script>
-        // База данных с текстами
-        const southNodeData = {
-            libra: { title: "Южный Узел в Весах", symbol: "♎", past_life: "Ты уже умеешь находить баланс и дипломатичность — это твой прошлый опыт.", gift: "такт", shadow: "нерешительность", full_text: "Твоя душа уже прошла школу партнерства и компромиссов. Ты интуитивно чувствуешь, как сохранить мир и избежать конфликта. Однако твоя теневая сторона — это страх сделать выбор, чтобы никого не обидеть, и растворение в других людях. В этой жизни тебе предстоит научиться говорить «нет», отстаивать свои личные границы и понимать, что иногда здоровый конфликт лучше, чем вынужденный, но фальшивый мир. Твой дар — это истинная эмпатия и умение видеть ситуацию глазами другого человека, но используй его, не забывая о себе." },
-            aries: { title: "Южный Узел в Овне", symbol: "♈", past_life: "Ты привык быть лидером, действовать быстро и полагаться только на себя.", gift: "смелость", shadow: "эгоизм", full_text: "В прошлых воплощениях ты был воином и первопроходцем. Твоя душа знает, как побеждать и отстаивать свои интересы. Но твоя тень — это нетерпение, агрессия и неумение слышать других. В этой жизни тебе предстоит научиться сотрудничеству, терпению и пониманию того, что сила не всегда в кулаке. Твой дар — это инициатива, но теперь её нужно направлять не на борьбу, а на созидание вместе с людьми." },
-            taurus: { title: "Южный Узел в Тельце", symbol: "♉", past_life: "Ты умеешь создавать комфорт, ценить стабильность и наслаждаться материальным миром.", gift: "упорство", shadow: "жадность", full_text: "Твоя душа уже знает цену вещам и умеет накапливать ресурсы. Ты интуитивно понимаешь, как создать уют и безопасность. Однако твоя теневая сторона — это страх перемен, упрямство и привязанность к материальному в ущерб духовному. В этой жизни тебе предстоит научиться отпускать, доверять потоку жизни и понимать, что истинная безопасность находится внутри тебя, а не в банковском счете." },
-            gemini: { title: "Южный Узел в Близнецах", symbol: "♊", past_life: "Ты мастер коммуникации, умеешь собирать информацию и легко адаптируешься.", gift: "любознательность", shadow: "поверхностность", full_text: "Твоя душа прошла школу интеллекта и общения. Ты умеешь находить общий язык с кем угодно и быстро схватывать суть. Но твоя тень — это рассеянность, сплетни и нежелание погружаться в глубину. В этой жизни тебе предстоит научиться фокусироваться, доводить дела до конца и искать не просто информацию, а истинную мудрость." },
-            cancer: { title: "Южный Узел в Раке", symbol: "♋", past_life: "Ты глубоко чувствуешь эмоции, умеешь заботиться и создавать семейный очаг.", gift: "интуиция", shadow: "обидчивость", full_text: "Твоя душа знает всё о любви, семье и эмоциональных связях. Ты умеешь создавать безопасное пространство для близких. Но твоя тень — это чрезмерная чувствительность, манипуляции и страх выйти из зоны комфорта. В этой жизни тебе предстоит научиться эмоциональной независимости и понимать, что забота о себе не эгоизм, а необходимость." },
-            leo: { title: "Южный Узел во Льве", symbol: "♌", past_life: "Ты умеешь вдохновлять, быть в центре внимания и вести за собой.", gift: "творчество", shadow: "тщеславие", full_text: "Твоя душа знает, как сиять и дарить радость другим. Ты прирожденный лидер и творец. Но твоя тень — это гордыня, потребность в постоянном одобрении и драматизация. В этой жизни тебе предстоит научиться скромности и понимать, что истинное величие не требует аплодисментов." },
-            virgo: { title: "Южный Узел в Деве", symbol: "♍", past_life: "Ты умеешь наводить порядок, анализировать и служить общему благу.", gift: "аналитика", shadow: "критичность", full_text: "Твоя душа прошла школу служения и внимания к деталям. Ты умеешь видеть несовершенства и исправлять их. Но твоя тень — это перфекционизм, тревожность и осуждение себя и других. В этой жизни тебе предстоит научиться принимать мир таким, какой он есть, и понимать, что целостность важнее идеальности." },
-            scorpio: { title: "Южный Узел в Скорпионе", symbol: "♏", past_life: "Ты умеешь трансформироваться, видеть скрытые мотивы и проходить через кризисы.", gift: "проницательность", shadow: "манипуляции", full_text: "Твоя душа знает всё о власти, страсти и перерождении. Ты умеешь выживать в самых темных обстоятельствах. Но твоя тень — это подозрительность, желание контролировать и разрушать. В этой жизни тебе предстоит научиться доверию и отпусканию контроля, понимая, что истинная сила в уязвимости." },
-            sagittarius: { title: "Южный Узел в Стрельце", symbol: "♐", past_life: "Ты ищешь смысл жизни, умеешь вдохновлять и смотреть в будущее.", gift: "оптимизм", shadow: "фанатизм", full_text: "Твоя душа прошла школу философии и расширения горизонтов. Ты умеешь видеть большую картину. Но твоя тень — это нетерпимость к чужим взглядам и поверхностное отношение к деталям. В этой жизни тебе предстоит научиться уважать чужие истины и находить мудрость в повседневности." },
-            capricorn: { title: "Южный Узел в Козероге", symbol: "♑", past_life: "Ты умеешь достигать целей, брать на себя ответственность и строить структуры.", gift: "дисциплина", shadow: "холодность", full_text: "Твоя душа знает цену труду и амбициям. Ты умеешь подниматься по карьерной лестнице. Но твоя тень — это эмоциональная закрытость и жертвование личным ради статуса. В этой жизни тебе предстоит научиться гибкости и понимать, что успех без любви пуст." },
-            aquarius: { title: "Южный Узел в Водолее", symbol: "♒", past_life: "Ты умеешь мыслить нестандартно, быть независимым и думать о будущем человечества.", gift: "оригинальность", shadow: "отстраненность", full_text: "Твоя душа прошла школу интеллектуальной свободы и инноваций. Ты умеешь видеть будущее. Но твоя тень — это эмоциональная холодность и бунтарство ради бунтарства. В этой жизни тебе предстоит научиться теплоте и пониманию, что истинная свобода включает в себя и связь с другими." },
-            pisces: { title: "Южный Узел в Рыбах", symbol: "♓", past_life: "Ты умеешь сострадать, чувствовать тонкие энергии и растворяться в бесконечности.", gift: "милосердие", shadow: "иллюзии", full_text: "Твоя душа знает всё о духовности и безусловной любви. Ты умеешь чувствовать боль мира. Но твоя тень — это уход от реальности, жертвенность и самообман. В этой жизни тебе предстоит научиться заземляться и понимать, что помощь другим начинается с заботы о себе." }
-        };
+  <section class="screen" id="screen-form">
+    <div class="brand"><span class="dot"></span>ASTRO COACH</div>
+    <h2>Когда и где ты родился?</h2>
+    <p class="lead">Это нужно, чтобы точно рассчитать положение планет в момент твоего рождения.</p>
+    <div class="panel">
+      <div class="field"><label for="inp-date">Дата рождения</label><input type="date" id="inp-date" min="1920-01-01"></div>
+      <div class="field"><label for="inp-time">Время рождения</label><input type="time" id="inp-time"></div>
+      <div class="checkline"><input type="checkbox" id="inp-notime"><label for="inp-notime">Не знаю точное время — пропустить асцендент и дома</label></div>
+      <div class="field">
+        <label for="inp-city">Город рождения</label>
+        <input type="text" id="inp-city" list="city-list" placeholder="Начни вводить название города...">
+        <datalist id="city-list"></datalist>
+      </div>
+      <div class="manual-fields" id="manual-fields">
+        <div class="grid2">
+          <div class="field"><label for="inp-lat">Широта</label><input type="number" id="inp-lat" step="0.0001" placeholder="напр. 55.7558"></div>
+          <div class="field"><label for="inp-lon">Долгота</label><input type="number" id="inp-lon" step="0.0001" placeholder="напр. 37.6173"></div>
+        </div>
+        <div class="field"><label for="inp-tz">Часовой пояс (UTC±)</label><input type="number" id="inp-tz" step="0.5" placeholder="напр. 3"></div>
+        <p class="hint">Если города нет в списке — введи координаты вручную. Широта: от −90 до 90, долгота: от −180 до 180.</p>
+      </div>
+      <button class="btn btn-primary" id="btn-calc" style="margin-top:6px;">Разложить карты</button>
+      <p class="link-quiet" id="btn-back-intro">Назад</p>
+    </div>
+    <footer class="note">Расчёт приблизительный и учебный. Для точного разбора приходи на консультацию.</footer>
+  </section>
 
-        const signs = Object.keys(southNodeData);
-        let currentIndex = 0; // Начинаем с Весов (libra)
+  <section class="screen" id="screen-loading">
+    <div class="loader-wrap"><div class="loader-ring"></div><div class="loader-text">Считываем положение планет…</div></div>
+  </section>
 
-        // Инициализация точек
-        const dotsContainer = document.getElementById('dotsContainer');
-        signs.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.className = `dot ${index === currentIndex ? 'active' : ''}`;
-            dot.onclick = () => renderCard(index);
-            dotsContainer.appendChild(dot);
-        });
+  <section class="screen" id="screen-cards">
+    <div class="progress" id="progress"></div>
+    <div class="stage">
+      <div class="card" id="card">
+        <div class="face face-front">
+          <div class="constellation-container" id="constellation-container"></div>
+          <div class="front-content">
+            <div class="glyph" id="front-glyph"></div>
+            <div class="pname" id="front-name">Солнце</div>
+            <div class="tap-hint">Нажми на карту, чтобы открыть</div>
+          </div>
+        </div>
+        <div class="face face-back">
+          <div class="back-content">
+            <div class="domain" id="back-domain">суть личности</div>
+            <h3 id="back-title">Солнце в Овне</h3>
+            <ul class="thesis" id="back-thesis"></ul>
+            <div class="house-note" id="back-house"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cards-nav">
+      <button class="btn btn-secondary" id="btn-prev">Назад</button>
+      <button class="btn btn-primary" id="btn-next">Далее</button>
+    </div>
+  </section>
 
-        // Функция отрисовки карточки
-        function renderCard(index) {
-            currentIndex = index;
-            const data = southNodeData[signs[index]];
+  <section class="screen" id="screen-summary">
+    <div class="brand"><span class="dot"></span>ASTRO COACH</div>
+    <h2>Твой краткий портрет по картам</h2>
+    <ul class="recap" id="recap"></ul>
+    <div class="portrait" id="portrait"></div>
+    <div class="cta-panel">
+      <h3>Это только верхний слой карты</h3>
+      <p>Дома, аспекты и транзиты раскрываются на личной консультации.</p>
+      <a class="btn" href="https://vk.ru/astropuzzzle" target="_blank">Перейти в сообщество ВКонтакте</a>
+    </div>
+    <div class="share-buttons">
+      <button class="btn btn-secondary" id="btn-share">📤 Поделиться</button>
+      <button class="btn btn-secondary" id="btn-screenshot"> Скриншот карты</button>
+    </div>
+    <p class="link-quiet" id="btn-restart">Разложить карты заново</p>
+  </section>
 
-            document.getElementById('cardTitle').innerHTML = `${data.title} <span>${data.symbol}</span>`;
-            document.getElementById('cardPastLife').textContent = `— ${data.past_life}`;
-            document.getElementById('cardGift').textContent = data.gift;
-            document.getElementById('cardShadow').textContent = data.shadow;
-            document.getElementById('cardFullText').textContent = data.full_text;
+</div>
 
-            // Обновляем активную точку
-            document.querySelectorAll('.dot').forEach((dot, i) => {
-                dot.className = `dot ${i === index ? 'active' : ''}`;
-            });
-        }
+<div id="screenshot-modal">
+  <div class="modal-content">
+    <img id="screenshot-img" alt="Скриншот карты">
+    <div class="modal-buttons">
+      <button class="btn btn-primary" id="btn-download">💾 Скачать</button>
+      <button class="btn btn-secondary" id="btn-close-modal">Закрыть</button>
+    </div>
+  </div>
+</div>
 
-        // Логика кнопки "Завершить" (Скриншот)
-        document.getElementById('btnFinish').addEventListener('click', () => {
-            const captureArea = document.getElementById('captureArea');
-            
-            // Используем html2canvas для создания скриншота
-            html2canvas(captureArea, {
-                backgroundColor: '#2d3748', // Цвет фона карточки
-                scale: 2 // Для лучшего качества
-            }).then(canvas => {
-                // Создаем ссылку для скачивания
-                const link = document.createElement('a');
-                link.download = `astro-card-${signs[currentIndex]}.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            }).catch(err => {
-                console.error('Ошибка при создании скриншота:', err);
-                alert('Не удалось создать скриншот. Попробуйте еще раз.');
-            });
-        });
+<script>
+(function(){
+  "use strict";
+  
+  var sky=document.getElementById('sky');
+  sky.innerHTML='<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>';
+  for(var i=0;i<80;i++){
+    var s=document.createElement('div');
+    s.className='star';
+    var size=Math.random()*1.6+0.6;
+    s.style.cssText='width:'+size+'px;height:'+size+'px;left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;animation-delay:'+(Math.random()*3.4)+'s;opacity:'+(Math.random()*0.6+0.2).toFixed(2);
+    sky.appendChild(s);
+  }
 
-        // Первичная отрисовка
-        renderCard(currentIndex);
-    </script>
+  var CONSTELLATIONS={
+    'Овен':{stars:[{x:20,y:30},{x:40,y:25},{x:60,y:30},{x:75,y:40},{x:85,y:55},{x:70,y:65},{x:55,y:60}],lines:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6]]},
+    'Телец':{stars:[{x:25,y:40},{x:40,y:30},{x:55,y:35},{x:70,y:30},{x:80,y:45},{x:70,y:60},{x:55,y:65},{x:40,y:60}],lines:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0]]},
+    'Близнецы':{stars:[{x:25,y:25},{x:35,y:45},{x:40,y:65},{x:60,y:25},{x:70,y:45},{x:75,y:65},{x:50,y:40}],lines:[[0,1],[1,2],[3,4],[4,5],[1,6],[6,4]]},
+    'Рак':{stars:[{x:30,y:35},{x:45,y:30},{x:60,y:35},{x:70,y:50},{x:60,y:65},{x:45,y:60},{x:35,y:50}],lines:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,0]]},
+    'Лев':{stars:[{x:20,y:40},{x:35,y:30},{x:50,y:35},{x:65,y:30},{x:80,y:40},{x:75,y:60},{x:60,y:65},{x:45,y:60},{x:50,y:50}],lines:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[2,8],[8,6]]},
+    'Дева':{stars:[{x:25,y:30},{x:40,y:25},{x:55,y:30},{x:70,y:35},{x:75,y:50},{x:65,y:65},{x:50,y:60},{x:35,y:55},{x:50,y:45}],lines:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[2,8],[8,5]]},
+    'Весы':{stars:[{x:25,y:45},{x:40,y:35},{x:55,y:40},{x:70,y:35},{x:80,y:50},{x:70,y:65},{x:50,y:60},{x:35,y:55}],lines:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[1,6],[2,5]]},
+    'Скорпион':{stars:[{x:20,y:35},{x:35,y:30},{x:50,y:35},{x:65,y:30},{x:80,y:35},{x:75,y:55},{x:60,y:65},{x:45,y:60}],lines:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,2]]},
+    'Стрелец':{stars:[{x:30,y:30},{x:45,y:35},{x:60,y:30},{x:75,y:35},{x:80,y:55},{x:70,y:65},{x:55,y:60},{x:50,y:50}],lines:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,0],[2,7],[7,4]]},
+    'Козерог':{stars:[{x:25,y:40},{x:40,y:30},{x:55,y:35},{x:70,y:30},{x:80,y:45},{x:70,y:60},{x:55,y:65},{x:40,y:55}],lines:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0]]},
+    'Водолей':{stars:[{x:20,y:35},{x:35,y:30},{x:50,y:35},{x:65,y:30},{x:80,y:35},{x:70,y:55},{x:55,y:65},{x:40,y:60},{x:30,y:50}],lines:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,0]]},
+    'Рыбы':{stars:[{x:20,y:40},{x:35,y:35},{x:50,y:40},{x:65,y:35},{x:80,y:40},{x:70,y:55},{x:55,y:60},{x:40,y:55},{x:30,y:25},{x:70,y:25}],lines:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[1,8],[3,9]]}
+  };
+
+  function renderConstellation(sign){
+    var container=document.getElementById('constellation-container');
+    container.innerHTML='';
+    var c=CONSTELLATIONS[sign];
+    if(!c)return;
+    var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('class','constellation-svg');
+    svg.setAttribute('viewBox','0 0 100 100');
+    svg.setAttribute('preserveAspectRatio','xMidYMid meet');
+    c.lines.forEach(function(line){
+      var s1=c.stars[line[0]],s2=c.stars[line[1]];
+      var ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+      ln.setAttribute('x1',s1.x);ln.setAttribute('y1',s1.y);
+      ln.setAttribute('x2',s2.x);ln.setAttribute('y2',s2.y);
+      ln.setAttribute('class','constellation-line');
+      svg.appendChild(ln);
+    });
+    c.stars.forEach(function(star,idx){
+      var circ=document.createElementNS('http://www.w3.org/2000/svg','circle');
+      circ.setAttribute('cx',star.x);circ.setAttribute('cy',star.y);
+      circ.setAttribute('r',idx===0?2.5:2);
+      circ.setAttribute('class','constellation-star');
+      circ.style.animationDelay=(idx*0.3)+'s';
+      svg.appendChild(circ);
+    });
+    container.appendChild(svg);
+  }
+
+  var D2R=Math.PI/180,R2D=180/Math.PI;
+  function norm360(x){x=x%360;if(x<0)x+=360;return x;}
+  function toJulian(Y,M,D,h){if(M<=2){Y-=1;M+=12;}var A=Math.floor(Y/100);var B=2-A+Math.floor(A/4);return Math.floor(365.25*(Y+4716))+Math.floor(30.6001*(M+1))+D+B-1524.5+h/24;}
+  function eccAnomaly(Mdeg,e){var M=Mdeg*D2R;var E=M+e*Math.sin(M)*(1+e*Math.cos(M));for(var i=0;i<10;i++){var dE=(E-e*Math.sin(E)-M)/(1-e*Math.cos(E));E-=dE;}return E;}
+  function sunLon(d){var w=norm360(282.9404+4.70935e-5*d);var e=0.016709-1.151e-9*d;var M=norm360(356.0470+0.9856002585*d);var E=eccAnomaly(M,e);var xv=Math.cos(E)-e;var yv=Math.sqrt(1-e*e)*Math.sin(E);var v=norm360(Math.atan2(yv,xv)*R2D);var r=Math.sqrt(xv*xv+yv*yv);return{lon:norm360(v+w),r:r};}
+  function elementsFor(planet,d){switch(planet){case'moon':return{N:norm360(125.04452-0.0529538083*d),i:5.1454,w:norm360(318.0634+0.1643573223*d),a:60.2666,e:0.054900,M:norm360(115.3654+13.0649929509*d)};case'mercury':return{N:48.3313+3.24587e-5*d,i:7.0047,w:29.1241,a:0.387098,e:0.205635,M:norm360(168.6562+4.0923344368*d)};case'venus':return{N:76.6799+2.4659e-5*d,i:3.3946,w:54.8910,a:0.723330,e:0.006773,M:norm360(48.0052+1.6021302244*d)};case'mars':return{N:49.5574+2.11081e-5*d,i:1.8497,w:286.5016,a:1.523688,e:0.093405,M:norm360(18.6021+0.5240207766*d)};case'jupiter':return{N:100.4542+2.76854e-5*d,i:1.3030,w:273.8777,a:5.20256,e:0.048498,M:norm360(19.8950+0.0830853001*d)};case'saturn':return{N:113.6634+2.38980e-5*d,i:2.4886,w:339.3939,a:9.55475,e:0.055546,M:norm360(316.9670+0.0334442282*d)};}}
+  function helioPos(el){var N=el.N*D2R,i=el.i*D2R,w=el.w*D2R;var E=eccAnomaly(el.M,el.e);var xv=el.a*(Math.cos(E)-el.e);var yv=el.a*(Math.sqrt(1-el.e*el.e)*Math.sin(E));var v=Math.atan2(yv,xv);var r=Math.sqrt(xv*xv+yv*yv);var xh=r*(Math.cos(N)*Math.cos(v+w)-Math.sin(N)*Math.sin(v+w)*Math.cos(i));var yh=r*(Math.sin(N)*Math.cos(v+w)+Math.cos(N)*Math.sin(v+w)*Math.cos(i));var zh=r*(Math.sin(v+w)*Math.sin(i));return{xh:xh,yh:yh,zh:zh};}
+  function geoLon(planet,d,xs,ys){var el=elementsFor(planet,d);var p=helioPos(el);if(planet==='moon')return norm360(Math.atan2(p.yh,p.xh)*R2D);var xg=p.xh+xs,yg=p.yh+ys;return norm360(Math.atan2(yg,xg)*R2D);}
+  function ascendantLon(ramc,latDeg){var ecl=23.4393*D2R;var lat=latDeg*D2R;var ramcR=ramc*D2R;var asc=Math.atan2(Math.cos(ramcR),-(Math.sin(ramcR)*Math.cos(ecl)+Math.tan(lat)*Math.sin(ecl)));return norm360(asc*R2D);}
+  function mcLon(ramc){var ecl=23.4393*D2R,ramcR=ramc*D2R;return norm360(Math.atan2(Math.sin(ramcR),Math.cos(ramcR)*Math.cos(ecl))*R2D);}
+  function lonFromRA(raDeg){var ecl=23.4393*D2R,ra=raDeg*D2R;return norm360(Math.atan2(Math.sin(ra),Math.cos(ra)*Math.cos(ecl))*R2D);}
+  function declOf(lonDeg){var ecl=23.4393*D2R;return Math.asin(Math.sin(ecl)*Math.sin(lonDeg*D2R))*R2D;}
+  function solveSemiArcCusp(base,frac,useNocturnal,latDeg,startGuess){var lon=startGuess;for(var iter=0;iter<30;iter++){var d=declOf(lon);var x=Math.tan(latDeg*D2R)*Math.tan(d*D2R);x=Math.max(-1,Math.min(1,useNocturnal?x:-x));var arc=Math.acos(x)*R2D;var targetRA=norm360(base+frac*arc);var newLon=lonFromRA(targetRA);var delta=Math.abs(((newLon-lon+540)%360)-180);lon=newLon;if(delta<1e-6)break;}return lon;}
+  function placidusHouses(ramc,latDeg){var mc=mcLon(ramc);var ic=norm360(mc+180);var asc=ascendantLon(ramc,latDeg);var desc=norm360(asc+180);var raIC=norm360(ramc+180);var c11=solveSemiArcCusp(ramc,1/3,false,latDeg,norm360(mc+20));var c12=solveSemiArcCusp(ramc,2/3,false,latDeg,norm360(mc+40));var c3=solveSemiArcCusp(raIC,-1/3,true,latDeg,norm360(ic-20));var c2=solveSemiArcCusp(raIC,-2/3,true,latDeg,norm360(ic-40));return{1:asc,2:c2,3:c3,4:ic,5:norm360(c11+180),6:norm360(c12+180),7:desc,8:norm360(c2+180),9:norm360(c3+180),10:mc,11:c11,12:c12};}
+  function houseOfLongitude(lon,cusps){for(var i=1;i<=12;i++){var start=cusps[i];var end=cusps[i%12+1];var span=norm360(end-start);var pos=norm360(lon-start);if(pos<span)return i;}return 12;}
+  function ramcOf(jd,lonDegEast){var gmst=280.46061837+360.98564736629*(jd-2451545.0);return norm360(norm360(gmst)+lonDegEast);}
+  function computeChart(Y,M,D,hh,mm,hasTime,lat,lon,tz){
+    var localHours=hh+mm/60;
+    var utHours=localHours-tz;
+    var jd=toJulian(Y,M,D,utHours);
+    var d=jd-2451543.5;
+    var sun=sunLon(d);
+    var xs=sun.r*Math.cos(sun.lon*D2R),ys=sun.r*Math.sin(sun.lon*D2R);
+    var lons={sun:sun.lon};
+    ['moon','mercury','venus','mars','jupiter','saturn'].forEach(function(p){lons[p]=geoLon(p,d,xs,ys);});
+    var moonEl=elementsFor('moon',d);
+    lons.northNode=moonEl.N;
+    lons.southNode=norm360(moonEl.N+180);
+    var res={};
+    Object.keys(lons).forEach(function(k){res[k]={lon:lons[k],sign:SIGNS[Math.floor(norm360(lons[k])/30)],house:null};});
+    if(hasTime){
+      var ramc=ramcOf(jd,lon);
+      var cusps=placidusHouses(ramc,lat);
+      res.asc={lon:cusps[1],sign:SIGNS[Math.floor(norm360(cusps[1])/30)],house:1};
+      Object.keys(res).forEach(function(k){if(k==='asc')return;res[k].house=houseOfLongitude(res[k].lon,cusps);});
+    }
+    return res;
+  }
+
+  var SIGNS=['Овен','Телец','Близнецы','Рак','Лев','Дева','Весы','Скорпион','Стрелец','Козерог','Водолей','Рыбы'];
+  var SIGN_GLYPH={'Овен':'♈','Телец':'♉','Близнецы':'♊','Рак':'♋','Лев':'♌','Дева':'♍','Весы':'♎','Скорпион':'♏','Стрелец':'♐','Козерог':'♑','Водолей':'♒','Рыбы':'♓'};
+  var SIGN_PREPOSITIONAL={'Овен':'Овне','Телец':'Тельце','Близнецы':'Близнецах','Рак':'Раке','Лев':'Льве','Дева':'Деве','Весы':'Весах','Скорпион':'Скорпионе','Стрелец':'Стрельце','Козерог':'Козероге','Водолей':'Водолее','Рыбы':'Рыбах'};
+
+  var PLANET_IN_SIGN = {
+    'sun-Овен':{core:'Ты — воин и первопроходец. Твоя жизненная сила бьёт ключом, ты действуешь импульсивно и смело.',gift:'мгновенная мобилизация энергии и смелость начинать первым',shadow:'вспыльчивость и нетерпение к тем, кто медленнее'},
+    'sun-Телец':{core:'Ты — созидатель и хранитель. Твоя сила в устойчивости, чувственности и умении наслаждаться жизнью.',gift:'невероятная выносливость и способность создавать материальное изобилие',shadow:'упрямство и сопротивление необходимым переменам'},
+    'sun-Близнецы':{core:'Ты — исследователь и коммуникатор. Твоя жизнь питается идеями, информацией и общением.',gift:'лёгкость ума и способность видеть связи между разными вещами',shadow:'поверхностность и разбросанность внимания'},
+    'sun-Рак':{core:'Ты — защитник и хранитель очага. Твоя сила идёт из глубины чувств и эмоциональной интуиции.',gift:'способность создавать эмоциональную безопасность для себя и близких',shadow:'ранимость и уход в оборону при малейшей угрозе'},
+    'sun-Лев':{core:'Ты — творец и лидер. Твоя суть в ярком самовыражении и потребности быть увиденным.',gift:'природная харизма и щедрость сердца',shadow:'гордыня и зависимость от внешнего признания'},
+    'sun-Дева':{core:'Ты — аналитик и служитель. Твоя сила в внимании к деталям и желании быть полезным.',gift:'аналитический ум и практическая надёжность',shadow:'самокритика и тревожность из-за несовершенства'},
+    'sun-Весы':{core:'Ты — дипломат и эстет. Твоя жизнь — это поиск гармонии между собой и другими.',gift:'тонкое чувство баланса и способность создавать красоту',shadow:'нерешительность и зависимость от чужого мнения'},
+    'sun-Скорпион':{core:'Ты — трансформер и исследователь тайн. Твоя суть в глубине и интенсивности.',gift:'проницательность и невероятная сила воли',shadow:'подозрительность и желание контролировать'},
+    'sun-Стрелец':{core:'Ты — философ и искатель истины. Твоя жизнь расширяется через смыслы и горизонты.',gift:'оптимизм и способность видеть картину целиком',shadow:'категоричность и обещания без меры'},
+    'sun-Козерог':{core:'Ты — архитектор и стратег. Твоя сила в дисциплине и долгосрочном видении.',gift:'ответственность и умение достигать высот',shadow:'излишняя строгость к себе и эмоциональная холодность'},
+    'sun-Водолей':{core:'Ты — новатор и гуманист. Твоя суть в независимости и заботе о коллективе.',gift:'нестандартное мышление и объективность',shadow:'эмоциональная отстранённость и упрямая непредсказуемость'},
+    'sun-Рыбы':{core:'Ты — мистик и творец. Твоя сила в чувствительности к невидимому и сострадании.',gift:'эмпатия и богатое воображение',shadow:'растворение в других и уход от реальности'},
+    'moon-Овен':{core:'Твои эмоции вспыхивают мгновенно: ты нуждаешься в действии, чтобы чувствовать себя в безопасности.',gift:'способность быстро восстанавливаться после эмоциональных ударов',shadow:'вспышки гнева и нетерпеливость в близких отношениях'},
+    'moon-Телец':{core:'Ты успокаиваешься через тело и материальный комфорт: еда, прикосновения, стабильность — твоя опора.',gift:'эмоциональная устойчивость и умение создавать уют',shadow:'залипание в привычках и страх отпустить старое'},
+    'moon-Близнецы':{core:'Ты перерабатываешь чувства через слова: тебе нужно говорить, чтобы понимать себя.',gift:'лёгкость в выражении эмоций и адаптивность',shadow:'поверхностное проживание чувств и болтовня вместо глубины'},
+    'moon-Рак':{core:'Ты глубоко чувствующая натура: дом, семья, корни — источник твоей эмоциональной силы.',gift:'невероятная эмпатия и интуиция к близким',shadow:'чрезмерная привязанность и обидчивость'},
+    'moon-Лев':{core:'Твоё сердце нуждается в тепле и признании: ты любишь ярко и хочешь, чтобы это видели.',gift:'тёплая щедрость и способность вдохновлять',shadow:'драматизация эмоций и потребность в постоянном внимании'},
+    'moon-Дева':{core:'Ты проявляешь заботу через помощь и порядок: твои эмоции упорядочены и практичны.',gift:'надёжность и умение замечать мелочи в состоянии близких',shadow:'тревожность и самокритика в моменты уязвимости'},
+    'moon-Весы':{core:'Ты чувствуешь себя хорошо, когда вокруг гармония: конфликты выбивают тебя из колеи.',gift:'тонкое чувство партнёрства и такт',shadow:'подавление своих эмоций ради мира'},
+    'moon-Скорпион':{core:'Твои чувства интенсивны и глубоки: ты любишь и страдаешь на полную мощность.',gift:'способность к настоящей эмоциональной близости',shadow:'ревность, собственничество и эмоциональные манипуляции'},
+    'moon-Стрелец':{core:'Ты восстанавливаешься через свободу: теснота душнит твою душу.',gift:'оптимизм и умение видеть смысл в трудностях',shadow:'избегание глубоких чувств через уход в идеи'},
+    'moon-Козерог':{core:'Ты сдержан в эмоциях и проявляешь заботу через действия.',gift:'надёжность и умение держать удар',shadow:'эмоциональная закрытость и холодность'},
+    'moon-Водолей':{core:'Ты нуждаешься в пространстве даже в близких отношениях.',gift:'эмоциональная независимость и дружелюбие',shadow:'отстранённость в моменты, когда нужна близость'},
+    'moon-Рыбы':{core:'Ты впитываешь эмоции как губка: границы между твоим и чужим размыты.',gift:'глубокое сострадание и интуитивное понимание',shadow:'эмоциональное поглощение и склонность к жертвенности'},
+    'mercury-Овен':{core:'Ты думаешь быстро и говоришь прямо: твой ум — это молния.',gift:'скорость мышления и честность в выражении',shadow:'резкость и нежелание дослушивать'},
+    'mercury-Телец':{core:'Ты мыслишь основательно: твои идеи зрелые и практичные.',gift:'упорство в изучении и надёжность суждений',shadow:'медлительность и сопротивление новым идеям'},
+    'mercury-Близнецы':{core:'Твой ум — фонтан идей: ты схватываешь всё на лету.',gift:'коммуникабельность и эрудиция',shadow:'рассеянность и поверхностность знаний'},
+    'mercury-Рак':{core:'Ты мыслишь через чувства и память: твои слова несут эмоциональный подтекст.',gift:'эмоциональный интеллект и хорошая память',shadow:'субъективность и обидчивость в спорах'},
+    'mercury-Лев':{core:'Ты говоришь ярко и убедительно: твои идеи всегда немного театральны.',gift:'ораторский талант и способность вдохновлять',shadow:'нежелание слышать критику своих идей'},
+    'mercury-Дева':{core:'Твой ум — точный инструмент: ты замечаешь детали.',gift:'аналитичность и точность формулировок',shadow:'критичность и зацикленность на мелочах'},
+    'mercury-Весы':{core:'Ты мыслишь через диалог и взвешиваешь все стороны.',gift:'объективность и умение находить компромисс',shadow:'нерешительность и зависимость от чужих аргументов'},
+    'mercury-Скорпион':{core:'Ты мыслишь глубоко и проницательно: твои слова бьют в суть.',gift:'способность видеть скрытое',shadow:'язвительность и склонность к манипуляциям'},
+    'mercury-Стрелец':{core:'Ты мыслишь масштабно и философски.',gift:'широта взглядов и способность учить',shadow:'поверхностность и категоричность'},
+    'mercury-Козерог':{core:'Ты мыслишь структурно и серьёзно: твои слова имеют вес.',gift:'стратегическое мышление',shadow:'сухость и излишний формализм'},
+    'mercury-Водолей':{core:'Ты мыслишь нестандартно: твои идеи опережают время.',gift:'оригинальность и инновации',shadow:'упрямство в своих взглядах'},
+    'mercury-Рыбы':{core:'Ты мыслишь образами и интуитивно.',gift:'творческое воображение',shadow:'расплывчатость и неточность'},
+    'venus-Овен':{core:'В любви ты охотник: тебя возбуждает погоня и страсть.',gift:'смелость в чувствах и прямота',shadow:'быстрое охлаждение и нетерпеливость'},
+    'venus-Телец':{core:'Ты любишь чувственно и надёжно: для тебя любовь — это стабильность и красота.',gift:'верность и умение создавать красоту',shadow:'собственничество'},
+    'venus-Близнецы':{core:'Тебя привлекает ум и лёгкость: любовь для тебя — это разговор и флирт.',gift:'игривость',shadow:'непостоянство'},
+    'venus-Рак':{core:'Ты любишь глубоко и заботливо: для тебя любовь — это дом и семья.',gift:'нежность',shadow:'чрезмерная привязанность'},
+    'venus-Лев':{core:'Ты любишь ярко и щедро: тебе нужно, чтобы любовь была красивой.',gift:'щедрость сердца',shadow:'требование восхищения'},
+    'venus-Дева':{core:'Ты проявляешь любовь через заботу и внимание к деталям.',gift:'надёжность',shadow:'критичность'},
+    'venus-Весы':{core:'Ты ищешь в любви гармонию и партнёрство.',gift:'дипломатичность',shadow:'зависимость от отношений'},
+    'venus-Скорпион':{core:'Ты любишь интенсивно: для тебя любовь — это полное слияние.',gift:'способность к близости',shadow:'ревность'},
+    'venus-Стрелец':{core:'Ты любишь свободно: тебе нужен партнёр-соратник.',gift:'оптимизм',shadow:'боязнь обязательств'},
+    'venus-Козерог':{core:'Ты любишь серьёзно: для тебя любовь — это долгосрочный проект.',gift:'надёжность',shadow:'эмоциональная сдержанность'},
+    'venus-Водолей':{core:'Ты любишь свободно и по-дружески.',gift:'уважение к свободе',shadow:'отстранённость'},
+    'venus-Рыбы':{core:'Ты любишь романтично и самоотверженно.',gift:'нежность и эмпатия',shadow:'идеализация'},
+    'mars-Овен':{core:'Твоя энергия бьёт ключом: ты действуешь первым, прямо и без колебаний.',gift:'смелость и способность мгновенно мобилизоваться для достижения цели',shadow:'агрессия и нетерпеливость, которые могут привести к конфликтам'},
+    'mars-Телец':{core:'Ты действуешь медленно, но неотвратимо: твоя сила накапливается и бьёт точно в цель.',gift:'невероятная выносливость и способность доводить начатое до конца',shadow:'упрямство и медлительность, которые раздражают окружающих'},
+    'mars-Близнецы':{core:'Твоя энергия рассеяна и подвижна: ты действуешь через слова, идеи и коммуникацию.',gift:'умение действовать в нескольких направлениях сразу и быстро переключаться',shadow:'разбросанность и поверхностность усилий'},
+    'mars-Рак':{core:'Ты действуешь из эмоций и защищаешь своё: твоя сила — в интуиции и заботе.',gift:'способность защищать близких и эмоциональная чуткость в действиях',shadow:'пассивная агрессия и обидчивость в конфликтах'},
+    'mars-Лев':{core:'Ты действуешь ярко и творчески: твоя энергия питается признанием и сценой.',gift:'лидерство и способность вдохновлять других своим примером',shadow:'гордыня и желание быть всегда первым, даже там, где это не нужно'},
+    'mars-Дева':{core:'Ты действуешь точно и методично: твоя сила — в внимании к деталям и порядке.',gift:'эффективность и надёжность в работе, умение доводить дело до совершенства',shadow:'тревожность из-за ошибок и зацикленность на мелочах'},
+    'mars-Весы':{core:'Ты действуешь через партнёрство и дипломатию: прямая конфронтация даётся тебе сложно.',gift:'умение действовать совместно и находить компромиссы в конфликтах',shadow:'нерешительность и избегание прямой конфронтации, даже когда она необходима'},
+    'mars-Скорпион':{core:'Твоя энергия интенсивна и сосредоточена: ты бьёшь точно и не сдаёшься.',gift:'невероятная сила воли и способность преодолевать любые препятствия',shadow:'мстительность и желание контролировать ситуацию любой ценой'},
+    'mars-Стрелец':{core:'Ты действуешь с энтузиазмом и верой в лучшее: твоя энергия расширяет горизонты.',gift:'оптимизм и способность вести за собой других к новым вершинам',shadow:'импульсивность и разбросанность усилий'},
+    'mars-Козерог':{core:'Ты действуешь стратегически и дисциплинированно: твоя сила — в выносливости.',gift:'амбициозность и умение достигать целей, несмотря на препятствия',shadow:'холодность и жёсткость в достижении своих целей'},
+    'mars-Водолей':{core:'Ты действуешь независимо и нестандартно: твоя энергия направлена на изменение систем.',gift:'оригинальность и способность действовать вопреки общепринятым правилам',shadow:'упрямство и непредсказуемость, которые мешают командной работе'},
+    'mars-Рыбы':{core:'Ты действуешь интуитивно и мягко: твоя сила — в воображении и сострадании.',gift:'творческая энергия и эмпатия в действии, способность чувствовать момент',shadow:'пассивность и уход от конфликтов, даже когда нужно постоять за себя'},
+    'jupiter-Овен':{core:'Твой рост идёт через инициативу: удача приходит к тем, кто действует первым.',gift:'неиссякаемый энтузиазм и способность заражать других своей верой',shadow:'излишний риск и склонность действовать, не подумав'},
+    'jupiter-Телец':{core:'Твой рост идёт через материальный мир: удача приходит через стабильность и терпение.',gift:'умение создавать изобилие и наслаждаться жизнью во всех её проявлениях',shadow:'избыточность и лень, которые мешают развитию'},
+    'jupiter-Близнецы':{core:'Твой рост идёт через знания и общение: удача приходит через связи и информацию.',gift:'любопытство и способность учиться всю жизнь, находить интересное во всём',shadow:'поверхностность и разбросанность интересов'},
+    'jupiter-Рак':{core:'Твой рост идёт через эмоции и семью: удача приходит через заботу и интуицию.',gift:'эмоциональная мудрость и способность создавать опору для других',shadow:'излишняя привязанность и сентиментальность'},
+    'jupiter-Лев':{core:'Твой рост идёт через творчество и признание: удача приходит, когда ты сияешь.',gift:'щедрость и способность вдохновлять других своим примером',shadow:'расточительность и гордыня'},
+    'jupiter-Дева':{core:'Твой рост идёт через служение и детали: удача приходит через точность и помощь.',gift:'практическая мудрость и надёжность в любом деле',shadow:'критичность и тревожность из-за несовершенства'},
+    'jupiter-Весы':{core:'Твой рост идёт через партнёрство и гармонию: удача приходит через отношения.',gift:'дипломатичность и чувство справедливости, умение объединять людей',shadow:'зависимость от других и нерешительность'},
+    'jupiter-Скорпион':{core:'Твой рост идёт через глубину и трансформацию: удача приходит через кризисы.',gift:'проницательность и способность к возрождению после любых трудностей',shadow:'интенсивность и желание контролировать всё вокруг'},
+    'jupiter-Стрелец':{core:'Твой рост идёт через расширение горизонтов: удача приходит через веру и путешествия.',gift:'оптимизм и философский взгляд на жизнь, способность видеть картину целиком',shadow:'категоричность и обещания без меры'},
+    'jupiter-Козерог':{core:'Твой рост идёт через дисциплину и структуру: удача приходит через упорный труд.',gift:'стратегическое видение и ответственность, умение достигать высот',shadow:'излишняя серьёзность и страх совершить ошибку'},
+    'jupiter-Водолей':{core:'Твой рост идёт через инновации и коллектив: удача приходит через оригинальность.',gift:'нестандартное мышление и гуманизм, способность видеть будущее',shadow:'эмоциональная отстранённость и упрямая непредсказуемость'},
+    'jupiter-Рыбы':{core:'Твой рост идёт через духовность и сострадание: удача приходит через веру в невидимое.',gift:'мудрость сердца и творческое воображение, способность чувствовать тонкое',shadow:'иллюзии и уход от реальности'},
+    'saturn-Овен':{core:'Твой главный урок — научиться действовать осознанно, а не импульсивно.',gift:'зрелая смелость и умение брать ответственность за свои решения',shadow:'страх начать новое дело из-за боязни совершить ошибку'},
+    'saturn-Телец':{core:'Твой главный урок — построить надёжную материальную опору без жадности.',gift:'финансовая дисциплина и терпение в достижении целей',shadow:'скупость и страх перемен, которые мешают расти'},
+    'saturn-Близнецы':{core:'Твой главный урок — научиться глубине в общении и мыслях.',gift:'структурированное мышление и надёжность в словах и обещаниях',shadow:'замкнутость и страх выражать свои мысли открыто'},
+    'saturn-Рак':{core:'Твой главный урок — создать эмоциональную безопасность, не закрываясь от мира.',gift:'зрелая забота о близких и эмоциональная устойчивость в трудные моменты',shadow:'эмоциональная холодность и страх близости'},
+    'saturn-Лев':{core:'Твой главный урок — сиять без потребности в постоянном признании.',gift:'зрелая харизма и ответственное лидерство, умение вдохновлять',shadow:'подавление творческого выражения из-за страха осуждения'},
+    'saturn-Дева':{core:'Твой главный урок — принимать несовершенство в себе и в других.',gift:'мастерство через дисциплину и служение, умение доводить дело до конца',shadow:'перфекционизм и самокритика, которые парализуют действия'},
+    'saturn-Весы':{core:'Твой главный урок — строить отношения, оставаясь верным себе.',gift:'зрелое партнёрство и чувство справедливости, умение находить баланс',shadow:'страх конфликтов и одиночество в отношениях из-за уступчивости'},
+    'saturn-Скорпион':{core:'Твой главный урок — пройти через трансформации, не теряя себя.',gift:'глубокая внутренняя сила и способность к возрождению после любых кризисов',shadow:'подозрительность и эмоциональные блоки, которые мешают доверию'},
+    'saturn-Стрелец':{core:'Твой главный урок — найти свою философию и жить по ней.',gift:'зрелая мудрость и ответственное расширение горизонтов',shadow:'цинизм и потеря веры в лучшее из-за разочарований'},
+    'saturn-Козерог':{core:'Твой главный урок — построить авторитет через труд, не теряя человечности.',gift:'невероятная выносливость и способность достигать самых высоких целей',shadow:'холодность и трудоголизм, которые разрушают личную жизнь'},
+    'saturn-Водолей':{core:'Твой главный урок — быть собой, оставаясь частью коллектива.',gift:'зрелая независимость и ответственность перед обществом',shadow:'бунт ради бунта и эмоциональная отстранённость от близких'},
+    'saturn-Рыбы':{core:'Твой главный урок — сохранить чувствительность, выстроив здоровые границы.',gift:'духовная зрелость и сострадательная дисциплина',shadow:'эмоциональные блоки и страх чувствовать из-за прошлой боли'},
+    'asc-Овен':{core:'Мир считывает тебя как человека действия — смелого, прямого и решительного.',gift:'мгновенная способность включаться в дело и вести за собой других',shadow:'резкость и нетерпеливость, которые могут отпугнуть при первом знакомстве'},
+    'asc-Телец':{core:'Мир считывает тебя как надёжного и спокойного человека с сильным внутренним стержнем.',gift:'притягательная устойчивость и умение создавать ощущение безопасности рядом с тобой',shadow:'медлительность и упрямство, которые могут раздражать тех, кто привык к быстрому темпу'},
+    'asc-Близнецы':{core:'Мир считывает тебя как лёгкого, общительного и любопытного человека.',gift:'обаяние и способность легко входить в контакт с кем угодно',shadow:'поверхностность и непостоянство, из-за которых тебя могут не воспринимать всерьёз'},
+    'asc-Рак':{core:'Мир считывает тебя как мягкого, душевного и заботливого человека.',gift:'тёплая эмпатия и способность создавать уютную атмосферу вокруг себя',shadow:'ранимость и склонность закрываться, когда что-то идёт не так'},
+    'asc-Лев':{core:'Мир считывает тебя как яркого, харизматичного и уверенного в себе человека.',gift:'природное обаяние и способность быть в центре внимания без усилий',shadow:'демонстративность и потребность в постоянном восхищении, которая может утомлять'},
+    'asc-Дева':{core:'Мир считывает тебя как собранного, аккуратного и внимательного человека.',gift:'надёжность и точность — на тебя всегда можно положиться',shadow:'критичность и излишняя придирчивость к деталям, которая создаёт напряжение'},
+    'asc-Весы':{core:'Мир считывает тебя как гармоничного, дипломатичного и эстетичного человека.',gift:'тонкий такт и умение создавать приятную атмосферу в любом обществе',shadow:'нерешительность и зависимость от чужого мнения, из-за которой тебя сложно считать сильным'},
+    'asc-Скорпион':{core:'Мир считывает тебя как глубокого, магнетического и проницательного человека.',gift:'пронзительный взгляд и способность видеть людей насквозь',shadow:'закрытость и интенсивность, которые могут пугать при первом знакомстве'},
+    'asc-Стрелец':{core:'Мир считывает тебя как открытого, вдохновляющего и свободолюбивого человека.',gift:'оптимизм и способность расширять горизонты других людей одним своим присутствием',shadow:'прямолинейность и категоричность, которые могут задеть чувствительных людей'},
+    'asc-Козерог':{core:'Мир считывает тебя как серьёзного, зрелого и авторитетного человека.',gift:'способность брать ответственность и вызывать уважение с первого взгляда',shadow:'холодность и эмоциональная сдержанность, из-за которой тебя могут считать недоступным'},
+    'asc-Водолей':{core:'Мир считывает тебя как оригинального, независимого и нестандартного человека.',gift:'уникальность и способность удивлять — ты запоминаешься с первой встречи',shadow:'отстранённость и непредсказуемость, которые мешают установить близкий контакт'},
+    'asc-Рыбы':{core:'Мир считывает тебя как мягкого, загадочного и тонко чувствующего человека.',gift:'эмпатия и способность считывать настроение других без слов',shadow:'неуверенность и размытость границ, из-за которой тебя могут использовать'},
+    'northNode-Овен':{core:'Твоя задача — научиться быть самостоятельным, действовать смело и без оглядки на других.',gift:'смелость идти своим путём',shadow:'эгоизм и нетерпеливость'},
+    'northNode-Телец':{core:'Твоя задача — научиться ценить себя, создавать стабильность и наслаждаться жизнью.',gift:'умение создавать материальную опору',shadow:'жадность и лень'},
+    'northNode-Близнецы':{core:'Твоя задача — научиться общаться, обмениваться информацией и быть любопытным.',gift:'лёгкость в коммуникации',shadow:'поверхностность'},
+    'northNode-Рак':{core:'Твоя задача — научиться заботиться, создавать эмоциональную безопасность и дом.',gift:'способность к глубокой эмпатии',shadow:'чрезмерная привязанность'},
+    'northNode-Лев':{core:'Твоя задача — научиться творить, выражать себя ярко и быть в центре.',gift:'творческая сила и харизма',shadow:'гордыня и эгоцентризм'},
+    'northNode-Дева':{core:'Твоя задача — научиться служить, быть полезным и внимательным к деталям.',gift:'практическая мудрость',shadow:'перфекционизм и критичность'},
+    'northNode-Весы':{core:'Твоя задача — научиться партнёрству, балансу и гармонии в отношениях.',gift:'дипломатичность и такт',shadow:'зависимость от других'},
+    'northNode-Скорпион':{core:'Твоя задача — научиться глубине, трансформации и доверию.',gift:'проницательность и сила',shadow:'подозрительность и контроль'},
+    'northNode-Стрелец':{core:'Твоя задача — научиться расширять горизонты, искать смысл и верить.',gift:'оптимизм и широта взглядов',shadow:'категоричность'},
+    'northNode-Козерог':{core:'Твоя задача — научиться ответственности, структуре и достижению целей.',gift:'дисциплина и выносливость',shadow:'холодность и жёсткость'},
+    'northNode-Водолей':{core:'Твоя задача — научиться быть собой в коллективе, мыслить независимо.',gift:'оригинальность и гуманизм',shadow:'отстранённость'},
+    'northNode-Рыбы':{core:'Твоя задача — научиться состраданию, духовности и принятию невидимого.',gift:'эмпатия и интуиция',shadow:'растворение в иллюзиях'},
+    'southNode-Овен':{core:'Ты уже умеешь действовать смело и независимо — это твоя зона комфорта из прошлого.',gift:'врождённая смелость',shadow:'импульсивность и эгоизм'},
+    'southNode-Телец':{core:'Ты уже умеешь создавать стабильность и ценить материальное — это твой прошлый опыт.',gift:'практичность',shadow:'упрямство и жадность'},
+    'southNode-Близнецы':{core:'Ты уже умеешь общаться и собирать информацию — это твоя привычная зона.',gift:'коммуникабельность',shadow:'болтовня и поверхностность'},
+    'southNode-Рак':{core:'Ты уже умеешь заботиться и создавать уют — это твой прошлый навык.',gift:'эмпатия',shadow:'чрезмерная чувствительность'},
+    'southNode-Лев':{core:'Ты уже умеешь сиять и быть в центре — это твоя привычная роль.',gift:'харизма',shadow:'гордыня'},
+    'southNode-Дева':{core:'Ты уже умеешь быть полезным и внимательным — это твоя зона комфорта.',gift:'аналитичность',shadow:'критичность'},
+    'southNode-Весы':{core:'Ты уже умеешь находить баланс и дипломатичность — это твой прошлый опыт.',gift:'такт',shadow:'нерешительность'},
+    'southNode-Скорпион':{core:'Ты уже умеешь видеть глубинное и трансформироваться — это твоя сила.',gift:'проницательность',shadow:'подозрительность'},
+    'southNode-Стрелец':{core:'Ты уже умеешь видеть картину целиком и верить — это твоя база.',gift:'оптимизм',shadow:'категоричность'},
+    'southNode-Козерог':{core:'Ты уже умеешь быть ответственным и дисциплинированным — это твоя основа.',gift:'выносливость',shadow:'холодность'},
+    'southNode-Водолей':{core:'Ты уже умеешь мыслить независимо и быть оригинальным — это твоя природа.',gift:'нестандартность',shadow:'отстранённость'},
+    'southNode-Рыбы':{core:'Ты уже умеешь чувствовать тонкое и сострадать — это твоя глубина.',gift:'интуиция',shadow:'иллюзии'}
+  };
+
+  var HOUSES={
+    1:{title:'Дом личности',area:'себя и личных начинаний',desc:'Как ты заявляешь о себе и с чего начинаешь любое дело.'},
+    2:{title:'Дом денег и ценностей',area:'денег, ресурсов и ценностей',desc:'Что даёт тебе чувство опоры и какими ресурсами ты дорожишь.'},
+    3:{title:'Дом общения',area:'общения, учёбы и повседневных связей',desc:'Как ты думаешь, учишься и общаешься с ближним кругом.'},
+    4:{title:'Дом дома и семьи',area:'дома, семьи и корней',desc:'Что стоит за твоим ощущением дома и связью с корнями.'},
+    5:{title:'Дом творчества и любви',area:'творчества, любви и самовыражения',desc:'Где ты проявляешь себя ярко, влюбляешься и творишь.'},
+    6:{title:'Дом дела и здоровья',area:'работы, привычек и здоровья',desc:'Как устроены твои будни, работа и забота о теле.'},
+    7:{title:'Дом партнёрства',area:'партнёрства и близких союзов',desc:'Как ты строишь близкие союзы и что ценишь в других.'},
+    8:{title:'Дом трансформации',area:'трансформации и общих ресурсов',desc:'Через что ты проходишь глубокие перемены и делишь ресурсы с другими.'},
+    9:{title:'Дом смысла и путешествий',area:'философии, обучения и путешествий',desc:'Где ты ищешь смысл, расширяешь горизонты и учишься по-крупному.'},
+    10:{title:'Дом карьеры и статуса',area:'карьеры и статуса',desc:'Как ты строишь репутацию и к чему стремишься в деле жизни.'},
+    11:{title:'Дом сообществ и целей',area:'сообществ, друзей и планов на будущее',desc:'С кем ты идёшь к общим целям и каким видишь своё будущее.'},
+    12:{title:'Дом уединения',area:'внутреннего мира и уединения',desc:'Что происходит в твоём внутреннем мире, скрытом от посторонних глаз.'}
+  };
+  var PLANET_ACTION={sun:'ты проявляешь себя и светишь',moon:'ты ищешь эмоциональную опору',asc:'ты показываешь себя миру',mercury:'ты думаешь, учишься и говоришь',venus:'ты любишь и создаёшь красоту',mars:'ты действуешь и идёшь напролом',jupiter:'ты растёшь и находишь удачу',saturn:'ты берёшь ответственность и проходишь главные уроки',northNode:'ты движешься к своему предназначению',southNode:'ты опираешься на опыт прошлых жизней'};
+  var PLANETS={
+    sun:{glyph:'☉',name:'Солнце',domain:'суть личности и жизненная сила'},
+    moon:{glyph:'☽',name:'Луна',domain:'эмоции и внутренний мир'},
+    asc:{glyph:'AC',name:'Асцендент',domain:'первое впечатление и подача себя'},
+    mercury:{glyph:'☿',name:'Меркурий',domain:'мышление и общение'},
+    venus:{glyph:'♀',name:'Венера',domain:'любовь и ценности'},
+    mars:{glyph:'♂',name:'Марс',domain:'энергия и действие'},
+    jupiter:{glyph:'♃',name:'Юпитер',domain:'рост, удача и убеждения'},
+    saturn:{glyph:'♄',name:'Сатурн',domain:'дисциплина и главные уроки'},
+    northNode:{glyph:'☊',name:'Северный Узел',domain:'кармическая задача и предназначение'},
+    southNode:{glyph:'☋',name:'Южный Узел',domain:'опыт прошлых жизней и зона комфорта'}
+  };
+  var ORDER_FULL=['sun','moon','asc','mercury','venus','mars','jupiter','saturn','northNode','southNode'];
+  var ORDER_NOTIME=['sun','moon','mercury','venus','mars','jupiter','saturn','northNode','southNode'];
+  var CITIES=[
+    ['Москва',55.7558,37.6173,3],['Санкт-Петербург',59.9343,30.3351,3],['Новосибирск',55.0084,82.9357,7],
+    ['Екатеринбург',56.8389,60.6057,5],['Казань',55.8304,49.0661,3],['Нижний Новгород',56.2965,43.9361,3],
+    ['Челябинск',55.1644,61.4368,5],['Самара',53.2001,50.15,4],['Омск',54.9885,73.3242,6],
+    ['Ростов-на-Дону',47.2357,39.7015,3],['Уфа',54.7388,55.9721,5],['Красноярск',56.0184,92.8672,7],
+    ['Воронеж',51.672,39.1843,3],['Пермь',58.0105,56.2502,5],['Волгоград',48.708,44.5133,3],
+    ['Краснодар',45.0355,38.9753,3],['Саратов',51.5924,46.0348,4],['Тюмень',57.1522,65.5272,5],
+    ['Тольятти',53.5303,49.3461,4],['Ижевск',56.8526,53.2114,4],['Барнаул',53.3606,83.7636,7],
+    ['Иркутск',52.2869,104.305,8],['Хабаровск',48.4827,135.0838,10],['Владивосток',43.1155,131.8855,10],
+    ['Калининград',54.7104,20.4522,2],['Минск',53.9006,27.559,3],['Киев',50.4501,30.5234,2],
+    ['Алматы',43.222,76.8512,6],['Ташкент',41.2995,69.2401,5],['Ереван',40.1792,44.4991,4],
+    ['Тбилиси',41.7151,44.8271,4],['Баку',40.4093,49.8671,4],
+    ['Лондон',51.5074,-0.1278,0],['Берлин',52.52,13.405,1],['Париж',48.8566,2.3522,1],
+    ['Нью-Йорк',40.7128,-74.006,-5],['Дубай',25.2048,55.2708,4],['Тель-Авив',32.0853,34.7818,2],
+    ['Стамбул',41.0082,28.9784,3],['Бангкок',13.7563,100.5018,7],['Лимасол',34.6841,33.0379,2]
+  ];
+
+  var cityList=document.getElementById('city-list');
+  CITIES.forEach(function(c){
+    var option=document.createElement('option');
+    option.value=c[0];
+    cityList.appendChild(option);
+  });
+
+  var cityInput=document.getElementById('inp-city');
+  var manualBlock=document.getElementById('manual-fields');
+  
+  cityInput.addEventListener('input',function(){
+    var cityName=this.value.trim();
+    var found=false;
+    CITIES.forEach(function(c){
+      if(c[0].toLowerCase()===cityName.toLowerCase()){
+        document.getElementById('inp-lat').value=c[1];
+        document.getElementById('inp-lon').value=c[2];
+        document.getElementById('inp-tz').value=c[3];
+        manualBlock.classList.add('show');
+        found=true;
+      }
+    });
+    if(!found && cityName.length>0){
+      manualBlock.classList.add('show');
+    }else if(!found){
+      manualBlock.classList.remove('show');
+    }
+  });
+
+  function showScreen(id){
+    document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0,0);
+  }
+  document.getElementById('btn-start').addEventListener('click',function(){showScreen('screen-form');});
+  document.getElementById('btn-back-intro').addEventListener('click',function(){showScreen('screen-intro');});
+
+  var inpNoTime=document.getElementById('inp-notime');
+  var inpTime=document.getElementById('inp-time');
+  inpNoTime.addEventListener('change',function(){inpTime.disabled=inpNoTime.checked;inpTime.style.opacity=inpNoTime.checked?0.4:1;});
+
+  var STATE={results:null,order:[],idx:0};
+
+  document.getElementById('btn-calc').addEventListener('click',function(){
+    var dateVal=document.getElementById('inp-date').value;
+    if(!dateVal){alert('Укажи дату рождения');return;}
+    var parts=dateVal.split('-');
+    var Y=parseInt(parts[0],10),M=parseInt(parts[1],10),D=parseInt(parts[2],10);
+    var hasTime=!inpNoTime.checked;
+    var hh=12,mm=0;
+    if(hasTime){
+      var tVal=inpTime.value;
+      if(!tVal){alert('Укажи время рождения или отметь, что не знаешь его');return;}
+      var tp=tVal.split(':');hh=parseInt(tp[0],10);mm=parseInt(tp[1],10);
+    }
+    var lat=parseFloat(document.getElementById('inp-lat').value);
+    var lon=parseFloat(document.getElementById('inp-lon').value);
+    var tz=parseFloat(document.getElementById('inp-tz').value);
+    if(isNaN(lat)||isNaN(lon)||isNaN(tz)||lat<-90||lat>90||lon<-180||lon>180){
+      alert('Введи координаты города или выбери из списка');return;
+    }
+    STATE.results=computeChart(Y,M,D,hh,mm,hasTime,lat,lon,tz);
+    STATE.order=hasTime?ORDER_FULL.slice():ORDER_NOTIME.slice();
+    STATE.idx=0;
+    showScreen('screen-loading');
+    setTimeout(function(){buildProgress();renderCard();showScreen('screen-cards');},1100);
+  });
+
+  var progressEl=document.getElementById('progress');
+  var cardEl=document.getElementById('card');
+  var frontGlyph=document.getElementById('front-glyph');
+  var frontName=document.getElementById('front-name');
+  var backDomain=document.getElementById('back-domain');
+  var backTitle=document.getElementById('back-title');
+  var backThesis=document.getElementById('back-thesis');
+  var backHouse=document.getElementById('back-house');
+  var btnPrev=document.getElementById('btn-prev');
+  var btnNext=document.getElementById('btn-next');
+
+  function buildProgress(){
+    progressEl.innerHTML='';
+    STATE.order.forEach(function(){var d=document.createElement('div');d.className='d';progressEl.appendChild(d);});
+  }
+  function updateProgress(){
+    var dots=progressEl.children;
+    for(var i=0;i<dots.length;i++){dots[i].className='d'+(i===STATE.idx?' on':(i<STATE.idx?' done':''));}
+  }
+
+  function renderCard(){
+    var key=STATE.order[STATE.idx];
+    var pinfo=PLANETS[key];
+    var res=STATE.results[key];
+    var traits=PLANET_IN_SIGN[key+'-'+res.sign];
+    cardEl.classList.remove('flipped');
+    renderConstellation(res.sign);
+    frontGlyph.textContent=pinfo.glyph;
+    frontName.textContent=pinfo.name;
+    backDomain.textContent=pinfo.domain;
+    backTitle.textContent=pinfo.name+' в '+res.sign+' '+SIGN_GLYPH[res.sign];
+    if(traits){
+      backThesis.innerHTML='<li>'+traits.core+'</li><li><b>Дар:</b> '+traits.gift+'</li><li><b>Тень:</b> '+traits.shadow+'</li>';
+    }else{
+      backThesis.innerHTML='<li>Описание для этого сочетания скоро появится</li>';
+    }
+    if(res.house){
+      var h=HOUSES[res.house];
+      var action=PLANET_ACTION[key];
+      backHouse.innerHTML='<b class="house-title">'+res.house+' дом — '+h.title+'</b><p>'+h.desc+'</p><p>Здесь '+action+' — ярче всего это касается '+h.area+'.</p>';
+      backHouse.style.display='block';
+    }else{backHouse.style.display='none';}
+    updateProgress();
+    btnPrev.disabled=STATE.idx===0;
+    btnNext.textContent=(STATE.idx===STATE.order.length-1)?'Завершить':'Далее';
+  }
+
+  cardEl.addEventListener('click',function(e){if(e.target.closest('.back-content'))return;cardEl.classList.toggle('flipped');});
+  btnPrev.addEventListener('click',function(){if(STATE.idx>0){STATE.idx--;renderCard();}});
+  btnNext.addEventListener('click',function(){if(STATE.idx<STATE.order.length-1){STATE.idx++;renderCard();}else{renderSummary();showScreen('screen-summary');}});
+
+  var recapEl=document.getElementById('recap');
+  var portraitEl=document.getElementById('portrait');
+
+  function renderSummary(){
+    recapEl.innerHTML='';
+    STATE.order.forEach(function(key){
+      var pinfo=PLANETS[key];
+      var res=STATE.results[key];
+      var li=document.createElement('li');
+      li.innerHTML='<span class="g">'+pinfo.glyph+'</span><span class="t"><b>'+pinfo.name+' в '+res.sign+'</b><span>'+pinfo.domain+'</span></span>';
+      recapEl.appendChild(li);
+    });
+    
+    var sunSign=STATE.results.sun.sign;
+    var moonSign=STATE.results.moon.sign;
+    var sunTraits=PLANET_IN_SIGN['sun-'+sunSign];
+    var moonTraits=PLANET_IN_SIGN['moon-'+moonSign];
+    
+    var text='По сути ты — '+sunSign.toLowerCase()+'. ';
+    if(sunTraits){
+      text+=sunTraits.core+' ';
+      text+='Твой главный дар — '+sunTraits.gift+'. ';
+    }
+    
+    text+='В мире эмоций тобой управляет '+moonSign.toLowerCase()+'. ';
+    if(moonTraits){
+      text+=moonTraits.core+' ';
+      text+='В близких отношениях ты проявляешь '+moonTraits.gift+'. ';
+    }
+    
+    if(STATE.results.asc){
+      var ascSign=STATE.results.asc.sign;
+      var ascTraits=PLANET_IN_SIGN['asc-'+ascSign];
+      text+='А вот как тебя видят другие. ';
+      text+='Твой асцендент в '+SIGN_PREPOSITIONAL[ascSign]+'. ';
+      if(ascTraits){
+        text+=ascTraits.core+' ';
+        text+='Людей привлекает в тебе '+ascTraits.gift+'. ';
+        text+='Но иногда со стороны может показаться, что '+ascTraits.shadow+' — не пугайся, это лишь первое впечатление.';
+      }
+    }else{
+      text+='Время рождения не было указано точно, поэтому асцендент и дома в этой раскладке не участвовали. На личной консультации мы рассчитаем их точно.';
+    }
+    
+    portraitEl.textContent=text;
+  }
+
+  document.getElementById('btn-share').addEventListener('click',function(){
+    var shareData={title:'Моя натальная карта — ASTRO COACH',text:'Узнай, что говорят звёзды о тебе! Разложи карты своей натальной карты бесплатно.',url:window.location.href};
+    if(navigator.share){navigator.share(shareData).catch(function(){});}
+    else{var dummy=document.createElement('input');document.body.appendChild(dummy);dummy.value=window.location.href;dummy.select();document.execCommand('copy');document.body.removeChild(dummy);alert('Ссылка скопирована! Теперь можешь поделиться ею с друзьями.');}
+  });
+
+  var screenshotModal=document.getElementById('screenshot-modal');
+  var screenshotImg=document.getElementById('screenshot-img');
+  
+  document.getElementById('btn-screenshot').addEventListener('click',function(){
+    var cardToCapture=document.getElementById('card');
+    html2canvas(cardToCapture,{backgroundColor:'#05051a',scale:2,useCORS:true,logging:false}).then(function(canvas){
+      screenshotImg.src=canvas.toDataURL('image/png');
+      screenshotModal.classList.add('active');
+    }).catch(function(){alert('Не удалось создать скриншот. Попробуй ещё раз.');});
+  });
+
+  document.getElementById('btn-download').addEventListener('click',function(){
+    var link=document.createElement('a');link.download='astro-card.png';link.href=screenshotImg.src;link.click();
+  });
+
+  document.getElementById('btn-close-modal').addEventListener('click',function(){screenshotModal.classList.remove('active');});
+  screenshotModal.addEventListener('click',function(e){if(e.target===screenshotModal){screenshotModal.classList.remove('active');}});
+
+  document.getElementById('btn-restart').addEventListener('click',function(){showScreen('screen-intro');});
+
+})();
+</script>
 </body>
 </html>
