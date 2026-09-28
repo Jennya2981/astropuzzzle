@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ASTROCOACH — Подгляди в свою натальную карту без астролога</title>
+<title>ASTRO COACH — Карты натальной карты</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{min-height:100vh;background:#0D1B2A;color:#F5F5F5;font-family:system-ui,-apple-system,sans-serif;overflow-x:hidden;}
@@ -25,7 +26,7 @@ h1{font-size:30px;margin:0 0 14px;text-align:center;line-height:1.2;}
 h2{font-size:22px;margin:0 0 10px;text-align:center;}
 p.lead{text-align:center;color:#c9d0da;font-size:15.5px;line-height:1.55;margin:0 0 30px;}
 .panel{background:linear-gradient(165deg,rgba(51,58,87,0.55),rgba(13,27,42,0.55));border:1px solid rgba(245,245,245,0.14);border-radius:22px;padding:26px 22px;}
-.btn{display:flex;align-items:center;justify-content:center;width:100%;padding:15px 20px;border-radius:999px;border:none;font-weight:700;font-size:15.5px;cursor:pointer;transition:transform 0.15s;}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;padding:15px 20px;border-radius:999px;border:none;font-weight:700;font-size:15.5px;cursor:pointer;transition:transform 0.15s;text-decoration:none;}
 .btn:active{transform:scale(0.98);}
 .btn-primary{background:linear-gradient(100deg,#C2185B,#7B1FA2);color:#fff;}
 .btn-secondary{background:rgba(77,134,155,0.18);color:#F5F5F5;border:1px solid rgba(136,186,198,0.35);}
@@ -50,145 +51,21 @@ p.lead{text-align:center;color:#c9d0da;font-size:15.5px;line-height:1.55;margin:
 .progress .d{width:7px;height:7px;border-radius:50%;background:rgba(245,245,245,0.2);}
 .progress .d.on{background:linear-gradient(135deg,#C2185B,#7B1FA2);}
 .progress .d.done{background:#88BAC6;}
-
-/* ===== КАРТОЧКА ===== */
 .stage{perspective:1400px;margin-bottom:14px;}
 .card{position:relative;width:100%;height:580px;transform-style:preserve-3d;transition:transform 0.7s cubic-bezier(.2,.8,.25,1);cursor:pointer;}
 .card.flipped{transform:rotateY(180deg);}
 .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:22px;display:flex;flex-direction:column;border:1px solid rgba(245,245,245,0.14);overflow:hidden;}
-
-/* ===== РЕАЛИСТИЧНЫЙ КОСМИЧЕСКИЙ ФОН ===== */
-.face-front{
-  background-color:#05051a;
-  background-image:
-    radial-gradient(1px 1px at 10% 20%, #fff, transparent),
-    radial-gradient(1px 1px at 20% 40%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 30% 10%, #fff, transparent),
-    radial-gradient(1px 1px at 40% 60%, #fff, transparent),
-    radial-gradient(1px 1px at 50% 30%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 60% 80%, #fff, transparent),
-    radial-gradient(1px 1px at 70% 50%, #fff, transparent),
-    radial-gradient(1px 1px at 80% 20%, #fff, transparent),
-    radial-gradient(1px 1px at 90% 70%, #fff, transparent),
-    radial-gradient(1px 1px at 15% 85%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 25% 55%, #fff, transparent),
-    radial-gradient(1px 1px at 35% 90%, #fff, transparent),
-    radial-gradient(1px 1px at 45% 15%, #fff, transparent),
-    radial-gradient(1px 1px at 55% 75%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 65% 45%, #fff, transparent),
-    radial-gradient(1px 1px at 75% 95%, #fff, transparent),
-    radial-gradient(1px 1px at 85% 35%, #fff, transparent),
-    radial-gradient(1px 1px at 95% 5%, #fff, transparent),
-    radial-gradient(1px 1px at 5% 50%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 12% 65%, #fff, transparent),
-    radial-gradient(1px 1px at 22% 8%, #fff, transparent),
-    radial-gradient(1px 1px at 32% 48%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 42% 88%, #fff, transparent),
-    radial-gradient(1px 1px at 52% 18%, #fff, transparent),
-    radial-gradient(1px 1px at 62% 58%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 72% 8%, #fff, transparent),
-    radial-gradient(1px 1px at 82% 48%, #fff, transparent),
-    radial-gradient(1px 1px at 92% 88%, #fff, transparent),
-    radial-gradient(1px 1px at 8% 28%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 18% 68%, #fff, transparent),
-    radial-gradient(1px 1px at 28% 98%, #fff, transparent),
-    radial-gradient(1px 1px at 38% 38%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 48% 78%, #fff, transparent),
-    radial-gradient(1px 1px at 58% 18%, #fff, transparent),
-    radial-gradient(1px 1px at 68% 58%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 78% 98%, #fff, transparent),
-    radial-gradient(1px 1px at 88% 38%, #fff, transparent),
-    radial-gradient(1px 1px at 98% 78%, #fff, transparent),
-    radial-gradient(1px 1px at 3% 13%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 13% 53%, #fff, transparent),
-    radial-gradient(1px 1px at 23% 93%, #fff, transparent),
-    radial-gradient(1px 1px at 33% 33%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 43% 73%, #fff, transparent),
-    radial-gradient(1px 1px at 53% 13%, #fff, transparent),
-    radial-gradient(1px 1px at 63% 53%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 73% 93%, #fff, transparent),
-    radial-gradient(1px 1px at 83% 33%, #fff, transparent),
-    radial-gradient(1px 1px at 93% 73%, #fff, transparent),
-    radial-gradient(1px 1px at 7% 43%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 17% 83%, #fff, transparent),
-    radial-gradient(1px 1px at 27% 23%, #fff, transparent),
-    radial-gradient(1px 1px at 37% 63%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 47% 3%, #fff, transparent),
-    radial-gradient(1px 1px at 57% 43%, #fff, transparent),
-    radial-gradient(1px 1px at 67% 83%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 77% 23%, #fff, transparent),
-    radial-gradient(1px 1px at 87% 63%, #fff, transparent),
-    radial-gradient(1px 1px at 97% 3%, #fff, transparent);
-  padding:0;
-}
-
-/* ===== СОЗВЕЗДИЕ — СТРОГО В ВЕРХНЕЙ ПОЛОВИНЕ ===== */
-.constellation-container{
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:55%;
-  z-index:1;
-  pointer-events:none;
-  overflow:hidden;
-}
-.constellation-svg{
-  position:absolute;
-  top:10%;
-  left:10%;
-  width:80%;
-  height:80%;
-}
-.constellation-star{
-  fill:#fff;
-  filter:drop-shadow(0 0 6px rgba(255,255,255,1));
-  animation:constellationTwinkle 3s ease-in-out infinite;
-}
-.constellation-line{
-  stroke:rgba(136,186,198,0.7);
-  stroke-width:2;
-  fill:none;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-}
+.face-front{background-color:#05051a;background-image:radial-gradient(1px 1px at 10% 20%, #fff, transparent),radial-gradient(1px 1px at 20% 40%, #fff, transparent),radial-gradient(1.5px 1.5px at 30% 10%, #fff, transparent),radial-gradient(1px 1px at 40% 60%, #fff, transparent),radial-gradient(1px 1px at 50% 30%, #fff, transparent),radial-gradient(1.5px 1.5px at 60% 80%, #fff, transparent),radial-gradient(1px 1px at 70% 50%, #fff, transparent),radial-gradient(1px 1px at 80% 20%, #fff, transparent),radial-gradient(1px 1px at 90% 70%, #fff, transparent),radial-gradient(1px 1px at 15% 85%, #fff, transparent),radial-gradient(1.5px 1.5px at 25% 55%, #fff, transparent),radial-gradient(1px 1px at 35% 90%, #fff, transparent),radial-gradient(1px 1px at 45% 15%, #fff, transparent),radial-gradient(1px 1px at 55% 75%, #fff, transparent),radial-gradient(1.5px 1.5px at 65% 45%, #fff, transparent),radial-gradient(1px 1px at 75% 95%, #fff, transparent),radial-gradient(1px 1px at 85% 35%, #fff, transparent),radial-gradient(1px 1px at 95% 5%, #fff, transparent),radial-gradient(1px 1px at 5% 50%, #fff, transparent),radial-gradient(1.5px 1.5px at 12% 65%, #fff, transparent),radial-gradient(1px 1px at 22% 8%, #fff, transparent),radial-gradient(1px 1px at 32% 48%, #fff, transparent),radial-gradient(1.5px 1.5px at 42% 88%, #fff, transparent),radial-gradient(1px 1px at 52% 18%, #fff, transparent),radial-gradient(1px 1px at 62% 58%, #fff, transparent),radial-gradient(1.5px 1.5px at 72% 8%, #fff, transparent),radial-gradient(1px 1px at 82% 48%, #fff, transparent),radial-gradient(1px 1px at 92% 88%, #fff, transparent),radial-gradient(1px 1px at 8% 28%, #fff, transparent),radial-gradient(1.5px 1.5px at 18% 68%, #fff, transparent),radial-gradient(1px 1px at 28% 98%, #fff, transparent),radial-gradient(1px 1px at 38% 38%, #fff, transparent),radial-gradient(1.5px 1.5px at 48% 78%, #fff, transparent),radial-gradient(1px 1px at 58% 18%, #fff, transparent),radial-gradient(1px 1px at 68% 58%, #fff, transparent),radial-gradient(1.5px 1.5px at 78% 98%, #fff, transparent),radial-gradient(1px 1px at 88% 38%, #fff, transparent),radial-gradient(1px 1px at 98% 78%, #fff, transparent),radial-gradient(1px 1px at 3% 13%, #fff, transparent),radial-gradient(1.5px 1.5px at 13% 53%, #fff, transparent),radial-gradient(1px 1px at 23% 93%, #fff, transparent),radial-gradient(1px 1px at 33% 33%, #fff, transparent),radial-gradient(1.5px 1.5px at 43% 73%, #fff, transparent),radial-gradient(1px 1px at 53% 13%, #fff, transparent),radial-gradient(1px 1px at 63% 53%, #fff, transparent),radial-gradient(1.5px 1.5px at 73% 93%, #fff, transparent),radial-gradient(1px 1px at 83% 33%, #fff, transparent),radial-gradient(1px 1px at 93% 73%, #fff, transparent),radial-gradient(1px 1px at 7% 43%, #fff, transparent),radial-gradient(1.5px 1.5px at 17% 83%, #fff, transparent),radial-gradient(1px 1px at 27% 23%, #fff, transparent),radial-gradient(1px 1px at 37% 63%, #fff, transparent),radial-gradient(1.5px 1.5px at 47% 3%, #fff, transparent),radial-gradient(1px 1px at 57% 43%, #fff, transparent),radial-gradient(1px 1px at 67% 83%, #fff, transparent),radial-gradient(1.5px 1.5px at 77% 23%, #fff, transparent),radial-gradient(1px 1px at 87% 63%, #fff, transparent),radial-gradient(1px 1px at 97% 3%, #fff, transparent);padding:0;}
+.constellation-container{position:absolute;top:0;left:0;right:0;height:55%;z-index:1;pointer-events:none;overflow:hidden;}
+.constellation-svg{position:absolute;top:10%;left:10%;width:80%;height:80%;}
+.constellation-star{fill:#fff;filter:drop-shadow(0 0 6px rgba(255,255,255,1));animation:constellationTwinkle 3s ease-in-out infinite;}
+.constellation-line{stroke:rgba(136,186,198,0.7);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
 @keyframes constellationTwinkle{0%,100%{opacity:0.6;}50%{opacity:1;}}
-
-/* ===== КОНТЕНТ — СТРОГО В НИЖНЕЙ ПОЛОВИНЕ ===== */
-.front-content{
-  position:absolute;
-  top:55%;
-  left:0;
-  right:0;
-  bottom:0;
-  z-index:2;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:16px;
-  padding:20px;
-}
-.front-content .glyph{
-  font-size:58px;
-  width:110px;
-  height:110px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,rgba(194,24,91,0.5),rgba(123,17,162,0.5));
-  border:2px solid rgba(245,245,245,0.35);
-  box-shadow:0 0 40px rgba(194,24,91,0.5), inset 0 0 30px rgba(123,17,162,0.3);
-}
+.front-content{position:absolute;top:55%;left:0;right:0;bottom:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:20px;}
+.front-content .glyph{font-size:58px;width:110px;height:110px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(194,24,91,0.5),rgba(123,17,162,0.5));border:2px solid rgba(245,245,245,0.35);box-shadow:0 0 40px rgba(194,24,91,0.5), inset 0 0 30px rgba(123,17,162,0.3);}
 .front-content .tap-hint{color:#88BAC6;font-size:14px;opacity:0.9;}
 .front-content .pname{font-size:24px;font-weight:600;letter-spacing:0.5px;}
-
-.face-back{
-  background:linear-gradient(165deg,rgba(51,58,87,0.95),rgba(13,27,42,0.98));
-  transform:rotateY(180deg);
-  padding:26px 22px;
-}
+.face-back{background:linear-gradient(165deg,rgba(51,58,87,0.95),rgba(13,27,42,0.98));transform:rotateY(180deg);padding:26px 22px;}
 .back-content{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100%;overflow-y:auto;padding-right:8px;}
 .face-back .domain{font-size:12.5px;color:#88BAC6;font-weight:600;margin-bottom:6px;}
 .face-back h3{font-size:20px;margin:0 0 14px;line-height:1.3;}
@@ -200,9 +77,7 @@ p.lead{text-align:center;color:#c9d0da;font-size:15.5px;line-height:1.55;margin:
 .house-note .house-title{display:block;color:#88BAC6;font-size:12.5px;font-weight:600;margin-bottom:6px;}
 .house-note p{margin:0 0 6px;}
 .house-note p:last-child{margin-bottom:0;}
-
 .cards-nav{display:flex;gap:10px;margin-top:0;}
-
 .recap{list-style:none;margin:0 0 20px;padding:0;display:flex;flex-direction:column;gap:10px;}
 .recap li{display:flex;align-items:center;gap:12px;background:rgba(245,245,245,0.06);border:1px solid rgba(245,245,245,0.14);border-radius:14px;padding:11px 14px;font-size:14px;}
 .recap .g{width:34px;height:34px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(77,134,155,0.35),rgba(66,44,71,0.5));font-size:15px;}
@@ -213,8 +88,15 @@ p.lead{text-align:center;color:#c9d0da;font-size:15.5px;line-height:1.55;margin:
 .cta-panel h3{font-size:18px;margin:0 0 8px;}
 .cta-panel p{font-size:14px;margin:0 0 18px;opacity:0.94;line-height:1.5;}
 .cta-panel .btn{background:#fff;color:#422C47;box-shadow:none;}
+.share-buttons{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+.share-buttons .btn{flex:1;min-width:140px;font-size:14px;padding:12px 16px;}
 footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-top:18px;}
 .link-quiet{display:block;text-align:center;margin-top:16px;color:#c9d0da;font-size:13.5px;text-decoration:underline;cursor:pointer;}
+#screenshot-modal{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.9);align-items:center;justify-content:center;padding:20px;}
+#screenshot-modal.active{display:flex;}
+#screenshot-modal .modal-content{background:#0D1B2A;border-radius:22px;padding:20px;max-width:90%;max-height:90vh;overflow:auto;text-align:center;}
+#screenshot-modal img{max-width:100%;border-radius:14px;margin-bottom:16px;}
+#screenshot-modal .modal-buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
 </style>
 </head>
 <body>
@@ -225,7 +107,7 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
   <section class="screen active" id="screen-intro">
     <div class="brand"><span class="dot"></span>ASTRO COACH</div>
     <h1>Что говорят звёзды о тебе?</h1>
-    <p class="lead">Введи дату, время и место рождения — и разложи восемь карт своей натальной карты: Солнце, Луна, планеты и асцендент, тезисно и по делу.</p>
+    <p class="lead">Введи дату, время и место рождения — и разложи карты своей натальной карты: Солнце, Луна, планеты, Лунные Узлы и асцендент, тезисно и по делу.</p>
     <div class="panel">
       <button class="btn btn-primary" id="btn-start">Разложить карты</button>
       <p class="link-quiet">Займёт около двух минут</p>
@@ -256,7 +138,7 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
       <button class="btn btn-primary" id="btn-calc" style="margin-top:6px;">Разложить карты</button>
       <p class="link-quiet" id="btn-back-intro">Назад</p>
     </div>
-    <footer class="note">Расчёт приблизительный и носит развлекательный характер. Для точного разбора приходи на консультацию.</footer>
+    <footer class="note">Расчёт приблизительный и учебный. Для точного разбора приходи на консультацию.</footer>
   </section>
 
   <section class="screen" id="screen-loading">
@@ -298,12 +180,26 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     <div class="portrait" id="portrait"></div>
     <div class="cta-panel">
       <h3>Это только верхний слой карты</h3>
-      <p>Дома, аспекты и транзиты раскрываются на личной консультации. Первая ознакомительная консультация бесплатная.</p>
-      <a class="btn" href="https://vk.ru/astropuzzzle" target="_blank">Перейти в сообщество ВКонтакте и узнать о себе больше.</a>
+      <p>Дома, аспекты и транзиты раскрываются на личной консультации.</p>
+      <a class="btn" href="https://vk.ru/astropuzzzle" target="_blank">Перейти в сообщество ВКонтакте</a>
+    </div>
+    <div class="share-buttons">
+      <button class="btn btn-secondary" id="btn-share">📤 Поделиться</button>
+      <button class="btn btn-secondary" id="btn-screenshot">📸 Скриншот карты</button>
     </div>
     <p class="link-quiet" id="btn-restart">Разложить карты заново</p>
   </section>
 
+</div>
+
+<div id="screenshot-modal">
+  <div class="modal-content">
+    <img id="screenshot-img" alt="Скриншот карты">
+    <div class="modal-buttons">
+      <button class="btn btn-primary" id="btn-download">💾 Скачать</button>
+      <button class="btn btn-secondary" id="btn-close-modal">Закрыть</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -320,7 +216,6 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     sky.appendChild(s);
   }
 
-  // ===== СОЗВЕЗДИЯ — КОМПАКТНЫЕ, В ВЕРХНЕЙ ЧАСТИ =====
   var CONSTELLATIONS={
     'Овен':{stars:[{x:20,y:30},{x:40,y:25},{x:60,y:30},{x:75,y:40},{x:85,y:55},{x:70,y:65},{x:55,y:60}],lines:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6]]},
     'Телец':{stars:[{x:25,y:40},{x:40,y:30},{x:55,y:35},{x:70,y:30},{x:80,y:45},{x:70,y:60},{x:55,y:65},{x:40,y:60}],lines:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0]]},
@@ -345,7 +240,6 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     svg.setAttribute('class','constellation-svg');
     svg.setAttribute('viewBox','0 0 100 100');
     svg.setAttribute('preserveAspectRatio','xMidYMid meet');
-    
     c.lines.forEach(function(line){
       var s1=c.stars[line[0]],s2=c.stars[line[1]];
       var ln=document.createElementNS('http://www.w3.org/2000/svg','line');
@@ -354,7 +248,6 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
       ln.setAttribute('class','constellation-line');
       svg.appendChild(ln);
     });
-    
     c.stars.forEach(function(star,idx){
       var circ=document.createElementNS('http://www.w3.org/2000/svg','circle');
       circ.setAttribute('cx',star.x);circ.setAttribute('cy',star.y);
@@ -363,7 +256,6 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
       circ.style.animationDelay=(idx*0.3)+'s';
       svg.appendChild(circ);
     });
-    
     container.appendChild(svg);
   }
 
@@ -372,7 +264,7 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
   function toJulian(Y,M,D,h){if(M<=2){Y-=1;M+=12;}var A=Math.floor(Y/100);var B=2-A+Math.floor(A/4);return Math.floor(365.25*(Y+4716))+Math.floor(30.6001*(M+1))+D+B-1524.5+h/24;}
   function eccAnomaly(Mdeg,e){var M=Mdeg*D2R;var E=M+e*Math.sin(M)*(1+e*Math.cos(M));for(var i=0;i<10;i++){var dE=(E-e*Math.sin(E)-M)/(1-e*Math.cos(E));E-=dE;}return E;}
   function sunLon(d){var w=norm360(282.9404+4.70935e-5*d);var e=0.016709-1.151e-9*d;var M=norm360(356.0470+0.9856002585*d);var E=eccAnomaly(M,e);var xv=Math.cos(E)-e;var yv=Math.sqrt(1-e*e)*Math.sin(E);var v=norm360(Math.atan2(yv,xv)*R2D);var r=Math.sqrt(xv*xv+yv*yv);return{lon:norm360(v+w),r:r};}
-  function elementsFor(planet,d){switch(planet){case'moon':return{N:norm360(125.1228-0.0529538083*d),i:5.1454,w:norm360(318.0634+0.1643573223*d),a:60.2666,e:0.054900,M:norm360(115.3654+13.0649929509*d)};case'mercury':return{N:48.3313+3.24587e-5*d,i:7.0047,w:29.1241,a:0.387098,e:0.205635,M:norm360(168.6562+4.0923344368*d)};case'venus':return{N:76.6799+2.4659e-5*d,i:3.3946,w:54.8910,a:0.723330,e:0.006773,M:norm360(48.0052+1.6021302244*d)};case'mars':return{N:49.5574+2.11081e-5*d,i:1.8497,w:286.5016,a:1.523688,e:0.093405,M:norm360(18.6021+0.5240207766*d)};case'jupiter':return{N:100.4542+2.76854e-5*d,i:1.3030,w:273.8777,a:5.20256,e:0.048498,M:norm360(19.8950+0.0830853001*d)};case'saturn':return{N:113.6634+2.38980e-5*d,i:2.4886,w:339.3939,a:9.55475,e:0.055546,M:norm360(316.9670+0.0334442282*d)};}}
+  function elementsFor(planet,d){switch(planet){case'moon':return{N:norm360(125.04452-0.0529538083*d),i:5.1454,w:norm360(318.0634+0.1643573223*d),a:60.2666,e:0.054900,M:norm360(115.3654+13.0649929509*d)};case'mercury':return{N:48.3313+3.24587e-5*d,i:7.0047,w:29.1241,a:0.387098,e:0.205635,M:norm360(168.6562+4.0923344368*d)};case'venus':return{N:76.6799+2.4659e-5*d,i:3.3946,w:54.8910,a:0.723330,e:0.006773,M:norm360(48.0052+1.6021302244*d)};case'mars':return{N:49.5574+2.11081e-5*d,i:1.8497,w:286.5016,a:1.523688,e:0.093405,M:norm360(18.6021+0.5240207766*d)};case'jupiter':return{N:100.4542+2.76854e-5*d,i:1.3030,w:273.8777,a:5.20256,e:0.048498,M:norm360(19.8950+0.0830853001*d)};case'saturn':return{N:113.6634+2.38980e-5*d,i:2.4886,w:339.3939,a:9.55475,e:0.055546,M:norm360(316.9670+0.0334442282*d)};}}
   function helioPos(el){var N=el.N*D2R,i=el.i*D2R,w=el.w*D2R;var E=eccAnomaly(el.M,el.e);var xv=el.a*(Math.cos(E)-el.e);var yv=el.a*(Math.sqrt(1-el.e*el.e)*Math.sin(E));var v=Math.atan2(yv,xv);var r=Math.sqrt(xv*xv+yv*yv);var xh=r*(Math.cos(N)*Math.cos(v+w)-Math.sin(N)*Math.sin(v+w)*Math.cos(i));var yh=r*(Math.sin(N)*Math.cos(v+w)+Math.cos(N)*Math.sin(v+w)*Math.cos(i));var zh=r*(Math.sin(v+w)*Math.sin(i));return{xh:xh,yh:yh,zh:zh};}
   function geoLon(planet,d,xs,ys){var el=elementsFor(planet,d);var p=helioPos(el);if(planet==='moon')return norm360(Math.atan2(p.yh,p.xh)*R2D);var xg=p.xh+xs,yg=p.yh+ys;return norm360(Math.atan2(yg,xg)*R2D);}
   function ascendantLon(ramc,latDeg){var ecl=23.4393*D2R;var lat=latDeg*D2R;var ramcR=ramc*D2R;var asc=Math.atan2(Math.cos(ramcR),-(Math.sin(ramcR)*Math.cos(ecl)+Math.tan(lat)*Math.sin(ecl)));return norm360(asc*R2D);}
@@ -383,7 +275,28 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
   function placidusHouses(ramc,latDeg){var mc=mcLon(ramc);var ic=norm360(mc+180);var asc=ascendantLon(ramc,latDeg);var desc=norm360(asc+180);var raIC=norm360(ramc+180);var c11=solveSemiArcCusp(ramc,1/3,false,latDeg,norm360(mc+20));var c12=solveSemiArcCusp(ramc,2/3,false,latDeg,norm360(mc+40));var c3=solveSemiArcCusp(raIC,-1/3,true,latDeg,norm360(ic-20));var c2=solveSemiArcCusp(raIC,-2/3,true,latDeg,norm360(ic-40));return{1:asc,2:c2,3:c3,4:ic,5:norm360(c11+180),6:norm360(c12+180),7:desc,8:norm360(c2+180),9:norm360(c3+180),10:mc,11:c11,12:c12};}
   function houseOfLongitude(lon,cusps){for(var i=1;i<=12;i++){var start=cusps[i];var end=cusps[i%12+1];var span=norm360(end-start);var pos=norm360(lon-start);if(pos<span)return i;}return 12;}
   function ramcOf(jd,lonDegEast){var gmst=280.46061837+360.98564736629*(jd-2451545.0);return norm360(norm360(gmst)+lonDegEast);}
-  function computeChart(Y,M,D,hh,mm,hasTime,lat,lon,tz){var localHours=hh+mm/60;var utHours=localHours-tz;var jd=toJulian(Y,M,D,utHours);var d=jd-2451543.5;var sun=sunLon(d);var xs=sun.r*Math.cos(sun.lon*D2R),ys=sun.r*Math.sin(sun.lon*D2R);var lons={sun:sun.lon};['moon','mercury','venus','mars','jupiter','saturn'].forEach(function(p){lons[p]=geoLon(p,d,xs,ys);});var res={};Object.keys(lons).forEach(function(k){res[k]={lon:lons[k],sign:SIGNS[Math.floor(norm360(lons[k])/30)],house:null};});if(hasTime){var ramc=ramcOf(jd,lon);var cusps=placidusHouses(ramc,lat);res.asc={lon:cusps[1],sign:SIGNS[Math.floor(norm360(cusps[1])/30)],house:1};Object.keys(res).forEach(function(k){if(k==='asc')return;res[k].house=houseOfLongitude(res[k].lon,cusps);});}return res;}
+  function computeChart(Y,M,D,hh,mm,hasTime,lat,lon,tz){
+    var localHours=hh+mm/60;
+    var utHours=localHours-tz;
+    var jd=toJulian(Y,M,D,utHours);
+    var d=jd-2451543.5;
+    var sun=sunLon(d);
+    var xs=sun.r*Math.cos(sun.lon*D2R),ys=sun.r*Math.sin(sun.lon*D2R);
+    var lons={sun:sun.lon};
+    ['moon','mercury','venus','mars','jupiter','saturn'].forEach(function(p){lons[p]=geoLon(p,d,xs,ys);});
+    var moonEl=elementsFor('moon',d);
+    lons.northNode=moonEl.N;
+    lons.southNode=norm360(moonEl.N+180);
+    var res={};
+    Object.keys(lons).forEach(function(k){res[k]={lon:lons[k],sign:SIGNS[Math.floor(norm360(lons[k])/30)],house:null};});
+    if(hasTime){
+      var ramc=ramcOf(jd,lon);
+      var cusps=placidusHouses(ramc,lat);
+      res.asc={lon:cusps[1],sign:SIGNS[Math.floor(norm360(cusps[1])/30)],house:1};
+      Object.keys(res).forEach(function(k){if(k==='asc')return;res[k].house=houseOfLongitude(res[k].lon,cusps);});
+    }
+    return res;
+  }
 
   var SIGNS=['Овен','Телец','Близнецы','Рак','Лев','Дева','Весы','Скорпион','Стрелец','Козерог','Водолей','Рыбы'];
   var SIGN_GLYPH={'Овен':'♈','Телец':'♉','Близнецы':'♊','Рак':'♋','Лев':'♌','Дева':'♍','Весы':'♎','Скорпион':'♏','Стрелец':'♐','Козерог':'♑','Водолей':'♒','Рыбы':'♓'};
@@ -474,20 +387,45 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     'saturn-Водолей':{core:'Твой урок — быть собой в коллективе.',gift:'независимость',shadow:'бунт'},
     'saturn-Рыбы':{core:'Твой урок — чувствительность с границами.',gift:'духовность',shadow:'страх чувств'},
     'asc-Овен':{core:'Мир считывает тебя как человека действия — смелого, прямого и решительного.',gift:'мгновенная способность включаться в дело и вести за собой других',shadow:'резкость и нетерпеливость, которые могут отпугнуть при первом знакомстве'},
-'asc-Телец':{core:'Мир считывает тебя как надёжного и спокойного человека с сильным внутренним стержнем.',gift:'притягательная устойчивость и умение создавать ощущение безопасности рядом с тобой',shadow:'медлительность и упрямство, которые могут раздражать тех, кто привык к быстрому темпу'},
-'asc-Близнецы':{core:'Мир считывает тебя как лёгкого, общительного и любопытного человека.',gift:'обаяние и способность легко входить в контакт с кем угодно',shadow:'поверхностность и непостоянство, из-за которых тебя могут не воспринимать всерьёз'},
-'asc-Рак':{core:'Мир считывает тебя как мягкого, душевного и заботливого человека.',gift:'тёплая эмпатия и способность создавать уютную атмосферу вокруг себя',shadow:'ранимость и склонность закрываться, когда что-то идёт не так'},
-'asc-Лев':{core:'Мир считывает тебя как яркого, харизматичного и уверенного в себе человека.',gift:'природное обаяние и способность быть в центре внимания без усилий',shadow:'демонстративность и потребность в постоянном восхищении, которая может утомлять'},
-'asc-Дева':{core:'Мир считывает тебя как собранного, аккуратного и внимательного человека.',gift:'надёжность и точность — на тебя всегда можно положиться',shadow:'критичность и излишняя придирчивость к деталям, которая создаёт напряжение'},
-'asc-Весы':{core:'Мир считывает тебя как гармоничного, дипломатичного и эстетичного человека.',gift:'тонкий такт и умение создавать приятную атмосферу в любом обществе',shadow:'нерешительность и зависимость от чужого мнения, из-за которой тебя сложно считать сильным'},
-'asc-Скорпион':{core:'Мир считывает тебя как глубокого, магнетического и проницательного человека.',gift:'пронзительный взгляд и способность видеть людей насквозь',shadow:'закрытость и интенсивность, которые могут пугать при первом знакомстве'},
-'asc-Стрелец':{core:'Мир считывает тебя как открытого, вдохновляющего и свободолюбивого человека.',gift:'оптимизм и способность расширять горизонты других людей одним своим присутствием',shadow:'прямолинейность и категоричность, которые могут задеть чувствительных людей'},
-'asc-Козерог':{core:'Мир считывает тебя как серьёзного, зрелого и авторитетного человека.',gift:'способность брать ответственность и вызывать уважение с первого взгляда',shadow:'холодность и эмоциональная сдержанность, из-за которой тебя могут считать недоступным'},
-'asc-Водолей':{core:'Мир считывает тебя как оригинального, независимого и нестандартного человека.',gift:'уникальность и способность удивлять — ты запоминаешься с первой встречи',shadow:'отстранённость и непредсказуемость, которые мешают установить близкий контакт'},
-'asc-Рыбы':{core:'Мир считывает тебя как мягкого, загадочного и тонко чувствующего человека.',gift:'эмпатия и способность считывать настроение других без слов',shadow:'неуверенность и размытость границ, из-за которой тебя могут использовать'};
+    'asc-Телец':{core:'Мир считывает тебя как надёжного и спокойного человека с сильным внутренним стержнем.',gift:'притягательная устойчивость и умение создавать ощущение безопасности рядом с тобой',shadow:'медлительность и упрямство, которые могут раздражать тех, кто привык к быстрому темпу'},
+    'asc-Близнецы':{core:'Мир считывает тебя как лёгкого, общительного и любопытного человека.',gift:'обаяние и способность легко входить в контакт с кем угодно',shadow:'поверхностность и непостоянство, из-за которых тебя могут не воспринимать всерьёз'},
+    'asc-Рак':{core:'Мир считывает тебя как мягкого, душевного и заботливого человека.',gift:'тёплая эмпатия и способность создавать уютную атмосферу вокруг себя',shadow:'ранимость и склонность закрываться, когда что-то идёт не так'},
+    'asc-Лев':{core:'Мир считывает тебя как яркого, харизматичного и уверенного в себе человека.',gift:'природное обаяние и способность быть в центре внимания без усилий',shadow:'демонстративность и потребность в постоянном восхищении, которая может утомлять'},
+    'asc-Дева':{core:'Мир считывает тебя как собранного, аккуратного и внимательного человека.',gift:'надёжность и точность — на тебя всегда можно положиться',shadow:'критичность и излишняя придирчивость к деталям, которая создаёт напряжение'},
+    'asc-Весы':{core:'Мир считывает тебя как гармоничного, дипломатичного и эстетичного человека.',gift:'тонкий такт и умение создавать приятную атмосферу в любом обществе',shadow:'нерешительность и зависимость от чужого мнения, из-за которой тебя сложно считать сильным'},
+    'asc-Скорпион':{core:'Мир считывает тебя как глубокого, магнетического и проницательного человека.',gift:'пронзительный взгляд и способность видеть людей насквозь',shadow:'закрытость и интенсивность, которые могут пугать при первом знакомстве'},
+    'asc-Стрелец':{core:'Мир считывает тебя как открытого, вдохновляющего и свободолюбивого человека.',gift:'оптимизм и способность расширять горизонты других людей одним своим присутствием',shadow:'прямолинейность и категоричность, которые могут задеть чувствительных людей'},
+    'asc-Козерог':{core:'Мир считывает тебя как серьёзного, зрелого и авторитетного человека.',gift:'способность брать ответственность и вызывать уважение с первого взгляда',shadow:'холодность и эмоциональная сдержанность, из-за которой тебя могут считать недоступным'},
+    'asc-Водолей':{core:'Мир считывает тебя как оригинального, независимого и нестандартного человека.',gift:'уникальность и способность удивлять — ты запоминаешься с первой встречи',shadow:'отстранённость и непредсказуемость, которые мешают установить близкий контакт'},
+    'asc-Рыбы':{core:'Мир считывает тебя как мягкого, загадочного и тонко чувствующего человека.',gift:'эмпатия и способность считывать настроение других без слов',shadow:'неуверенность и размытость границ, из-за которой тебя могут использовать'},
+    'northNode-Овен':{core:'Твоя задача — научиться быть самостоятельным, действовать смело и без оглядки на других.',gift:'смелость идти своим путём',shadow:'эгоизм и нетерпеливость'},
+    'northNode-Телец':{core:'Твоя задача — научиться ценить себя, создавать стабильность и наслаждаться жизнью.',gift:'умение создавать материальную опору',shadow:'жадность и лень'},
+    'northNode-Близнецы':{core:'Твоя задача — научиться общаться, обмениваться информацией и быть любопытным.',gift:'лёгкость в коммуникации',shadow:'поверхностность'},
+    'northNode-Рак':{core:'Твоя задача — научиться заботиться, создавать эмоциональную безопасность и дом.',gift:'способность к глубокой эмпатии',shadow:'чрезмерная привязанность'},
+    'northNode-Лев':{core:'Твоя задача — научиться творить, выражать себя ярко и быть в центре.',gift:'творческая сила и харизма',shadow:'гордыня и эгоцентризм'},
+    'northNode-Дева':{core:'Твоя задача — научиться служить, быть полезным и внимательным к деталям.',gift:'практическая мудрость',shadow:'перфекционизм и критичность'},
+    'northNode-Весы':{core:'Твоя задача — научиться партнёрству, балансу и гармонии в отношениях.',gift:'дипломатичность и такт',shadow:'зависимость от других'},
+    'northNode-Скорпион':{core:'Твоя задача — научиться глубине, трансформации и доверию.',gift:'проницательность и сила',shadow:'подозрительность и контроль'},
+    'northNode-Стрелец':{core:'Твоя задача — научиться расширять горизонты, искать смысл и верить.',gift:'оптимизм и широта взглядов',shadow:'категоричность'},
+    'northNode-Козерог':{core:'Твоя задача — научиться ответственности, структуре и достижению целей.',gift:'дисциплина и выносливость',shadow:'холодность и жёсткость'},
+    'northNode-Водолей':{core:'Твоя задача — научиться быть собой в коллективе, мыслить независимо.',gift:'оригинальность и гуманизм',shadow:'отстранённость'},
+    'northNode-Рыбы':{core:'Твоя задача — научиться состраданию, духовности и принятию невидимого.',gift:'эмпатия и интуиция',shadow:'растворение в иллюзиях'},
+    'southNode-Овен':{core:'Ты уже умеешь действовать смело и независимо — это твоя зона комфорта из прошлого.',gift:'врождённая смелость',shadow:'импульсивность и эгоизм'},
+    'southNode-Телец':{core:'Ты уже умеешь создавать стабильность и ценить материальное — это твой прошлый опыт.',gift:'практичность',shadow:'упрямство и жадность'},
+    'southNode-Близнецы':{core:'Ты уже умеешь общаться и собирать информацию — это твоя привычная зона.',gift:'коммуникабельность',shadow:'болтовня и поверхностность'},
+    'southNode-Рак':{core:'Ты уже умеешь заботиться и создавать уют — это твой прошлый навык.',gift:'эмпатия',shadow:'чрезмерная чувствительность'},
+    'southNode-Лев':{core:'Ты уже умеешь сиять и быть в центре — это твоя привычная роль.',gift:'харизма',shadow:'гордыня'},
+    'southNode-Дева':{core:'Ты уже умеешь быть полезным и внимательным — это твоя зона комфорта.',gift:'аналитичность',shadow:'критичность'},
+    'southNode-Весы':{core:'Ты уже умеешь находить баланс и дипломатичность — это твой прошлый опыт.',gift:'такт',shadow:'нерешительность'},
+    'southNode-Скорпион':{core:'Ты уже умеешь видеть глубинное и трансформироваться — это твоя сила.',gift:'проницательность',shadow:'подозрительность'},
+    'southNode-Стрелец':{core:'Ты уже умеешь видеть картину целиком и верить — это твоя база.',gift:'оптимизм',shadow:'категоричность'},
+    'southNode-Козерог':{core:'Ты уже умеешь быть ответственным и дисциплинированным — это твоя основа.',gift:'выносливость',shadow:'холодность'},
+    'southNode-Водолей':{core:'Ты уже умеешь мыслить независимо и быть оригинальным — это твоя природа.',gift:'нестандартность',shadow:'отстранённость'},
+    'southNode-Рыбы':{core:'Ты уже умеешь чувствовать тонкое и сострадать — это твоя глубина.',gift:'интуиция',shadow:'иллюзии'}
+  };
 
   var HOUSES={
-    1:{title:'Дом личности',area:'внешности человека и первого впечатления о нём',desc:'Как ты заявляешь о себе и с чего начинаешь любое дело.'},
+    1:{title:'Дом личности',area:'себя и личных начинаний',desc:'Как ты заявляешь о себе и с чего начинаешь любое дело.'},
     2:{title:'Дом денег и ценностей',area:'денег, ресурсов и ценностей',desc:'Что даёт тебе чувство опоры и какими ресурсами ты дорожишь.'},
     3:{title:'Дом общения',area:'общения, учёбы и повседневных связей',desc:'Как ты думаешь, учишься и общаешься с ближним кругом.'},
     4:{title:'Дом дома и семьи',area:'дома, семьи и корней',desc:'Что стоит за твоим ощущением дома и связью с корнями.'},
@@ -500,7 +438,7 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     11:{title:'Дом сообществ и целей',area:'сообществ, друзей и планов на будущее',desc:'С кем ты идёшь к общим целям и каким видишь своё будущее.'},
     12:{title:'Дом уединения',area:'внутреннего мира и уединения',desc:'Что происходит в твоём внутреннем мире, скрытом от посторонних глаз.'}
   };
-  var PLANET_ACTION={sun:'ты проявляешь себя и светишь',moon:'ты ищешь эмоциональную опору',asc:'ты показываешь себя миру',mercury:'ты думаешь, учишься и говоришь',venus:'ты любишь и создаёшь красоту',mars:'ты действуешь и идёшь напролом',jupiter:'ты растёшь и находишь удачу',saturn:'ты берёшь ответственность и проходишь главные уроки'};
+  var PLANET_ACTION={sun:'ты проявляешь себя и светишь',moon:'ты ищешь эмоциональную опору',asc:'ты показываешь себя миру',mercury:'ты думаешь, учишься и говоришь',venus:'ты любишь и создаёшь красоту',mars:'ты действуешь и идёшь напролом',jupiter:'ты растёшь и находишь удачу',saturn:'ты берёшь ответственность и проходишь главные уроки',northNode:'ты движешься к своему предназначению',southNode:'ты опираешься на опыт прошлых жизней'};
   var PLANETS={
     sun:{glyph:'☉',name:'Солнце',domain:'суть личности и жизненная сила'},
     moon:{glyph:'☽',name:'Луна',domain:'эмоции и внутренний мир'},
@@ -509,10 +447,12 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
     venus:{glyph:'♀',name:'Венера',domain:'любовь и ценности'},
     mars:{glyph:'♂',name:'Марс',domain:'энергия и действие'},
     jupiter:{glyph:'♃',name:'Юпитер',domain:'рост, удача и убеждения'},
-    saturn:{glyph:'♄',name:'Сатурн',domain:'дисциплина и главные уроки'}
+    saturn:{glyph:'♄',name:'Сатурн',domain:'дисциплина и главные уроки'},
+    northNode:{glyph:'☊',name:'Северный Узел',domain:'кармическая задача и предназначение'},
+    southNode:{glyph:'☋',name:'Южный Узел',domain:'опыт прошлых жизней и зона комфорта'}
   };
-  var ORDER_FULL=['sun','moon','asc','mercury','venus','mars','jupiter','saturn'];
-  var ORDER_NOTIME=['sun','moon','mercury','venus','mars','jupiter','saturn'];
+  var ORDER_FULL=['sun','moon','asc','mercury','venus','mars','jupiter','saturn','northNode','southNode'];
+  var ORDER_NOTIME=['sun','moon','mercury','venus','mars','jupiter','saturn','northNode','southNode'];
   var CITIES=[
     ['Москва',55.7558,37.6173,3],['Санкт-Петербург',59.9343,30.3351,3],['Новосибирск',55.0084,82.9357,7],
     ['Екатеринбург',56.8389,60.6057,5],['Казань',55.8304,49.0661,3],['Нижний Новгород',56.2965,43.9361,3],
@@ -661,21 +601,64 @@ footer.note{text-align:center;color:#c9d0da;font-size:11.5px;opacity:0.7;margin-
       li.innerHTML='<span class="g">'+pinfo.glyph+'</span><span class="t"><b>'+pinfo.name+' в '+res.sign+'</b><span>'+pinfo.domain+'</span></span>';
       recapEl.appendChild(li);
     });
+    
     var sunSign=STATE.results.sun.sign;
     var moonSign=STATE.results.moon.sign;
     var sunTraits=PLANET_IN_SIGN['sun-'+sunSign];
     var moonTraits=PLANET_IN_SIGN['moon-'+moonSign];
-    var text='По сути ты — '+sunSign.toLowerCase()+': '+(sunTraits?sunTraits.core.toLowerCase():'')+'. ';
-    text+='А в душе, в мире эмоций, тобой управляет '+moonSign.toLowerCase()+' — '+(moonTraits?moonTraits.core.toLowerCase():'')+'. ';
+    
+    var text='По сути ты — '+sunSign.toLowerCase()+'. ';
+    if(sunTraits){
+      text+=sunTraits.core+' ';
+      text+='Твой главный дар — '+sunTraits.gift+'. ';
+    }
+    
+    text+='В мире эмоций тобой управляет '+moonSign.toLowerCase()+'. ';
+    if(moonTraits){
+      text+=moonTraits.core+' ';
+      text+='В близких отношениях ты '+moonTraits.gift+'. ';
+    }
+    
     if(STATE.results.asc){
       var ascSign=STATE.results.asc.sign;
       var ascTraits=PLANET_IN_SIGN['asc-'+ascSign];
-      text+='Миру же ты показываешь себя через '+ascSign.toLowerCase()+(ascTraits?': '+(ascTraits.core.charAt(0).toLowerCase()+ascTraits.core.slice(1)):'');
+      text+='А вот как тебя видят другие. ';
+      text+='Твой асцендент в '+ascSign.toLowerCase()+'. ';
+      if(ascTraits){
+        text+=ascTraits.core+' ';
+        text+='Люди тянутся к тебе за '+ascTraits.gift+'. ';
+        text+='Но иногда могут подумать, что ты '+ascTraits.shadow+' — не пугайся, это лишь первое впечатление.';
+      }
     }else{
-      text+='Время рождения не было указано точно, поэтому асцендент и дома в этой раскладке не участвовали.';
+      text+='Время рождения не было указано точно, поэтому асцендент и дома в этой раскладке не участвовали. На личной консультации мы рассчитаем их точно.';
     }
+    
     portraitEl.textContent=text;
   }
+
+  document.getElementById('btn-share').addEventListener('click',function(){
+    var shareData={title:'Моя натальная карта — ASTRO COACH',text:'Узнай, что говорят звёзды о тебе! Разложи карты своей натальной карты бесплатно.',url:window.location.href};
+    if(navigator.share){navigator.share(shareData).catch(function(){});}
+    else{var dummy=document.createElement('input');document.body.appendChild(dummy);dummy.value=window.location.href;dummy.select();document.execCommand('copy');document.body.removeChild(dummy);alert('Ссылка скопирована! Теперь можешь поделиться ею с друзьями.');}
+  });
+
+  var screenshotModal=document.getElementById('screenshot-modal');
+  var screenshotImg=document.getElementById('screenshot-img');
+  
+  document.getElementById('btn-screenshot').addEventListener('click',function(){
+    var cardToCapture=document.getElementById('card');
+    html2canvas(cardToCapture,{backgroundColor:'#05051a',scale:2,useCORS:true,logging:false}).then(function(canvas){
+      screenshotImg.src=canvas.toDataURL('image/png');
+      screenshotModal.classList.add('active');
+    }).catch(function(){alert('Не удалось создать скриншот. Попробуй ещё раз.');});
+  });
+
+  document.getElementById('btn-download').addEventListener('click',function(){
+    var link=document.createElement('a');link.download='astro-card.png';link.href=screenshotImg.src;link.click();
+  });
+
+  document.getElementById('btn-close-modal').addEventListener('click',function(){screenshotModal.classList.remove('active');});
+  screenshotModal.addEventListener('click',function(e){if(e.target===screenshotModal){screenshotModal.classList.remove('active');}});
 
   document.getElementById('btn-restart').addEventListener('click',function(){showScreen('screen-intro');});
 
