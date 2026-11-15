@@ -1,0 +1,35 @@
+"$schema" = "https://open-api.netlify.com/netlify.schema.json"
+
+# Сайт статический: сборка не нужна, публикуем папку приложения.
+[build]
+  publish = "astrocoach"
+
+# Базовые защитные заголовки для всех страниц.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+
+# Файлы без хеша в имени: просим браузер всегда проверять свежесть,
+# иначе после обновления сайта у людей может остаться старая версия.
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    cache-control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/styles.css"
+  [headers.values]
+    cache-control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/script.js"
+  [headers.values]
+    cache-control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/vendor/*"
+  [headers.values]
+    cache-control = "public, max-age=0, must-revalidate"

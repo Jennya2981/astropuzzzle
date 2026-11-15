@@ -433,7 +433,7 @@
   }
 
   document.getElementById('btn-share').addEventListener('click',function(){
-    var shareData={title:'Подгляди в свою натальную карту без астролога',text:'Узнай, что говорят звёзды о тебе! Разложи карты своей натальной карты бесплатно.',url:window.location.href};
+    var shareData={title:'Подгляди в свою натальную карту без астролога',text:'Разложи свою натальную карту бесплатно — 2 минуты, без регистрации.',url:window.location.href};
     if(navigator.share){navigator.share(shareData).catch(function(){});}
     else{var dummy=document.createElement('input');document.body.appendChild(dummy);dummy.value=window.location.href;dummy.select();document.execCommand('copy');document.body.removeChild(dummy);alert('Ссылка скопирована! Теперь можешь поделиться ею с друзьями.');}
   });

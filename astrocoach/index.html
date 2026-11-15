@@ -8,13 +8,17 @@
 <meta property="og:title" content="Подгляди в свою натальную карту без астролога">
 <meta property="og:description" content="Введи дату, время и место рождения — и получи краткий портрет по картам.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://jennya2981.github.io/astropuzzzle/astrocoach/">
+<meta property="og:url" content="https://astropuzzzle.netlify.app/">
+<!-- TODO: при подключении домена заменить og:url на https://app.astropuzzzle.ru/ -->
 <meta property="og:site_name" content="Подгляди в свою натальную карту без астролога">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Подгляди в свою натальную карту без астролога">
 <meta name="twitter:description" content="Введи дату, время и место рождения — и получи краткий портрет о себе.">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<meta name="theme-color" content="#0D1B2A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%230D1B2A'/%3E%3Ccircle cx='50' cy='50' r='13' fill='%23C2185B'/%3E%3Ccircle cx='72' cy='30' r='5' fill='%2388BAC6'/%3E%3C/svg%3E">
+<script src="vendor/html2canvas.min.js"></script>
 <link rel="stylesheet" href="styles.css">
+<!-- TODO: вставить счётчик Яндекс.Метрики и цели на #btn-booking и #btn-share -->
 </head>
 <body>
 
@@ -27,7 +31,7 @@
     <p class="lead">Введи дату, время и место рождения — и разложи карты своей натальной карты: Солнце, Луна, планеты, Лунные Узлы и асцендент, тезисно и по делу.</p>
     <div class="panel">
       <button class="btn btn-primary" id="btn-start">Разложить карты</button>
-      <p class="link-quiet">Займёт около двух минут</p>
+      <p class="data-note">Займёт около двух минут. Данные не сохраняются и никуда не отправляются</p>
     </div>
   </section>
 
@@ -55,7 +59,7 @@
       <button class="btn btn-primary" id="btn-calc" style="margin-top:6px;">Разложить карты</button>
       <p class="link-quiet" id="btn-back-intro">Назад</p>
     </div>
-    <footer class="note">Расчёт приблизительный и учебный. Для точного разбора приходи на консультацию.</footer>
+    <footer class="note">Расчёт приблизительный и учебный. Для точного разбора — бесплатная встреча.</footer>
   </section>
 
   <section class="screen" id="screen-loading">
@@ -97,13 +101,15 @@
     <div class="portrait" id="portrait"></div>
     <div class="cta-panel">
       <h3>Это только верхний слой карты</h3>
-      <p>Дома, аспекты и транзиты раскрываются на личной консультации.</p>
-      <a class="btn" href="https://vk.ru/astropuzzzle" target="_blank">Перейти в сообщество ВКонтакте</a>
+      <p>Дома, аспекты и транзиты здесь не разбираются. Сценарий, который повторяется в любви и деньгах, разбираем на встрече — 30–40 минут, без обязательств.</p>
+      <a class="btn" id="btn-booking" href="https://vk.ru/astropuzzzle?w=service-booking-205837416&amp;entrypoint=group_menu" target="_blank">Записаться на бесплатную встречу</a>
+      <p class="cta-note">Данные рождения не сохраняются и не передаются. Расчёт учебный.</p>
     </div>
     <div class="share-buttons">
       <button class="btn btn-secondary" id="btn-share">📤 Поделиться</button>
       <button class="btn btn-secondary" id="btn-screenshot"> Скриншот карты</button>
     </div>
+    <p class="link-quiet"><a href="https://vk.ru/astropuzzzle" target="_blank" style="color:#c9d0da;text-decoration:none;">Сообщество AstroPuzzzle ВКонтакте</a></p>
     <p class="link-quiet" id="btn-restart">Разложить карты заново</p>
   </section>
 
