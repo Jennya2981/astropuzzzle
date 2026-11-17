@@ -364,7 +364,7 @@
     frontGlyph.textContent=pinfo.glyph;
     frontName.textContent=pinfo.name;
     backDomain.textContent=pinfo.domain;
-    backTitle.textContent=pinfo.name+' в '+res.sign+' '+SIGN_GLYPH[res.sign];
+    backTitle.textContent=pinfo.name+' в '+SIGN_PREPOSITIONAL[res.sign]+' '+SIGN_GLYPH[res.sign];
     if(traits){
       backThesis.innerHTML='<li>'+traits.core+'</li><li><b>Дар:</b> '+traits.gift+'</li><li><b>Тень:</b> '+traits.shadow+'</li>';
     }else{
@@ -394,7 +394,7 @@
       var pinfo=PLANETS[key];
       var res=STATE.results[key];
       var li=document.createElement('li');
-      li.innerHTML='<span class="g">'+pinfo.glyph+'</span><span class="t"><b>'+pinfo.name+' в '+res.sign+'</b><span>'+pinfo.domain+'</span></span>';
+      li.innerHTML='<span class="g">'+pinfo.glyph+'</span><span class="t"><b>'+pinfo.name+' в '+SIGN_PREPOSITIONAL[res.sign]+'</b><span>'+pinfo.domain+'</span></span>';
       recapEl.appendChild(li);
     });
     
@@ -409,7 +409,7 @@
       text+='Твой главный дар — '+sunTraits.gift+'. ';
     }
     
-    text+='В мире эмоций тобой управляет '+moonSign.toLowerCase()+'. ';
+    text+='В мире эмоций ты — '+moonSign.toLowerCase()+'. ';
     if(moonTraits){
       text+=moonTraits.core+' ';
       text+='В близких отношениях твоя сильная сторона — '+moonTraits.gift+'. ';
