@@ -1,0 +1,20 @@
+name: Опубликовать сайт на Netlify
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Скачать файлы проекта
+        uses: actions/checkout@v4
+
+      - name: Опубликовать на Netlify
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: e3b2ad20-b48d-49ea-a923-56d9b14c7a5c
+        run: npx --yes netlify-cli@latest deploy --prod --dir=astrocoach
