@@ -438,24 +438,6 @@
     else{var dummy=document.createElement('input');document.body.appendChild(dummy);dummy.value=window.location.href;dummy.select();document.execCommand('copy');document.body.removeChild(dummy);alert('Ссылка скопирована! Теперь можешь поделиться ею с друзьями.');}
   });
 
-  var screenshotModal=document.getElementById('screenshot-modal');
-  var screenshotImg=document.getElementById('screenshot-img');
-  
-  document.getElementById('btn-screenshot').addEventListener('click',function(){
-    var cardToCapture=document.getElementById('card');
-    html2canvas(cardToCapture,{backgroundColor:'#05051a',scale:2,useCORS:true,logging:false}).then(function(canvas){
-      screenshotImg.src=canvas.toDataURL('image/png');
-      screenshotModal.classList.add('active');
-    }).catch(function(){alert('Не удалось создать скриншот. Попробуй ещё раз.');});
-  });
-
-  document.getElementById('btn-download').addEventListener('click',function(){
-    var link=document.createElement('a');link.download='astro-card.png';link.href=screenshotImg.src;link.click();
-  });
-
-  document.getElementById('btn-close-modal').addEventListener('click',function(){screenshotModal.classList.remove('active');});
-  screenshotModal.addEventListener('click',function(e){if(e.target===screenshotModal){screenshotModal.classList.remove('active');}});
-
   document.getElementById('btn-restart').addEventListener('click',function(){showScreen('screen-intro');});
 
 })();

@@ -16,7 +16,6 @@
 <meta name="twitter:description" content="Введи дату, время и место рождения — и получи краткий портрет о себе.">
 <meta name="theme-color" content="#0D1B2A">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%230D1B2A'/%3E%3Ccircle cx='50' cy='50' r='13' fill='%23C2185B'/%3E%3Ccircle cx='72' cy='30' r='5' fill='%2388BAC6'/%3E%3C/svg%3E">
-<script defer src="vendor/html2canvas.min.js?v=2"></script>
 <link rel="stylesheet" href="styles.css?v=2">
 <!-- TODO: вставить счётчик Яндекс.Метрики и цели на #btn-booking и #btn-share -->
 </head>
@@ -107,22 +106,11 @@
     </div>
     <div class="share-buttons">
       <button class="btn btn-secondary" id="btn-share">📤 Поделиться</button>
-      <button class="btn btn-secondary" id="btn-screenshot"> Скриншот карты</button>
     </div>
     <p class="link-quiet"><a href="https://vk.ru/astropuzzzle" target="_blank" style="color:#c9d0da;text-decoration:none;">Сообщество AstroPuzzzle ВКонтакте</a></p>
     <p class="link-quiet" id="btn-restart">Разложить карты заново</p>
   </section>
 
-</div>
-
-<div id="screenshot-modal">
-  <div class="modal-content">
-    <img id="screenshot-img" alt="Скриншот карты">
-    <div class="modal-buttons">
-      <button class="btn btn-primary" id="btn-download">💾 Скачать</button>
-      <button class="btn btn-secondary" id="btn-close-modal">Закрыть</button>
-    </div>
-  </div>
 </div>
 
 <script src="script.js?v=2"></script>
